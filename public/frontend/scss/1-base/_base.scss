@@ -1,0 +1,130 @@
+// Global Reset
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100vh;
+}
+
+body {
+	font-size: $theme-fontSize;
+	font-family: $theme-fontFamily;
+	font-weight: $fw-400;
+	font-style: normal;
+	line-height: $theme-lineHeight;
+	background: $theme-bg-clr;
+	overflow-x: hidden;
+	color: $theme-text-clr;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: 100%;
+	text-rendering: optimizeSpeed;
+}
+
+// Selection Color
+::selection {
+	background: #1696e7;
+	color: $white;
+}
+
+::-moz-selection {
+	background: #1696e7;
+	color: $white;
+}
+
+*::placeholder {
+	color: $text-clr3;
+	opacity: 1;
+}
+
+img::selection {
+	background: transparent;
+}
+
+img::-moz-selection {
+	background: transparent;
+}
+
+// Link
+a {
+	color: $theme-text-clr;
+	text-decoration: none;
+	outline: 0;
+}
+
+a:hover,
+a:focus {
+	color: inherit;
+	text-decoration: none;
+	outline: none;
+}
+
+// Heading
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: $theme-heading-clr;
+	font-weight: $fw-500;
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	padding: 0;
+	margin: 0;
+}
+
+ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	list-style: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+// Common CSS
+.main-wrapper {
+	padding-left: 312px;
+	width: 100%;
+	transition: all 0.5s ease;
+}
+.main-content-wrapper {
+	padding: 24px 12px 60px;
+}
+
+.sidebar-collapse .header-position {
+	width: 80px;
+}
+
+.sidebar-collapse .main-wrapper {
+	padding-left: 80px;
+}
+
+.sidebar-collapse .side-nav {
+	padding: 0 15px;
+}
+
+.sidebar-collapse .side-nav ul li a span {
+	display: none;
+}

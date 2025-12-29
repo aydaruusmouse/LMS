@@ -1,0 +1,257 @@
+/*======= Section Title =======*/
+.section-title {
+	h3 {
+		display: inline-block;
+		font-weight: 600;
+		font-size: 20px;
+		line-height: 20px;
+		margin-bottom: 10px;
+		img {
+			display: block;
+			width: 100%;
+			margin-top: 5px;
+		}
+	}
+	&.color-white {
+		color: $color-white;
+		h3 {
+			color: $color-white;
+		}
+	}
+}
+
+/*======= Section Title V2 =======*/
+.section-title-v2 {
+	h3 {
+		position: relative;
+		z-index: 1;
+		font-weight: 600;
+		font-size: 20px;
+		line-height: 30px;
+		span {
+			background-color: $color-white;
+			padding-inline-end: 15px;
+		}
+		&::after {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			height: 1px;
+			width: 100%;
+			left: 0;
+			top: 50%;
+			background-color: $color-soft-white;
+		}
+	}
+}
+
+/*======= Section Title V3 =======*/
+.section-title-v3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	flex-wrap: wrap;
+	padding-bottom: 15px;
+    border-bottom: 1px solid $color-soft-white;
+	column-gap: 30px;
+	row-gap: 10px;
+    h3 {
+        color: $color-gray;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 28px;
+    }
+    p {
+        color: $color-gray;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+    }
+	&.color-dark {
+		h3 {
+			color: $color-body;
+		}
+	}
+}
+
+[dir="rtl"] {
+	.section-title-v3 {
+		.fa-long-arrow-left {
+			transform: rotate(180deg);
+		}
+	}
+}
+
+
+/*======= Section Title V4 =======*/
+.section-title-v4 {
+	h3 {
+		font-weight: 600;
+		font-size: 22px;
+		border-bottom: 1px solid $color-soft-white;
+		padding-bottom: 5px;
+	}
+}
+
+/*======= Section Title V5 =======*/
+.section-title-v5 {
+	h4 {
+		font-weight: 600;
+		font-size: 18px;
+		padding-bottom: 15px;
+    	border-bottom: 1px solid $color-soft-white;
+		padding-bottom: 10px;
+	}
+	p {
+		color: $color-gray;
+	}
+}
+
+/*======= Common Heading =======*/
+.common-heading {
+	h3 {
+		font-weight: 700;
+		font-size: 28px;
+		line-height: 1.5;
+	}
+	p {
+		color: $color-gray;
+		line-height: 26px;
+	}
+	&.color-white {
+		color: $color-white;
+		h3 {
+			color: $color-white;
+		}
+		p {
+			color: $color-white;
+		}
+	}
+}
+
+/*======= Section Title with Progress Bar =======*/
+.section-title-with-progress-bar {
+    h4 {
+        font-weight: 600;
+        font-size: 22px;
+        margin-bottom: 5px;
+    }
+    p {
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+	.progress-bar-wrapper {
+		.progress-bar-container {
+			height: 7px;
+			max-width: 400px;
+			background: $color-soft-white;
+			margin: 0 auto;
+			border-radius: 5px;
+			position: relative;
+			.indicator {
+				width: 24px;
+				height: 24px;
+				background: $color-white;
+				border: 1px solid $color-secondary-4;
+				color: $color-secondary-4;
+				border-radius: 50px;
+				font-size: 10px;
+				line-height: 24px;
+				position: absolute;
+				top: -8px;
+				inset-inline-start: 80px;
+			}
+			.progress-bar {
+				width: 85px;
+				background: $color-secondary-4;
+				height: 7px;
+				border-radius: 5px;
+			}
+		}
+	}
+}
+
+/*======= Page Navigation Progress Bar =======*/
+.page-nav {
+    text-align: center;
+    ul {
+		counter-reset: css-counters;
+        li {
+            display: inline-block;
+			position: relative;
+    		z-index: 1;
+			&::after {
+				position: absolute;
+				content: "";
+				width: 100px;
+				border: 1px dashed $color-gray-3;
+				top: 50%;
+				transform: translate(0, -50%);
+				inset-inline-end: 112%;
+				z-index: -1;
+			}
+			&:not(:last-child) {
+				margin-inline-end: 138px;
+            }
+			&:first-child {
+				&::after {
+					display: none;
+				}
+			}
+            a {
+				display: flex;
+				align-items: center;
+				color: $color-gray-3;
+				font-weight: 600;
+				font-size: 18px;
+				background: $color-white;
+				&::before {
+					counter-increment: css-counters;
+					content: "" counter(css-counters) " ";
+					width: 30px;
+					height: 30px;
+					background: $color-soft-white;
+					line-height: 30px;
+					border-radius: 50%;
+					font-size: 14px;
+					color: $color-gray-3;
+					font-weight: 600;
+					margin-inline-end: 10px;
+				}
+				&:hover {
+					opacity: 1;
+				}
+            }
+			&.active {
+				a {
+					color: $color-body;
+					&::before {
+						content: "\f00c";
+						font-family: 'Font Awesome 5 Pro';
+						font-weight: 400;
+						background: rgb($color-secondary-rgb/0.08);
+						color: $color-secondary-4;
+					}
+				}
+				&::after {
+					border-color: $color-secondary-4;
+				}
+			}
+        }
+    }
+}
+
+
+/*======= Section Title Successful =======*/
+.section-title-successful{
+	h4 {
+        font-weight: 600;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    p {
+        font-weight: 500;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,181 @@
+/*======= Notification Sorting =======*/
+.notification-wrapper {
+	.sort-right {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 15px;
+
+		.notification-dropdown {
+			.nice-select {
+				font-weight: 400;
+				width: auto;
+				z-index: 1;
+				color: $color-gray;
+				border: 1px solid $color-soft-white;
+				border-radius: 3px;
+				padding: 10px 30px 10px 15px;
+				height: 36px;
+				.list {
+					width: auto;
+					margin-top: 12px;
+					display: block;
+					li {
+						display: block;
+						margin-right: 0;
+					}
+					.option {
+						font-weight: 400;
+						border-bottom: 0;
+						&.selected {
+							color:  $color-secondary-4;
+						}
+					}
+				}
+				&::after {
+					right: 10px;
+				}
+			}
+		}
+		.nt-delete {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 14px;
+			color: $color-secondary-4;
+			border: 1px solid $color-soft-white;
+			padding: 10px 20px;
+			text-transform: capitalize;
+		}
+	}
+}
+
+/*======= Notification Card =======*/
+.notification-wrap {
+	.nt-card {
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		padding: 23px 20px;
+		position: relative;
+		.nt-card-left {
+			time {
+				color: $color-gray;
+				font-size: 12px;
+				padding-inline-start: 28px;
+			}
+			.nt-card-check {		
+				input[type="checkbox"] {
+					display: none;
+					& + span::before,
+					& + span::after {
+						transition: all 0.3s;
+					}
+					& + span::after {
+						position: absolute;
+						inset-inline-start: 0px;
+						top: 6px;
+						display: inline-block;
+						content: "";
+						width: 16px;
+						height: 16px;
+						border: 1px solid $color-soft-white;
+						border-radius: 2px;
+						background-color: $color-white;
+					}
+					&:checked {
+						& + span::after {
+							background-color: $color-secondary-4;
+							border-color: $color-secondary-4;
+						}
+					}
+					&:checked {
+						& + span::before {
+							transform: rotate(45deg);
+							position: absolute;
+							inset-inline-start: 6px;
+							top: 8px;
+							width: 5px;
+							height: 10px;
+							border-width: 2px;
+							border-style: solid;
+							border-top: 0;
+							border-left: 0;
+							border-color: $color-white;
+							content: "";
+							z-index: 1;
+						}
+					}
+				}
+				label {
+					position: relative;
+					cursor: pointer;
+		
+					span {
+						font-weight: 500;
+						font-size: 15px;
+						line-height: 26px;
+						color: $color-body;
+						position: relative;
+						padding-inline-start: 25px;
+					}
+				}
+			}
+		}
+		.nt-card-text {
+			p {
+				font-weight: 400;
+				font-size: 14px;
+				color: $color-gray;
+				overflow: hidden;
+				// height: 50.38px;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+			}
+			.toggle {
+				overflow: visible;
+				height: auto;
+				transition: 0.3s;
+				display: inherit;
+				-webkit-line-clamp: inherit;
+				-webkit-box-orient: inherit;
+			}
+			a.details {
+				font-weight: 500;
+				font-size: 12px;
+				line-height: 12px;
+				color: rgba($color-gray-rgb/0.5);
+				text-transform: capitalize;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				align-items: flex-end;
+				margin-top: 5px;
+	
+				&:hover {
+					color: $color-secondary-4;
+				}
+			}
+		}
+		&.nt-unread {
+			.nt-card-check {
+				label {
+					&::before {
+						position: absolute;
+						content: "";
+						height: 7px;
+						width: 7px;
+						background-color: $color-secondary-4;
+						border-radius: 50px;
+						top: 5px;
+						inset-inline-end: 0;
+					}
+					span {
+						padding-inline-end: 10px;
+					}
+				}
+			}
+		}
+	}
+}
+
+

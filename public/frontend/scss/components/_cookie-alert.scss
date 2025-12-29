@@ -1,0 +1,48 @@
+/*======= Cookie Alert Popup =======*/
+.cookiealert-popup {
+    padding: 50px 0;
+    background-color: $color-dark-4;
+    position: fixed;
+    bottom: 0;
+    inset-inline-start: 0;
+    z-index: 999;
+    width: 100%;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 500ms ease-out;
+    .cookiealert-content {
+        color: $color-white;
+        h4 {
+            font-weight: 500;
+            font-size: 24px;
+            color: $color-white;
+            margin-bottom: 10px;
+        }
+        p {
+            color: $color-white;
+            margin-bottom: 30px;
+            a {
+                color: $color-white;
+                text-decoration: underline;
+            }
+        }
+        .confirmation-btns {
+            column-gap: 20px;
+            row-gap: 10px;
+            .template-btn {
+                width: 130px;
+                padding: 8px 15px;
+                &:hover {
+                    border-color: $color-white;
+                    background-color: $color-white;
+                    color: $color-dark;
+                }
+            }
+        }
+    }
+    &.show {
+        opacity: 1;
+        transform: translateY(0%);
+        transition-delay: 1000ms;
+    }
+}

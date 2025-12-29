@@ -1,0 +1,48 @@
+/*======= Product Category Box =======*/
+.product-category-box {
+    background-color: $color-dark;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: scroll;
+    background-size: cover;
+    padding: 14px 18px;
+    min-height: 290px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 30px;
+    .shop-category {
+        color: $color-white;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        margin-bottom: 5px;
+    }
+    .product-category-name {
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 33px;
+        color: $color-white;
+    }
+    .text-btn {
+        color: $color-white-2;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        transition: 0.3s;
+        position: absolute;
+        bottom: 25px;
+        inset-inline-end: 31px;
+        z-index: 1;
+        display: inline-block;
+        padding-bottom: 3px;
+        &::after {
+            position: absolute;
+            content: "";
+            height: 1px;
+            width: 100%;
+            background-color: $color-white-2;
+            left: 0;
+            bottom: 0;
+        }
+    }
+}

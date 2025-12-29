@@ -1,0 +1,19 @@
+// File Uploader Style
+.img-uploader{
+  &.dropzone {
+    border: 2px dashed $border-clr;
+    min-height: 80px;
+
+    button.dz-button i {
+      font-size: 36px;
+      color: $theme-text-clr;
+    }
+  }
+}
+.alert-note {
+  color: $text-clr3;
+  font-size: 14px;
+  line-height: 20px;
+  font-style: italic;
+  margin-top: 12px;
+}

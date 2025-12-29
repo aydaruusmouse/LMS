@@ -1,0 +1,152 @@
+// Dashboard Sidebar=====
+.header-position {
+  position: fixed;
+  top: 0px;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 312px;
+  background-color: $white;
+  border-inline-end: 1px solid $border-clr;
+	transition: all 0.5s ease;
+
+	.sidebar-toggler {
+		display: none;
+	}
+}
+.dashboard-logo {
+	border-bottom: 1px solid $border-clr;
+	padding: 20px 0;
+  min-height: 80px;
+	.logo	img {
+    width: 105px;
+    height: 40px;
+	}
+	.logo-icon {
+		display: none;
+		transition: all .5s ease;
+		img {
+			height: 40px;
+			width: 40px;
+		}
+	}
+}
+
+.side-nav {
+	margin: 12px 0;
+  padding: 0 30px;
+	max-height: calc(100% - 110px);
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+	&::-webkit-scrollbar-track {
+		box-shadow: none;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: transparent;
+		border-radius: 	4px;
+		transition: background-color .5s ease;
+	}
+	&:hover {
+		&::-webkit-scrollbar-thumb {
+			background-color: #7E7F92;
+		}
+	}
+
+	ul {
+		li {
+			a {
+				display: flex;
+				gap: 16px;
+				align-items: center;
+				padding: 12px 20px;
+				border-radius: 15px;
+				transition: 0.5s ease-in-out;
+				font-size: 16px;
+				position: relative;
+        font-weight: $fw-400;
+				&:hover {
+					background-color: $bg-clr2;
+					color: $secondary;
+				}
+				i {
+					font-size: 20px;
+				}
+				&.dropdown-icon {
+					&::after {
+						content: "\f107";
+						display: block;
+						position: absolute;
+						inset-inline-end: 20px;
+						top: 50%;
+						transition: all 0.2s ease-in-out;
+						transform-origin: center;
+						font-family: "Line Awesome Free";
+						font-weight: 900;
+						transform: translateY(-50%);
+					}
+					&[aria-expanded="true"]::after {
+						transform: translateY(-50%) rotate(180deg);
+					}
+				}
+			}
+			ul.sub-menu {
+				padding-left: 55px;
+        li {
+            margin-top: 12px;
+          a {
+            padding: 0 20px;
+            line-height: 26px;
+						transition: 0.5s;
+
+            &::after {
+              position: absolute;
+              top: 10px;
+              left: 0;
+              height: 5px;
+              width: 5px;
+              background: $text-clr2;
+              content: "";
+              border-radius: 50%;
+            }
+            &:hover {
+              background-color: transparent;
+              color: $secondary;
+
+              &::after {
+                background-color: $secondary;
+              }
+            }
+          }
+        }
+			}
+		}
+		li.active {
+			>a {
+				background-color: $bg-clr2;
+				color: $secondary;
+			}
+		}
+	}
+}
+
+// Sidebar Collapse Style====
+.sidebar-collapse {
+	.dashboard-logo {
+		.logo {
+			display: none;
+		}
+		.logo-icon {
+			display: block;
+		}
+	}
+	.side-nav ul li a.dropdown-icon::after {
+		display: none;
+		opacity: 0;
+	}
+	.side-nav ul li a {
+		padding: 12px;
+	}
+}

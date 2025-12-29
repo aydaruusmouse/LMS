@@ -1,0 +1,148 @@
+
+/*======= Checkout Accordion =======*/
+.checkout-accordion {
+	.title {
+		background: $color-off-white;
+		font-weight: 600;
+		font-size: 18px;
+		line-height: 27px;
+		color: $color-body;
+		margin-bottom: 13px;
+	}
+	.accordion-item {
+		background: $color-off-white;
+		border: 1px solid $color-off-white;
+		border-radius: 3px;
+		margin-bottom: 15px;
+		.accordion-body {
+			padding: 20px 20px 20px;
+			border-radius: 0 0 3px 3px;
+		}
+	}
+	.accordion {
+		&-header {
+			padding: 0 20px;
+		}
+		&-button {
+			background: $color-off-white;
+			font-weight: 600;
+			font-size: 14px;
+			line-height: 27px;
+			color: $color-body;
+			padding: 10px 0px;
+			border-color: $color-soft-white;
+			border-radius: 3px;
+			cursor: pointer;
+			&:focus {
+				z-index: 3;
+				border-color: transparent;
+				outline: 0;
+				box-shadow: none;
+			}
+			&:not(.collapsed) {
+				color: $color-body;
+				background-color: transparent;
+				box-shadow: none;
+				border-bottom: 1px solid $color-soft-white;
+			}
+			&::after {
+				content: "\f107";
+				background-image: none;
+				font-family: "Font Awesome 5 Pro";
+				font-weight: 400;
+				width: auto;
+				color: $color-gray;
+				margin-top: -3px;
+				margin-left: inherit;
+				margin-inline-start: auto;
+			}
+			label {
+				cursor: pointer;
+				// flex: 1;
+				// text-align: start;
+				input[type=checkbox] {
+					display: none;
+				}
+				span {
+					font-weight: 500;
+					font-size: 15px;
+					line-height: 26px;
+					color: $color-body;
+					position: relative;
+					padding-inline-start: 25px;
+				}
+				input[type=checkbox] {
+					&:checked {
+						+ span::before {
+							transform: rotate(45deg);
+							position: absolute;
+							inset-inline-start: 6px;
+							top: 6px;
+							width: 5px;
+							height: 10px;
+							border-width: 2px;
+							border-style: solid;
+							border-top: 0;
+							border-left: 0;
+							border-color: $color-white;
+							content: "";
+							z-index: 1;
+						}
+						+ span::after {
+							background-color: $color-secondary-4;
+							border-color: $color-secondary-4;
+						}
+					}
+					+ span::after {
+						position: absolute;
+						inset-inline-start: 0px;
+						top: 4px;
+						display: inline-block;
+						content: "";
+						width: 16px;
+						height: 16px;
+						border: 1px solid $color-soft-white;
+						border-radius: 2px;
+						background-color: $color-white;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*======= Checkout Address Card =======*/
+.address-card {
+    .address-right {
+        ul {
+            margin-top: -4px;
+            padding-inline-start: 15px;
+            li {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 26px;
+                color: $color-body;
+            }
+        }
+    }
+    .action li a {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 14px;
+        float: right;
+        color: $color-secondary-4;
+        display: block;
+        padding-bottom: 5px;
+    }
+    .form-check-input {
+        &:checked {
+            background-color: $color-secondary-4;
+            border-color: $color-secondary-4;
+        }
+        &:focus {
+            border-color: transparent;
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+}

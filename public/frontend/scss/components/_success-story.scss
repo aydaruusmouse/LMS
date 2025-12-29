@@ -1,0 +1,101 @@
+/*======= Success Story V1 =======*/
+.success-story-v1 {
+    &.success-story-slider-v1 {
+        .slick-dots {
+            line-height: 0;
+            li {
+                display: inline-block;
+                position: relative;
+                margin-inline-end: 5px;
+                line-height: 0;
+                button {
+                    font-size: 0px;
+                    background-color: $color-soft-white;
+                    border: none;
+                    line-height: 0;
+                    height: 5px;
+                    width: 30px;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    -webkit-transition: all 0.3s ease 0s;
+                    transition: all 0.3s ease 0s;
+                }
+                &.slick-active {
+                    button {
+                        background: $color-secondary-4;
+                    }
+                }
+            }
+        }
+    }
+    .success-story-item {
+        .title {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 27px;
+            margin-bottom: 18px;
+        }
+        p {
+            color: $color-gray;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+/*======= Success Story V2 =======*/
+.success-story-v2 {
+    .success-story-author-preview {
+        margin-inline-start: 36px;
+        position: relative;
+        z-index: 1;
+        img {
+            width: 100%;
+        }
+        &::after {
+            position: absolute;
+            content: "";
+            height: 100%;
+            width: 100%;
+            background-color: $color-secondary-4;
+            top: 36px;
+            inset-inline-end: 36px;
+            z-index: -1;
+        }   
+    }
+    .success-story-content-wrapper {
+        .title {
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .success-story-content {
+            .single-success-story {
+                margin-bottom: 30px;
+                p {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 1.6;
+                    margin-bottom: 10px;
+                    color: $color-gray;
+                }
+                h5 {
+                    font-weight: 600;
+                    font-size: 16px;
+                }
+            }
+        }
+        .success-story-author {
+            .slick-list {
+                margin: 0 -12px;
+            }
+            .slick-slide {
+                margin: 0 12px;
+            }
+            img {
+                width: 100%;
+                cursor: pointer;
+            }
+        }
+    }
+}

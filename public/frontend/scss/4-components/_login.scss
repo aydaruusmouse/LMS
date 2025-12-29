@@ -1,0 +1,36 @@
+// Login file Style
+.login-form {
+  width: 80%;
+  margin: auto;
+  padding: 50px 60px;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.07);
+
+  h3 {
+    font-size: 24px;
+    color: $primary;
+    line-height: 35px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+// shape
+.bg-rect-shape {
+  position: absolute;
+  top: -36px;
+  z-index: -1;
+  left: 20px;
+}
+.bg-circle-shape {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: 20%;
+}
+.bg-circle-block-shape {
+  position: absolute;
+  bottom: 57px;
+  z-index: -1;
+  left: 30px;
+}

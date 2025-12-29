@@ -1,0 +1,78 @@
+/* Default Sidenav Style Start========= */
+.default-sidenav {
+  li a {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+    color: $text-clr2;
+    padding: 12px 20px;
+    display: block;
+    transition: all 0.5s ease;
+    position: relative;
+
+    .icon {
+      padding-right: 10px;
+      i {
+        font-size: 18px;
+      }
+    }
+
+    &.active,
+    &:hover {
+      background-color: $bg-clr2;
+      color: $text-clr1;
+    }
+
+    &.has-dropdown.sub-menu-opened + ul.sidenav-dropdown {
+      overflow: hidden;
+      max-height: 500px;
+      opacity: 1;
+      transform: scaleY(1);
+      transition: all 0.5s ease, max-height 0.5s ease-in;
+    }
+
+    &.has-dropdown.sub-menu-opened .arrow-icon {
+      transform: rotate(-180deg);
+    }
+
+    .arrow-icon {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 18px;
+      transition: all 0.5s ease;
+      transform-origin: center;
+    }
+
+  }
+}
+
+.sidenav-dropdown {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-left: 50px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: all 0.5s ease, max-height 0.5s ease-out;
+
+  li a {
+    padding: 8px 20px;
+    &:hover {
+      background-color: transparent;
+    }
+
+    &::after {
+      position: absolute;
+      top: 16px;
+      left: 0;
+      background: $text-clr2;
+      height: 6px;
+      width: 6px;
+      content: "";
+      border-radius: 50px;
+    }
+  }
+}
+
+// .default-sidenav li a.has-dropdown.sub-menu-opened + ul.sidenav-dropdown

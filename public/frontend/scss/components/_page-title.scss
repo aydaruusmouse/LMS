@@ -1,0 +1,63 @@
+/*======= Page Title =======*/
+.page-title-area {
+    .page-title-content {
+        .page-title {
+            color: $color-white;
+            position: relative;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 54px;
+            z-index: 1;
+            img {
+                position: absolute;
+                bottom: -5px;
+                inset-inline-start: 0;
+                width: auto;
+                z-index: -1;
+            }
+        }
+    }
+}
+
+/*======= Error Page Title =======*/
+.error-page-title {
+    h1 {
+        font-size: 170px;
+        font-weight: 500;
+        line-height: 1;
+        position: relative;
+        max-width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        span {
+            background-color: $color-white;
+            padding: 0 40px;
+        }
+        &::before, 
+        &::after {
+            content: "";
+            height: 5px;
+            width: 150px;
+            background-color: $color-secondary-4;
+            position: absolute;
+            top: 50%;
+            inset-inline-start: 0;
+            transform: translate(0, 50%);
+            z-index: -1;
+        }
+        &::after {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
+        }
+    }
+    h2 {
+        font-size: 50px;
+        line-height: 1.1;
+        font-weight: 500;
+    }
+    p {
+        font-size: 20px;
+        color: $color-gray;
+        line-height: 1.6;
+    }
+}

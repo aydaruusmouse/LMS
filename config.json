@@ -1,0 +1,9 @@
+{
+  "app_version" : "100",
+  "web_version" : "101",
+  "web_version_code" : "1.0.1",
+  "app_version_code" : "1.0.0",
+  "removed_directories" : [
+    
+  ]
+}

@@ -1,0 +1,129 @@
+// Media Library CSS
+.media {
+  &-box {
+    width: 194.4px;
+    border: 1px solid $border-clr;
+    border-radius: 5px;
+    position: relative;
+  }
+  &-card-thumb {
+    border-radius: 5px 5px 0 0;
+    background-color: $bg-clr1;
+
+    img {
+      width: 194px;
+      height: 184px;
+      object-fit: contain;
+      border-radius: 5px 5px 0 0;
+    }
+  }
+  &-card-body {
+    padding: 10px;
+
+    p {
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 500;
+    }
+    h6 {
+        font-size: 14px;
+        line-height: 24px;
+        font-weight: 400;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+  }
+}
+
+
+.media-box-interaction {
+  .select-box {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+
+    .custom-checkbox input[type=checkbox] + span::after {
+      background-color: rgba($white, 0.8);
+    }
+  }
+
+  .media-info-box {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+
+    a.info-icon {
+      font-size: 24px;
+      background-color: rgba($border-clr, 0.8);
+      border-radius: 5px;
+      color: $text-clr1;
+    }
+  }
+}
+
+ul.info-box {
+  position: absolute;
+  top: 34px;
+  inset-inline-start: -150px;
+  width: 175px;
+  background-color: $white;
+  border-radius: 10px;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  transform: translateY(-10px);
+  transform-origin: top;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .5s ease;
+  z-index: 111;
+  a {
+    font-size: 16px;
+    line-height: 26px;
+    padding: 6px 0;
+    display: block;
+    transition: color 0.5s ease;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.media-info-box:hover ul.info-box {
+  transform: translateY(0px);
+  opacity: 1;
+  visibility: visible;
+}
+
+// Modal Messages for media library
+.media-uploader {
+  border: 1px solid $border-clr;
+  border-radius: 5px;
+  background: $white;
+  // height: 200px;
+  padding: 30px !important;
+}
+.media-message {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h6 {
+    color: $text-clr2;
+    font-size: 24px;
+    line-height: 35px;
+  }
+
+  button {
+    margin: 10px 0;
+  }
+}
+
+.media-flies-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -1,0 +1,188 @@
+/*======= Icon Boxes V1 =======*/
+.icon-boxes-v1 {
+    .icon-box {
+        text-align: center;
+        padding: 40px 30px;
+        background: $color-white;
+        border: 1px solid $color-off-white-3;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        transition: 0.3s;
+        .icon-box-icon {
+            margin-bottom: 28px;
+            img {
+                transition: all 1s ease;
+            }
+        }
+        .icon-box-content {
+            h5 {
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 24px;
+                color: $color-body;
+                margin-bottom: 10px;
+            }
+            p {
+                color: $color-gray;
+                font-weight: 400;
+                line-height: 21px;
+            }
+        }
+        &:hover {
+            transform: translate(0px, -10px);
+        }
+    }
+}
+
+/*======= Icon Boxes V2 =======*/
+.icon-boxes-v2 {
+    .icon-box {
+        padding: 45px;
+        background: $color-white;
+        box-shadow: 0px 10px 25px rgb($color-black-rgb / 0.1);
+        backdrop-filter: blur(300px);
+        border-radius: 3px;
+        margin-bottom: 30px;
+        transition: 0.3s;
+        .icon-box-icon {
+            margin-bottom: 28px;
+            img {
+                transition: all 1s ease;
+            }
+        }
+        .icon-box-content {
+            h5 {
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 24px;
+                color: $color-body;
+                margin-bottom: 10px;
+            }
+            p {
+                color: $color-gray;
+                font-weight: 400;
+                line-height: 1.9;
+            }
+        }
+        &:hover {
+            box-shadow: 0px 15px 30px rgb($color-black-rgb / 0.15);
+            transform: translate(0px, -10px);
+        }
+    }
+}
+
+/*======= Icon Boxes V3 =======*/
+.icon-boxes-v3 {
+    .icon-box {
+        display: flex;
+        padding: 18px 26px;
+        background: $color-white;
+        border: 1px solid $color-soft-white;
+        border-radius: 3px;
+        margin-bottom: 16px;
+        .icon-box-icon {
+            flex: 0 0 auto;
+            width: 55px;
+            padding-inline-end: 20px;
+            img {
+                width: 100%;
+            }
+        }
+        .icon-box-content {
+            flex: 1;
+            text-align: start;
+            h5 {
+                font-weight: 500;
+                font-size: 16px;
+            }
+            p {
+                color: $color-gray-2;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+/*======= Icon Boxes V4 =======*/
+.icon-boxes-v4 {
+    .icon-box {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px;
+        background: $color-white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0px 10px 25px rgba($color-black-rgb / 0.1);
+        row-gap: 10px;
+        &-icon {
+            height: 70px;
+            min-width: 70px;
+            margin-inline-end: 12px;
+            display: grid;
+            place-content: center;
+            background-color: var(--bg-clr, $color-secondary-4);
+            border-radius: 5px 5px 40px;
+
+            &.box-bg-clr- {
+                &1 {
+                    --bg-clr: #6DBEA3;
+                }
+                &2 {
+                    --bg-clr: #FAB75A;
+                }
+                &3 {
+                    --bg-clr: #4179E0;
+                }
+                &4 {
+                    --bg-clr: #D16D86;
+                }
+                &5 {
+                    --bg-clr: #56A8C7;
+                }
+                &6 {
+                    --bg-clr: #F78B77;
+                }
+            }
+        }
+        &-content {
+            flex: 1;
+            h5 {
+                font-weight: 600;
+                font-size: 30px;
+            }
+            p {
+                color: $color-gray;
+                font-weight: 500;
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+/*======= Icon Boxes V5 =======*/
+.icon-boxes-v5 {
+    .icon-box {
+        text-align: center;
+        border: 1px solid $color-soft-white;
+        box-shadow: 0px 4px 15px rgb($color-black-rgb / 0.06);
+        border-radius: 3px;
+        padding: 30px;
+        .icon-box-icon {
+            margin-bottom: 15px;
+        }
+        .icon-box-content {
+            h5 {
+                font-weight: 600;
+                font-size: 30px;
+                line-height: 30px;
+                margin-bottom: 8px;
+            }
+            p {
+                font-weight: 500;
+                font-size: 14px;
+                color: $color-gray;
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+/* Oftions Section Style Start========= */
+.oftions {
+	padding-bottom: 20px;
+}
+
+.customer-length {
+	border: 1px solid $border-clr;
+	height: 40px;
+	width: 86px;
+	margin-right: 20px;
+	padding: 8px 15px;
+	color: $text-clr2;
+	border-radius: 10px;
+	appearance: none;
+	background: url(../../app/img/icons/chevron-down.svg) no-repeat center right 15px;
+	background-color: #fff;
+
+	&:focus {
+		border: 1px solid $themePrimary-clr;
+		outline: none;
+	}
+}
+
+.oftions-content-right {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	.media-info-box {
+		position: relative;
+	}
+
+	ul.info-box {
+		top: 42px;
+		inset-inline-start: -134px;
+	}
+}
+
+.oftions-content-search {
+	background: $white;
+	padding: 7px 15px;
+	display: flex;
+	align-items: center;
+	border-radius: 5px;
+	border: 1px solid $border-clr;
+	width: 250px;
+
+	input[type="search"] {
+		width: 196px;
+	}
+
+	input[type="search"],
+	button[type="submit"] {
+		border: none;
+		background-color: transparent;
+		margin: 0;
+		padding: 0;
+		color: $text-clr2;
+
+		&:focus {
+			outline: 0;
+		}
+	}
+}
+/* Oftions Section Style End========= */

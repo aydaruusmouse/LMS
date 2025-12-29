@@ -1,0 +1,193 @@
+/*======= Instructor Profile Preview =======*/
+.instructor-profile-preview {
+	border: 1px solid $color-soft-white;
+	box-shadow: 0px 8px 20px rgb($color-black-rgb / 0.06);
+	border-radius: 3px;
+	background-color: $color-white;
+	display: flex;
+	.instructor-profile-picture {
+		flex: 0 0 auto;
+		width: 33.33333333%;
+		img {
+			border-start-start-radius: 3px;
+			border-end-start-radius: 3px;
+			border-start-end-radius: 0;
+			border-end-end-radius: 0;
+			width: 100%;
+		}
+	}
+	.instructor-preview-content {
+		position: relative;
+		flex: 0 0 auto;
+		width: 66.66666667%;
+		padding: 30px;
+		.instructor-title-with-rating {
+			display: flex;
+			justify-content: space-between;
+		}
+		.title {
+			font-weight: 600;
+			font-size: 28px;
+			line-height: 30px;
+			color: $color-body;
+			margin-bottom: 10px;
+		}
+		.designation {
+			font-weight: 400;
+			font-size: 16px;
+			color: $color-gray;
+			line-height: 1.5;
+			margin-bottom: 7px;
+		}
+		.rating-review {
+			align-items: center;
+			.all-rating {
+				height: 28px;
+				width: auto;
+				li {
+					float: none;
+				}
+			}
+			.total-review {
+				font-weight: 500;
+				font-size: 14px;
+				color: $color-gray;
+				width: auto;
+			}
+		}
+		.instructor-badges {
+			ul {
+				display: flex;
+				gap: 10px;
+				li {
+					background-color: $color-white;
+					border: 1px solid $color-soft-white;
+					border-radius: 3px;
+					height: 40px;
+					width: 40px;
+					text-align: center;
+					line-height: 37px;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	.instructor-current-content {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 18px -7.5px 15px;
+		.instructor-content-countdown {
+			background: rgb($color-secondary-rgb / 0.08);
+			border-radius: 3px;
+			padding: 11px 30px 15px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 15px;
+			margin-inline-start: 7.5px;
+			margin-inline-end: 7.5px;
+			width: calc(25% - 15px);
+			img {
+				min-height: 28px;
+			}
+			.name {
+				span {
+					font-weight: 600;
+					font-size: 14px;
+					line-height: 16px;
+					text-align: right;
+					color: $color-body;
+				}
+
+				h6 {
+					font-weight: 400;
+					font-size: 14px;
+					line-height: 14px;
+					color: $color-gray;
+				}
+			}
+		}
+	}
+	.instructor-social-activity {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		flex-wrap: wrap;
+    	gap: 15px 30px;
+		.instructor-follow-wrapper {
+			.following-and-followers {
+				display: flex;
+				margin-bottom: 25px;
+				li {
+					font-weight: 400;
+					font-size: 14px;
+					line-height: 24px;
+					color: $color-gray;
+					&:not(:last-child) {
+						margin-inline-end: 20px;
+						border-inline-end: 1px solid $color-soft-white;
+						padding-inline-end: 20px;
+					}
+					span {
+						font-weight: 600;
+						font-size: 16px;
+						line-height: 16px;
+						color: $color-body;
+						display: block;
+					}
+				}
+			}
+			.follow-btn {
+				.template-btn {
+					padding: 8px 45px;
+				}
+			}
+		}
+	}
+}
+
+/*======= About Instructor =======*/
+.about-instructor-content {
+	h4 {
+		font-size: 16px;
+		color: $color-body;
+		margin-bottom: 10px;
+		font-weight: 600;
+	}
+	p {
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 24px;
+		color: $color-gray;
+		margin-bottom: 10px;
+		&+.list {
+			margin-top: 25px;
+		}
+	}
+	.list {
+		margin-bottom: 25px;
+		ul {
+			margin-bottom: 15px;
+			li {
+				font-weight: 400;
+				font-size: 14px;
+				position: relative;
+				color: $color-gray;
+				padding-inline-start: 18px;
+				&:not(:last-child) {
+					margin-bottom: 10px;
+				}
+				&::before {
+					position: absolute;
+					top: 10px;
+					inset-inline-start: 0px;
+					width: 6px;
+					height: 6px;
+					background: $color-gray;
+					content: "";
+					border-radius: 50px;
+				}
+			}
+		}
+	}
+}

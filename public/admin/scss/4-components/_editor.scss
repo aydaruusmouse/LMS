@@ -1,0 +1,37 @@
+.editor-wrapper {
+  .note-editor.note-frame {
+    border: 1px solid $border-clr;
+    border-radius: 5px;
+    background-color: $white;
+  }
+  .note-toolbar {
+    background-color: #fff;
+  }
+  .note-btn {
+    border: 1px solid $border-clr;
+    border-radius: 0;
+    color: $theme-text-clr;
+    font-size: 16px;
+  }
+  [class*=" note-icon"]:before, [class^=note-icon]:before {
+    color: $theme-text-clr;
+  }
+  .dropdown-toggle::after {
+    border-top-color: $theme-text-clr;
+  }
+  .note-icon-caret:before {
+    display: none;
+  }
+  .note-editor .note-toolbar .note-color-all .note-dropdown-menu,
+  .note-popover .popover-content .note-color-all .note-dropdown-menu {
+    min-width: 347px;
+  }
+  .note-editor .note-toolbar .note-para .note-dropdown-menu>div+div,
+  .note-popover .popover-content .note-para .note-dropdown-menu>div+div {
+      margin-left: 0px;
+      margin-top: 5px;
+  }
+  .note-statusbar.locked {
+    display: none;
+  }
+}

@@ -1,0 +1,150 @@
+// Font Family
+$font-family: (
+	body-font: "'Poppins', sans-serif",
+	header-font: "'Poppins', sans-serif",
+	font-raleway: "'Raleway', sans-serif",
+	font-roboto: "'Roboto', sans-serif",
+	font-jost: "'Jost', sans-serif",
+);
+
+$body-font: var(--body-font);
+$header-font: var(--header-font);
+$font-raleway: var(--font-raleway);
+$font-roboto: var(--font-roboto);
+$font-jost: var(--font-jost);
+
+// Color
+$colors: (
+	color-secondary-4: #4E9F3D,
+	color-secondary-rgb: 78 159 61,
+	color-white: #fff,
+	color-white-2: #fefefe,
+	color-soft-white: #eeeeee,
+	color-soft-white-2: #f3f3f3,
+	color-soft-white-3: #fbfbfb,
+	color-soft-white-4: #e5e5e5,
+	color-soft-white-5: #cecece,
+	color-soft-white-6: #BFBFBF,
+	color-soft-white-7: #D7DDE9,
+	color-soft-white-8: #e7eaf3,
+	color-body: #333333,
+	color-body-rgb: 51 51 51,
+	color-dark: #1e1e1e,
+	color-dark-2: #0f0f0f,
+	color-dark-3: #141414,
+	color-dark-4: #343041,
+	color-dark-5: #151417,
+	color-gray: #666666,
+	color-gray-rgb: 102 102 102,
+	color-gray-2: #555555,
+	color-gray-3: #999999,
+	color-gray-4: #96a6a7,
+	color-gray-5: #646f75,
+	color-gray-6: #525252,
+	color-gray-7: #556068,
+	color-supernova: #fec800,
+	color-supernova-4: #fff1c9,
+	color-supernova-rgb: 254 200 0,
+	color-off-white: #f8f8f8,
+	color-off-white-2: #ddeeff,
+	color-off-white-3: #e2e2e2,
+	color-off-white-4: #e1e2e3,
+	color-off-white-5: #d9d9d9,
+	color-off-white-6: #F1F1F1,
+	color-off-white-7: #E1E1E1,
+	color-black: #000,
+	color-black-rgb: 0 0 0,
+	color-white-rgb: 255 255 255,
+	color-pink: #ff846c,
+	color-pink-2: #ff6767,
+	color-pink-3: #de6283,
+	plyr-color-main: #4E9F3D,
+	color-facebook: #4867AA,
+	color-twitter: #1D9BF0,
+	color-link: #4E9F3D,
+	color-hover: #333333,
+	color-theme-0: #4E9F3D,
+	color-theme-1: #7367F0,
+	color-theme-2: #FFB80E,
+	color-theme-3: #F69EB1,
+	color-theme-4: #57D0DE,
+	color-theme-5: #FF6767,
+	color-theme-6: #3F497F,
+	color-theme-7: #F7941D,
+	color-theme-8: #D61D9A,
+	color-theme-9: #3E51D9
+);
+$color-secondary-4: var(--color-secondary-4);
+$color-secondary-rgb: var(--color-secondary-rgb);
+$color-white: var(--color-white);
+$color-white-2: var(--color-white-2);
+$color-soft-white: var(--color-soft-white);
+$color-soft-white-2: var(--color-soft-white-2);
+$color-soft-white-3: var(--color-soft-white-3);
+$color-soft-white-4: var(--color-soft-white-4);
+$color-soft-white-5: var(--color-soft-white-5);
+$color-soft-white-6: var(--color-soft-white-6);
+$color-soft-white-7: var(--color-soft-white-7);
+$color-soft-white-8: var(--color-soft-white-8);
+$color-dark: var(--color-dark);
+$color-dark-2: var(--color-dark-2);
+$color-dark-3: var(--color-dark-3);
+$color-dark-4: var(--color-dark-4);
+$color-dark-5: var(--color-dark-5);
+$color-body: var(--color-body);
+$color-body-rgb: var(--color-body-rgb);
+$color-gray: var(--color-gray);
+$color-gray-rgb: var(--color-gray-rgb);
+$color-gray-2: var(--color-gray-2);
+$color-gray-3: var(--color-gray-3);
+$color-gray-4: var(--color-gray-4);
+$color-gray-5: var(--color-gray-5);
+$color-gray-6: var(--color-gray-6);
+$color-gray-7: var(--color-gray-7);
+$color-supernova: var(--color-supernova);
+$color-supernova-rgb: var(--color-supernova-rgb);
+$color-supernova-4: var(--color-supernova-4);
+$color-off-white: var(--color-off-white);
+$color-off-white-2: var(--color-off-white-2);
+$color-off-white-3: var(--color-off-white-3);
+$color-off-white-4: var(--color-off-white-4);
+$color-off-white-5: var(--color-off-white-5);
+$color-off-white-6: var(--color-off-white-6);
+$color-off-white-7: var(--color-off-white-7);
+$color-black: var(--color-black);
+$color-black-rgb: var(--color-black-rgb);
+$color-white-rgb: var(--color-white-rgb);
+$color-pink: var(--color-pink);
+$color-pink-2: var(--color-pink-2);
+$color-pink-3: var(--color-pink-3);
+$plyr-color-main: var(--plyr-color-main);
+$color-facebook: var(--color-facebook);
+$color-twitter: var(--color-twitter);
+$color-link: var(--color-link);
+$color-hover: var(--color-hover);
+$color-theme-0: var(--color-theme-0);
+$color-theme-1: var(--color-theme-1);
+$color-theme-2: var(--color-theme-2);
+$color-theme-3: var(--color-theme-3);
+$color-theme-4: var(--color-theme-4);
+$color-theme-5: var(--color-theme-5);
+$color-theme-6: var(--color-theme-6);
+$color-theme-7: var(--color-theme-7);
+$color-theme-8: var(--color-theme-8);
+$color-theme-9: var(--color-theme-9);
+
+// Breakpoints.
+$breakpoints: (
+	s375: 375px,
+	s400: 400px,
+	xs: 425px,
+	xxs: 476px,
+	xsm: 501px,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	s1326: 1326px,
+	xxl: 1400px,
+	c1600: 1600px,
+);

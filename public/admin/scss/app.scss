@@ -1,0 +1,27 @@
+// Variables & Functions
+@import "0-tools/tools-dir";
+
+// Include functions & variables
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+// Map amends on Bootstrap SCSS Map
+@import "0-tools/map-amends";
+
+// Import Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Base & Layout
+@import "1-base/base-dir";
+
+// Header CSS
+@import "2-header/header-dir";
+
+// Footer CSS
+@import "3-footer/footer-dir";
+
+// Components (button, Card, Navbar)
+@import "4-components/components-dir";
+
+// Override All Bootstrap componets
+@import "5-override/override-dir"

@@ -1,0 +1,96 @@
+/* Instructor Style Start========= */
+.instructor {
+	&-header {
+		padding: 30px 20px 20px;
+	}
+
+	&-img img {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		margin: 0 auto 20px;
+	}
+
+	&-intro h6 {
+		color: $text-clr2;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	&-tags {
+		margin-bottom: 20px;
+		h6 {
+			margin-bottom: 12px;
+			line-height: 24px;
+		}
+		button {
+			border: 1px solid $border-clr;
+			color: $text-clr2;
+			font-weight: 400;
+			font-size: 14px;
+			padding: 8px 20px;
+			border-radius: 5px;
+		}
+	}
+
+	&-content {
+		padding: 0px 20px 30px;
+		table tr {
+			margin-bottom: 5px;
+			display: block;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			td {
+				a {
+					padding-right: 5px;
+					transition: color 0.5s ease;
+					&:hover {
+						color: $primary;
+					}
+				}
+
+				&:first-child {
+					font-weight: 500;
+					line-height: 24px;
+					vertical-align: baseline;
+					width: 120px;
+				}
+				&:nth-child(2) {
+					font-size: 15px;
+				}
+			}
+		}
+	}
+}
+
+.follwo-list {
+	display: flex;
+	justify-content: space-between;
+	border-width: 1px 0;
+	border-style: solid;
+	border-color: $border-clr;
+	margin-top: 20px;
+	padding: 8px 0;
+
+	li a {
+		font-weight: 500;
+		font-size: 16px;
+		transition: color 0.5s ease;
+		color: $text-clr2;
+
+		&:hover {
+			color: $primary;
+		}
+	}
+}
+
+.instructor-content table tr td {
+	/* background: red; */
+}
+
+.instructor-content table tr td:nth-child(2) {
+	font-size: 15px;
+}

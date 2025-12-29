@@ -1,0 +1,215 @@
+/*======= Course Curriculum Accordion =======*/
+.curriculum-tab {
+	.title {
+		font-weight: 600;
+		font-size: 16px;
+		color: $color-body;
+		margin-bottom: 13px;
+	}
+	.accordion-item {
+		background: $color-white;
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		margin-bottom: 15px;
+		&:first-child {
+			border-top: 1px solid $color-soft-white;
+		}
+		&:last-child {
+			border-bottom: 1px solid $color-soft-white;
+		}
+		.accordion-button {
+			font-weight: 500;
+			font-size: 16px;
+			color: $color-body;
+			padding: 18px 20px;
+			cursor: pointer;
+			transition: 0.3s;
+			&:focus {
+				z-index: 3;
+				border-color: transparent;
+				outline: 0;
+				box-shadow: none;
+			}
+			&:not(.collapsed) {
+				color: $color-body;
+				background-color: transparent;
+				box-shadow: none;
+			}
+			&[aria-expanded=true]{
+				padding-bottom: 4px;
+			}
+			&::after {
+				content: "\f107";
+				background-image: none;
+				font-family: "Font Awesome 5 Pro";
+				font-weight: 400;
+				width: auto;
+				color: $color-gray;
+				margin-top: -3px;
+				margin-left: inherit;
+				margin-inline-start: auto;
+			}
+		}
+		.accordion-body {
+			padding: 5px 20px 20px;
+		}
+	}
+	&.curriculum-tab-v2 {
+		.accordion-item {
+			.accordion-button {
+				padding: 12px 20px;
+				position: relative;
+				&::before {
+					position: absolute;
+					content: "";
+					height: 1px;
+					width: calc(100% - 40px);
+					inset-inline-start: 20px;
+					bottom: 0;
+					background: transparent;
+					transition: 0.3s;
+				}
+				&[aria-expanded="true"] {
+					&::before {
+						background-color: $color-soft-white;
+					}
+				}
+			}
+			.accordion-body {
+				padding: 10px 20px 20px;
+			}
+			.course-playlist {
+				ul {
+					li {
+						padding: 5px 0;
+						a {
+							justify-content: flex-start;
+							.icon {
+								padding-inline-end: 12px;
+							}
+							span {
+								letter-spacing: unset;
+								transition: 0.3s;
+							}
+							&:hover {
+								span {
+									color: $color-secondary-4;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/*======= Course FAQ Accordion =======*/
+.faq-tab {
+	.title {
+		font-weight: 600;
+		font-size: 16px;
+		color: $color-body;
+		margin-bottom: 13px;
+	}
+	.accordion-item {
+		background: $color-white;
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		margin-bottom: 20px;
+		&:first-child {
+			border-top: 1px solid $color-soft-white;
+		}
+		&:last-child {
+			border-bottom: 1px solid $color-soft-white;
+		}
+		.accordion-button {
+			font-weight: 500;
+			font-size: 16px;
+			color: $color-body;
+			padding-block: 21px 22px;
+			padding-inline: 66px 20px;
+			text-align: start;
+			cursor: pointer;
+			transition: 0.3s;
+			&:focus {
+				z-index: 3;
+				border-color: transparent;
+				outline: 0;
+				box-shadow: none;
+			}
+			&:not(.collapsed) {
+				color: $color-body;
+				background-color: transparent;
+				box-shadow: none;
+			}
+			&[aria-expanded=true]{
+				padding-bottom: 6px;
+			}
+			&::after {
+				content: "\f067";
+				background-image: none;
+				font-family: "Font Awesome 5 Pro";
+				width: auto;
+				color: $color-gray;
+				margin-top: -3px;
+				background: $color-secondary-4;
+				color: $color-white;
+				height: 26px;
+				width: 26px;
+				text-align: center;
+				position: absolute;
+				inset-inline-start: 20px;
+				top: calc(50% + 3px);
+				transform: translateY(-50%);
+				transition: 0.3s;
+			}
+			&:not(.collapsed)::after {
+				content: "\f068" !important;
+			}
+			&[aria-expanded=true]{
+				&::after {
+					margin-top: 3px;
+				}
+			}
+		}
+		.accordion-body {
+			padding: 0px 20px 20px 66px;
+			p {
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 24px;
+				color: $color-gray;
+				margin: 0;
+			}
+			ul {
+				margin-top: 20px;
+				li {
+					font-weight: 400;
+					font-size: 14px;
+					position: relative;
+					color: $color-gray;
+					padding-left: 18px;
+					&:not(:last-child) {
+						margin-bottom: 10px;
+					}
+					&::before {
+						position: absolute;
+						top: 10px;
+						left: 0px;
+						width: 6px;
+						height: 6px;
+						background: $color-gray;
+						content: "";
+						border-radius: 50px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+

@@ -1,0 +1,33 @@
+// Pagination Style
+.page-item {
+	--bdrs: 5px;
+	&:first-child {
+		.page-link {
+			border-top-left-radius: var(--bdrs);
+			border-bottom-left-radius: var(--bdrs);
+		}
+	}
+	&:last-child {
+		.page-link {
+			border-top-right-radius: var(--bdrs);
+			border-bottom-right-radius: var(--bdrs);
+		}
+	}
+}
+
+.page-link {
+	position: relative;
+	display: block;
+	padding: 9px 12px;
+	font-size: 16px;
+	color: $text-clr2;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid $border-clr;
+		&:hover {
+    z-index: 2;
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+  }
+}

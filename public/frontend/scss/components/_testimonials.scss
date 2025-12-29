@@ -1,0 +1,136 @@
+/*======= Testimonial Item V1 =======*/
+.testimonial-items-v1 {
+	.testimonial-item {
+		background: $color-white;
+		border: 1px solid $color-soft-white;
+		border-radius: 8px;
+		padding: 42px 45px;
+		margin-bottom: 30px;
+		transition: 0.3s;
+		&:hover {
+			transform: translate(0px, -12px);
+			box-shadow: 0px 3px 28px rgb($color-black-rgb/0.06);
+		}
+		.testimonial-item-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+			.author-thumb {
+				flex: 0 0 77px;
+				border: 1px solid $color-secondary-4;
+				border-radius: 50%;
+				img {
+					border-radius: 50%;
+					padding: 8px;
+				}
+			}
+			.author-info {
+				padding-inline-start: 25px;
+				h6 {
+					font-weight: 500;
+					font-size: 18px;
+					line-height: 27px;
+				}
+				span {
+					color: $color-gray-2;
+				}
+			}
+		}
+		.testimonial-item-body {
+			margin-bottom: 13px;
+			font-size: 16px;
+			color: $color-gray;
+			line-height: 24px;
+		}
+		.testimonial-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			.quote-icon {
+				i {
+					color: $color-secondary-4;
+					font-size: 30px;
+				}
+			}
+		}
+	}
+}
+
+/*======= Testimonial Item V2 =======*/
+.testimonial-items-v2 {
+	border-radius: 5px;
+	padding: 63px 60px;
+	box-shadow: 0px 15px 30px rgb($color-black-rgb / 0.08);
+	border: 1px solid $color-soft-white;
+	&.testimonial-slider {
+		&[dir="rtl"]{
+			.slick-arrow {
+				transform: rotate(180deg);
+			}
+		}
+		.slick-arrow {
+			position: absolute;
+			height: 48px;
+			width: 48px;
+			margin-inline-start: 20px;
+			inset-block-start: 50px;
+			inset-inline-end: 65px;
+			line-height: 48px;
+			border-radius: 50%;
+			font-size: 16px;
+			background: $color-secondary-4;
+			border: 1px solid $color-secondary-4;
+			color: $color-white;
+			z-index: 9;
+			&:active {
+				background-color: $color-secondary-4;
+				color: $color-white;
+			}
+			&.prev-arrow {
+				inset-inline-end: 125px;
+			}
+			&.slick-disabled {
+				background-color: $color-white;
+				color: $color-soft-white-5;
+				border-color: $color-soft-white-5;
+			}
+		}
+	}
+	.testimonial-item {
+		.author-thumb {
+			height: 312px;
+			width: 312px;
+			margin: 0 auto;
+			img {
+				border-radius: 50%;
+				border: 15px solid rgb($color-secondary-rgb / 0.08);
+				min-height: 312px;
+				object-fit: cover;
+			}
+		}
+		.testimonial-item-body {
+			margin-bottom: 35px;
+			.quote {
+				margin-bottom: 30px;
+				svg {
+					path {
+						fill: $color-secondary-4;
+					}
+				}
+			}
+			.author-info h6 {
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 1.5;
+				margin-top: 15px;
+			}
+			p {
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 1.7;
+				color: $color-gray;
+			}
+		}
+	}
+}
+

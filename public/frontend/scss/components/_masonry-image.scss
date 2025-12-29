@@ -1,0 +1,47 @@
+/*======= Masonry Image =======*/
+.masonry-images {
+    .main-image {
+        width: 100%;
+    }
+    .left-content {
+        position: relative;
+        z-index: 1;
+        padding-inline-start: 30px;
+        padding-block-end: 70px;
+        .element-wrapper {
+            .element {
+                width: 115px;
+                height: 110px;
+                background-color: $color-secondary-4;
+                margin-block-start: 20px;
+                margin-inline-start: auto;
+                display: block;
+            }
+            img {
+                position: absolute;
+                z-index: -1;
+                bottom: 104px;
+                inset-inline-start: 0;
+            }
+        }
+    }
+    .right-content {
+        position: relative;
+        z-index: 1;
+        .element-wrapper {
+            .element {
+                width: 125px;
+                height: 86px;
+                background-color: $color-body;
+                margin-bottom: 20px;
+                display: block;
+            }
+            img {
+                position: absolute;
+                z-index: -1;
+                top: 26px;
+                inset-inline-start: 56px;
+            }
+        }
+    }
+}

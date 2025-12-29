@@ -1,0 +1,524 @@
+/* theme-clr Theme color */
+:root {
+  --theme-clr: #00dbda;
+  --theme-clr-rgb: 0 219 218;
+  --theme-clr-light-1: #b3f5f4;
+  --theme-clr-deep-1: #204040;
+  --theme-clr-deep-2: #1b2626;
+}
+
+*::-moz-selection {
+  background-color: var(--theme-clr, var(--color-secondary-4)) !important;
+}
+::-moz-selection {
+  background-color: var(--theme-clr, var(--color-secondary-4)) !important;
+}
+::selection {
+  background-color: var(--theme-clr, var(--color-secondary-4)) !important;
+}
+
+a:hover {
+  color: var(--theme-clr, var(--color-secondary-4));
+}
+/* Bg Color Class===== */
+.color-bg-dark,
+.color-bg-black,
+.footer-area.footer-area-v2,
+.pricing-table .plan-title {
+  background-color: var(--theme-clr-deep-2, var(--color-body));
+}
+.cookiealert-popup {
+  border-color: var(--theme-clr-light-1, var(--color-gray));
+}
+.profile-sidebar .profile-card .profile-cover,
+.template-header
+  .header-right
+  .header-extra
+  .user-profile-dropdown
+  .user-profile-dropdown-content
+  .profile-info {
+  background-color: var(--theme-clr-light-1, var(--color-body));
+}
+.template-header
+  .header-right
+  .header-extra
+  .user-profile-dropdown
+  .user-profile-dropdown-content
+  .profile-info
+  .profile-info-content
+  h3 {
+  color: var(--color-body);
+}
+.template-header
+  .header-right
+  .header-extra
+  .user-profile-dropdown
+  .user-profile-dropdown-content
+  .profile-info
+  .profile-info-content
+  p {
+  color: var(--color-gray);
+}
+
+/* Change Header Active Color===== */
+.template-header.course-item-active
+  .header-navigation
+  .nav-menu
+  > ul
+  > li.course-active
+  > a,
+.hero-area.hero-area-v5 .hero-masonry-image::before,
+.hero-area.hero-area-v5 .hero-masonry-image::after,
+.lesson-playlist .lesson-playlist-content .element-wrapper .element,
+.user-form-container form .remember-password label::before,
+.user-form-container form .remember-password input:checked + label::after,
+.solution-package-item .solution-package-body .template-btn.bordered-btn:hover,
+.template-header.course-item-active
+  .header-navigation
+  .nav-menu
+  > ul
+  > li.course-active
+  > a {
+  border-color: var(--theme-clr, var(--color-secondary-4));
+}
+
+.template-btn {
+  background-color: var(--theme-clr, var(--color-secondary-4));
+  border: 2px solid var(--theme-clr, var(--color-secondary-4));
+}
+.template-btn.bordered-btn-secondary,
+.template-btn.bordered-btn {
+  border-color: var(--theme-clr, var(--color-secondary-4));
+  color: var(--theme-clr, var(--color-secondary-4));
+}
+
+/* Change Hero Color===== */
+.hero-area.hero-area-v5,
+.hero-area.hero-dark,
+.course-details-area .course-details-header-wrapper,
+.panel-install > .panel-heading {
+  background: linear-gradient(
+    81.05deg,
+    var(--theme-clr-deep-1, var(--color-dark-4)) 19.56%,
+    var(--theme-clr-deep-2, var(--color-dark-5)) 100%
+  );
+}
+
+/* Top Course */
+.template-header .nav-menu li a:hover,
+.template-header .nav-menu li.active > a,
+.template-header .nav-menu .sub-menu li a:hover,
+.hero-area.hero-area-v5 .hero-content .hero-title span,
+.course-item .course-item-footer .course-price,
+.course-items-v3 .course-item .course-item-footer .course-price,
+.lesson-playlist .plyr.plyr--full-ui .plyr__control--overlaid svg,
+.lesson-playlist
+  .lesson-playlist-items
+  .lesson-playlist-item
+  .nav-link.active
+  .lesson-content
+  h5,
+.lesson-playlist
+  .lesson-playlist-items
+  .lesson-playlist-item
+  .lesson-thumbnail
+  .play-icon,
+.recent-videos .plyr.plyr--full-ui .plyr__control--overlaid svg,
+.blog-post-items-v3 .blog-post-item .post-content .read-more-btn,
+.blog-post-items-v3 .blog-post-item .post-content .title a:hover,
+.course-item .title a:hover,
+.course-items-v3 .course-item .title a:hover,
+.testimonial-items-v1 .testimonial-item .testimonial-footer .quote-icon i,
+.social-profile-v2 li a:hover,
+.footer-area.footer-area-v2 .copyright-text a,
+.demo-switcher-modal .switcher-btn,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .searchbox
+  .quick-search-result
+  .list-group
+  li
+  a:hover,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .search-bar
+  .quick-search-result
+  .list-group
+  li
+  a:hover,
+.list-groups li.active a,
+.user-form-container .form-title h3,
+.user-form-container form .forgot-pass-btn a,
+.user-form .accept-policy label a,
+.education-group-tabs .nav-tabs li .nav-link.active,
+.check-list li::after,
+.video-lessons-v1 .video-lesson .play-btn,
+.video-lessons-v1 .video-lessons-v2 .play-btn,
+.video-lessons-v2 .video-lesson .play-btn,
+.video-lessons-v2 .video-lessons-v2 .play-btn,
+.profile-menu ul li.active a,
+.profile-menu ul li .sub-menu li.active a,
+.profile-menu ul li a:hover,
+.profile-menu ul li .sub-menu a:hover,
+.curriculum-tab.curriculum-tab-v2
+  .accordion-item
+  .course-playlist
+  ul
+  li
+  a:hover
+  span,
+.balance-box .balance-amount h4,
+.book-list-item .book-text-content .book-price,
+.course-sidebar .widget.widget-checklist ul li a:hover,
+.course-shorter.color-secondary
+  .course-dropdown
+  .nice-select
+  .list
+  .option.selected,
+.course-shorter
+  .sort-right
+  .course-dropdown
+  .nice-select
+  .list
+  .option.selected,
+.product-buy-now-wrap .product-summary .book-price,
+.product-buy-now-wrap .product-summary .cart .current-stock,
+.book-list-item .book-text-content h6 a:hover,
+.cart-product-table .cart-product .book-text-content h6 a:hover,
+.cart-product-calculation .valid-coupon-status .coupon-code h6,
+.cart-product-calculation .coupon-input button,
+.page-nav ul li.active a::before,
+.select2-container--default .select2-results__option[aria-selected="true"],
+.select2-container--default
+  .select2-results__option--highlighted[aria-selected]:not(
+    [aria-selected="true"]
+  ),
+.address-card .action li a,
+.course-details-sidebar .course-details-info .price,
+.rating-summary .write-review a,
+.user-form-container form .remember-password label a,
+.color-secondary,
+.team-member-items-v2 .team-member-item .member-content .title a:hover,
+.notification-wrapper .sort-right .nt-delete,
+.notification-wrapper
+  .sort-right
+  .notification-dropdown
+  .nice-select
+  .list
+  .option.selected,
+.notification-wrap .nt-card .nt-card-text a.details:hover,
+.section-title-with-progress-bar
+  .progress-bar-wrapper
+  .progress-bar-container
+  .indicator,
+.user-intro .edit-profile,
+.subscription-setting .setting-box .setting-check a.nt-delete,
+.subscription-setting .setting-box .setting-check .dropdown-menu li a:focus,
+.subscription-setting .setting-box .setting-check .dropdown-menu li a:hover,
+.quiz-result-wrapper .quiz-result-boxes .quiz-result-box h6,
+.quiz-question-wrapper .quiz-question:nth-child(even) .question-title::before,
+.book-list-item .book-thumbnail .wishlist-icon,
+.course-items-v3 .course-item .course-item-thumb .wishlist-icon,
+.wishlist-icon,
+.list-groups li a:hover,
+.template-header .language-selection .nice-select .list .option.selected,
+.mobile-slide-panel .mobile-menu li.active > a,
+.cookiealert-popup .cookiealert-content p a,
+.social-profile li a,
+.course-details-sidebar
+  .course-details-info
+  .course-video
+  .plyr.plyr--full-ui
+  .plyr__control--overlaid
+  svg,
+.hero-area.hero-dark .hero-content .hero-subtitle,
+.hero-area .hero-content .hero-subtitle,
+.header-topbar .header-topbar-right > ul .user-dropdown .dropdown-list a i {
+  color: var(--theme-clr, var(--color-secondary-4));
+}
+
+/* Start Counter Section===== */
+.counter-items-v2 .counter-item .icon svg path,
+.testimonial-items-v2 .testimonial-item .testimonial-item-body .quote path,
+.pricing-table .plan-feature li .icon path,
+.bg-shape svg path,
+.bg-shape-2 svg path,
+.form-shape svg rect,
+.profile-menu ul li.active a svg path,
+.profile-menu ul li .sub-menu li.active a svg path,
+.profile-menu ul li a:hover svg path,
+.profile-menu ul li .sub-menu a:hover svg path,
+.book-sidebar .icon-box-icon svg path,
+svg path.logo-icon,
+.template-header .header-inner .header-left .brand-logo path.logo-icon,
+.instructor-profile-preview
+  .instructor-current-content
+  .instructor-content-countdown
+  svg
+  path,
+.svg-primary {
+  fill: var(--theme-clr, var(--color-secondary-4));
+}
+.icon-box-icon svg path,
+.course-details-sidebar
+  .course-details-info
+  .course-enroll
+  .template-btn.bordered-btn-secondary
+  svg
+  path,
+.profile-menu ul li.active a svg.heart-stk path,
+.profile-menu ul li a:hover svg.heart-stk path {
+  stroke: var(--theme-clr, var(--color-secondary-4));
+}
+
+/* Background Color===== */
+.color-bg-secondary,
+.template-header .nav-menu li a::before,
+.template-header.nav-white-color
+  .header-navigation:not(.sticky-on)
+  .nav-menu
+  > ul
+  > li
+  > a::before,
+.template-header .header-right .header-extra .shopping-mini-cart .badge,
+.main-tabs .nav-pills li .nav-link.active,
+.course-items-v3 .course-item .course-badge,
+.pricing-table.pricing-secondary .plan-title,
+.success-story-v2 .success-story-author-preview::after,
+.slider-primary .slick-dots li.slick-active button,
+.lesson-playlist
+  .lesson-playlist-items.scroll-bar-active::-webkit-scrollbar-thumb,
+.masonry-images .left-content .element-wrapper .element,
+.recent-videos-section::after,
+.blog-post-items-v3 .blog-post-item .post-thumbnail .post-meta li.date a,
+.footer-area.footer-area-v2
+  .footer-widget
+  .widget.newsletter-widget-v2
+  .footer-subscription
+  button,
+.back-to-top,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .searchbox
+  .quick-search-result::-webkit-scrollbar-thumb,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .search-bar
+  .quick-search-result::-webkit-scrollbar-thumb,
+.user-form .alt-login .template-btn:hover,
+.user-form .accept-policy input:checked + label::before,
+.education-level-tabs .nav-pills li .nav-link.active,
+.education-group-tabs .nav-tabs li .nav-link::after,
+.preview-slider .app-preview-image.slick-slide::after,
+.preview-slider .slick-dots li.slick-active button,
+.video-lessons-v1.video-lesson-slider-v1 .slick-arrow,
+.video-lesson-slider-v1.video-lessons-v2 .slick-arrow,
+.video-lessons-v1.video-lesson-slider-v1 .slick-dots li.slick-active button,
+.video-lesson-slider-v1.video-lessons-v2 .slick-dots li.slick-active button,
+.success-story-v1.success-story-slider-v1 .slick-dots li.slick-active button,
+.video-lessons-v2.video-lesson-slider-v2 .slick-arrow,
+.social-profile li a:hover,
+.profile-menu ul li a .notification .badge,
+.product-buy-now-wrap .wishlist-icon:hover,
+[data-progress]::after,
+.contact-form-info ul li i,
+.faq-tab .accordion-item .accordion-button::after,
+.course-shorter.color-secondary .grid-list li.active a,
+.course-shorter .grid-list li.active a,
+.course-shorter .grid-list li.toggle-icon a,
+.course-items-v3.list-view .course-item .course-category li a,
+.course-items-v3 .course-item .course-category li a,
+.notification-wrap .nt-card.nt-unread .nt-card-check label::before,
+.section-title-with-progress-bar
+  .progress-bar-wrapper
+  .progress-bar-container
+  .progress-bar,
+.user-intro .edit-profile::after,
+.subscription-setting .setting-box .setting-check input:checked ~ label,
+.quiz-question-wrapper .quiz-question .question-title::before,
+.error-page-title h1::before,
+.error-page-title h1::after,
+.invoice-table .table.table-v2 thead th,
+.become-instructor-image::before,
+.become-instructor-image::after,
+.testimonial-items-v2 .testimonial-item .author-thumb::after,
+.template-header
+  .header-right
+  .header-extra
+  .user-profile-dropdown
+  .user-profile-dropdown-content
+  .profile-menu::-webkit-scrollbar-thumb,
+.template-header.nav-white-color
+  .header-navigation:not(.sticky-on)
+  .navbar-toggler
+  span,
+.masonry-images .right-content .element-wrapper .element-two,
+.template-header .navbar-toggler span,
+.plyr--audio .plyr__control.plyr__tab-focus,
+.plyr--audio .plyr__control:hover,
+.plyr--audio .plyr__control[aria-expanded="true"],
+.cta-wrapper,
+.footer-area.footer-area-v2
+  .footer-widget
+  .widget.newsletter-widget
+  .footer-subscription
+  button,
+.hero-area.hero-area-v2 .hero-content::after,
+.hero-area.hero-area-v2 .hero-image:before,
+.hero-area.hero-area-v2 .hero-image:after,
+.hero-area.hero-area-v2 .hero-image .circle-element .element,
+.hero-area.hero-area-v2 .hero-image .circle-element::after,
+.hero-area.hero-area-v2 .hero-image .circle-element,
+.header-topbar .header-topbar-right > ul .shopping-mini-cart .badge,
+.install-box .tab-title.active,
+.install-box .panel-footer .btn-info {
+  background-color: var(--theme-clr, var(--color-secondary-4));
+}
+
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded="true"] {
+  background: #00b2ff;
+  background: var(
+    --plyr-video-control-background-hover,
+    var(--theme-clr, var(--color-secondary-4, #00b2ff))
+  );
+  color: #fff;
+  color: var(--plyr-video-control-color-hover, #fff);
+}
+
+.plyr--full-ui input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: 0 0;
+  border: 0;
+  border-radius: 26px;
+  border-radius: calc(var(--plyr-range-thumb-height, 13px) * 2);
+  color: #00b2ff;
+  color: var(
+    --plyr-range-fill-background,
+    var(--theme-clr, var(--color-secondary-4, #00b2ff))
+  );
+  display: block;
+  height: 19px;
+  height: calc(
+    var(--plyr-range-thumb-active-shadow-width, 3px) * 2 +
+      var(--plyr-range-thumb-height, 13px)
+  );
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  transition: box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.team-items-v1 .team-member-item:hover,
+.testimonial-items-v2.testimonial-slider .slick-arrow,
+.testimonial-items-v2.testimonial-slider .slick-arrow,
+.user-form-container form button,
+.user-form-container form .template-btn,
+.template-btn.bordered-btn:hover,
+.comments-template.comments-template-v2
+  .comments-list
+  .comment
+  .reply
+  .template-btn,
+.blog-sidebar
+  .widget.widget-checklist
+  ul
+  li
+  label
+  input[type="checkbox"]:checked
+  + span::after,
+.course-sidebar
+  .widget.widget-checklist
+  input[type="checkbox"]:checked
+  + span::after,
+.course-sidebar
+  .widget.rating-widget
+  input[type="checkbox"]:checked
+  + span::after,
+.product-buy-now-wrap
+  .product-summary
+  .product-specification
+  tr
+  td
+  input[type="checkbox"]:checked
+  + span::after,
+.checkout-accordion
+  .accordion-button
+  label
+  input[type="checkbox"]:checked
+  + span::after,
+.address-card .form-check-input:checked,
+.notification-wrap
+  .nt-card
+  .nt-card-left
+  .nt-card-check
+  input[type="checkbox"]:checked
+  + span::after {
+  background-color: var(--theme-clr, var(--color-secondary-4)) !important;
+  border-color: var(--theme-clr, var(--color-secondary-4)) !important;
+}
+.user-form-container form.otp-form input[type="number"]:focus,
+.payment-methods-item input[type="radio"]:checked + label,
+.section-title-with-progress-bar
+  .progress-bar-wrapper
+  .progress-bar-container
+  .indicator,
+.page-nav ul li.active::after,
+.hero-area.hero-area-v5,
+.hero-masonry-image.hero-masonry-image-v2::before,
+.hero-area.hero-area-v5 .hero-masonry-image.hero-masonry-image-v2::after {
+  border-color: var(--theme-clr, var(--color-secondary-4)) !important;
+}
+
+.testimonial-items-v2.testimonial-slider .slick-arrow.slick-disabled {
+  background-color: var(--color-white) !important;
+  color: var(--color-soft-white-5) !important;
+  border-color: var(--color-soft-white-5) !important;
+}
+.user-form-container form .template-btn.template-btn-white {
+  color: var(--color-gray) !important;
+  border-radius: 5px;
+  border-color: var(--color-soft-white) !important;
+  background-color: var(--color-white) !important;
+}
+
+.footer-bottom {
+  border-color: #1a4444;
+}
+
+/* Opacity BG */
+.instructor-profile-preview
+  .instructor-current-content
+  .instructor-content-countdown,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .searchbox
+  .quick-search-result
+  .item-group
+  .item:hover,
+.template-header
+  .header-navigation
+  .header-right
+  .header-extra
+  .searchbox
+  .quick-search-result
+  .list-group
+  li
+  a:hover,
+.list-groups li.active a,
+.page-nav ul li.active a::before {
+  background: rgb(var(--theme-clr-rgb) / 0.1);
+}

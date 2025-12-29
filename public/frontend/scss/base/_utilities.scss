@@ -1,0 +1,52 @@
+.text-align-end {
+    text-align: end;
+}
+.text-align-center {
+    text-align: center;
+}
+.m-s-auto {
+    margin-inline-start: auto;
+}
+.m-e-2 {
+    margin-inline-end: 8px;
+}
+@include respond-above(sm) {
+    .text-align-sm-start {
+        text-align: start;
+    }
+}
+@include respond-above(md) {
+    .text-align-md-start {
+        text-align: start;
+    }
+    .text-align-md-end {
+        text-align: end;
+    }
+}
+@include respond-above(lg) {
+    .text-align-lg-start {
+        text-align: start;
+    }
+    .text-align-lg-end {
+        text-align: end;
+    }
+    .w-lg-100 {
+        width: 100%;
+    }
+}
+@include respond-above(md) {
+    .text-align-md-center {
+        text-align: center;
+    }
+}
+@include respond-above(sm) {
+    .text-align-sm-end {
+        text-align: end;
+    }
+}
+@include respond-above(xl) {
+    .text-align-xl-start {
+        text-align: start;
+    }
+}
+

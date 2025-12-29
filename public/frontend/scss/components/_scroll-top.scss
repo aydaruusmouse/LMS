@@ -1,0 +1,33 @@
+/*======= Scroll to Top =======*/
+.back-to-top {
+    position: fixed;
+    transform: translateY(100px);
+    z-index: 999;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    background: $color-secondary-4;
+    color: $color-white;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 50px;
+    transition: all .5s;
+    opacity: 0;
+    visibility: hidden; 
+    z-index: 1;
+    inset-block-end: 25px;
+    inset-inline-end: 20px;
+    &:hover {
+        color: $color-white;
+    }
+    &.show {
+        transform: translateY(0px);
+        visibility: visible;
+        opacity: 1;
+        z-index: 999; 
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+}
+

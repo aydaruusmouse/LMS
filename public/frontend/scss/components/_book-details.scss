@@ -1,0 +1,318 @@
+/*======= Book Buy Now =======*/
+.product-buy-now-wrap {
+    background: $color-white;
+    border: 1px solid $color-soft-white;
+    box-shadow: 0px 8px 20px rgb($color-black-rgb / 0.06);
+    border-radius: 3px;
+    padding: 30px 30px 20px;
+    margin-bottom: 50px;
+    position: relative;
+    .product-image {
+        margin-bottom: 10px;
+    }
+    .product-summary {
+        position: relative;
+        margin-bottom: 10px;
+        .title {
+            font-weight: 600;
+            font-size: 26px;
+            line-height: 1.5;
+        }
+        .author {
+            color: $color-body;
+            font-weight: 500;
+            margin-bottom: 5px;
+            a {
+                color: $color-gray;
+            }
+        }
+        .rating-review {
+            align-items: center;
+            margin-bottom: 10px;
+            .all-rating {
+                height: 28px;
+                width: auto;
+                li {
+                    float: none;
+                }
+                .main-rating {
+                    i {
+                        color: $color-supernova;
+                    }
+                }
+            }
+            .total-review {
+                font-weight: 500;
+            }
+        }
+        .book-price {
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 28px;
+            color: $color-secondary-4;
+            margin-bottom: 10px;
+            small {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 16px;
+                text-decoration: line-through;
+                color: $color-gray-3;
+                margin-inline-end: 8px;
+            }
+        }
+        .product-specification {
+            margin-bottom: 10px;
+            tr {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0px 10px;
+                margin-bottom: 5px;
+                th {
+                    font-weight: 500;
+                    font-size: 16px;
+                    color: $color-body;
+                }
+                td {
+                    font-weight: 400;
+                    font-size: 16px;
+                    color: $color-gray;
+                    input[type="checkbox"] {
+                        display: none;
+                        & + span::before,
+                        & + span::after {
+                            transition: all 0.3s;
+                        }
+                        & + span::after {
+                            position: absolute;
+                            left: 0px;
+                            top: 3px;
+                            display: inline-block;
+                            content: "";
+                            width: 18px;
+                            height: 18px;
+                            border: 1px solid $color-soft-white;
+                            border-radius: 2px;
+                            background-color: $color-white;
+                        }
+                        &:checked {
+                            & + span::after {
+                                background-color: $color-secondary-4;
+                                border-color: $color-secondary-4;
+                            }
+                        }
+                        &:checked {
+                            & + span::before {
+                                transform: rotate(45deg);
+                                position: absolute;
+                                left: 6px;
+                                top: 5px;
+                                width: 6px;
+                                height: 10px;
+                                border-width: 2px;
+                                border-style: solid;
+                                border-top: 0;
+                                border-left: 0;
+                                border-color: $color-white;
+                                content: "";
+                                z-index: 1;
+                            }
+                        }
+                    }
+                    label {
+                        padding-left: 26px;
+                        position: relative;
+                        display: block;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .cart {
+            .qty-and-stock {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            .qty {
+                display: inline-flex;
+                width: 99px;
+                border: 1px solid $color-soft-white;
+                border-radius: 3px;
+                input {
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 16px;
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                }
+                input[type="button"] {
+                    height: 38px;
+                    box-shadow: none;
+                }
+                input[type="number"] {
+                    height: 38px;
+                    border-radius: 0;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    margin: 0;
+                    text-align: center;
+                    appearance: none;
+                }
+            }
+            .current-stock {
+                color: $color-secondary-4;
+            }
+            .dual-btn {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+        .template-btn {
+            padding: 8px 19px;
+            i {
+                margin-inline-start: 0;
+            }
+        }
+        .social-profile {
+            position: absolute;
+            inset-inline-end: 0;
+            bottom: 2px;
+        }
+    }
+    .wishlist-icon {
+        position: absolute;
+        top: 0;
+        inset-inline-end: 0;
+        font-size: 18px;
+        color: $color-gray;
+        height: 40px;
+        width: 40px;
+        border: 1px solid $color-soft-white;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 3px;
+        transition: 0.3s;
+        background-color: $color-white;
+        z-index: 2;
+        &:hover {
+            background-color: $color-secondary-4;
+            color: $color-white;
+        }
+    }
+}
+
+
+/*======= Book Details Description =======*/
+.book-details-tab-content {
+    .tab-content-inner {
+        h4 {
+            font-size: 16px;
+            color: $color-body;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            color: $color-gray;
+            margin-bottom: 10px;
+            &+.specification-table {
+                margin-top: 20px;
+            }
+        }
+    }
+    .specification-table {
+        margin-bottom: 25px;
+        h4 {
+            margin-bottom: 20px;
+        }
+        table {
+            border: 1px solid $color-soft-white;
+            width: 100%;
+            tr, td {
+                border-bottom: 1px solid $color-soft-white;
+            }
+            th, td {
+                padding: 12px 15px;
+                font-weight: 400;
+            }
+            th {
+                font-weight: 500;
+                background-color: $color-off-white;
+                border-right: 1px solid $color-soft-white;
+            }
+            td {
+                padding: 12px 25px;
+            }
+        }
+    }
+}
+
+/*======= Book Details Sidebar =======*/
+.book-sidebar {
+    .widget {
+        .widget-title {
+            font-weight: 600;
+            font-size: 22px;
+            border-bottom: 1px solid $color-soft-white;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+/*======= Read a Little Modal =======*/
+.read-book-modal {
+    .modal-header,
+    .modal-body {
+        border: 0;
+        padding: 0;
+    }
+    .modal-dialog {
+        border-radius: 0;
+    }
+    .modal-content {
+        border-radius: 0;
+        box-shadow: 0px 10px 25px rgb($color-black-rgb / 25%);
+        border: 20px solid $color-off-white-5;
+        background-color: $color-white;
+        padding: 3px;
+    }
+    .modal-dialog-scrollable {
+        .modal-body {
+            &::-webkit-scrollbar-track {
+                border-radius: 10px;
+                background-color: transparent;
+            }
+            &::-webkit-scrollbar {
+                width: 8px;
+                border-radius: 0;
+                background-color: $color-white;
+            }
+            &::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background-color: $color-soft-white;
+            }
+        }
+    }
+    .modal-header {
+        .btn-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            font-size: 10px;
+            opacity: 1;
+            &:focus {
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+    }
+}

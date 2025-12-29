@@ -1,0 +1,543 @@
+@media screen and (max-width: 1599px) {
+  .builder-content .builder {
+    width: 120px;
+  }
+  .fixedSide {
+    position: inherit;
+  }
+  .fixedSide .simplebar {
+    padding: 15px 20px !important;
+  }
+  .statistics-info h4 {
+    font-size: 18px;
+    line-height: 35px;
+  }
+  .statistics-gChart {
+    padding-left: 10px;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1599px) {
+  .payment-icon {
+    flex-direction: column;
+  }
+  .payment-icon .title {
+    font-size: 20px;
+    border-top: 1px solid #d7dde9;
+    padding-top: 10px;
+    padding-left: 0;
+    border-left: none;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+  .payment-icon {
+    gap: 15px;
+  }
+  .payment-icon .title {
+    font-size: 16px;
+    padding-left: 12px;
+  }
+  .payment-settings {
+    gap: 15px;
+  }
+  .payment-settings-btn a {
+    padding: 10px 15px;
+  }
+  .col-custom {
+    flex: 0 0 23%;
+  }
+  .package-list-group .list-view-box {
+    gap: 50px;
+  }
+  .social-proof-section {
+    gap: 45px;
+    flex-wrap: wrap;
+  }
+  .single-social-proof {
+    padding: 20px 52px 20px 30px;
+  }
+  .oftions-content-left .select2-container--default {
+    width: 25% !important;
+  }
+  .builder-content .builder {
+    width: 135px;
+  }
+  .resources-text-content {
+    width: 66%;
+    flex: 0 0 auto;
+  }
+  .resources-icon {
+    background-color: #f7fffc;
+    height: 64px;
+    width: 65px;
+    flex: 0 0 auto;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .average-rating-summary {
+    padding: 30px;
+  }
+  .average-rating-summary .average-rating {
+    width: 160px;
+  }
+  .average-rating-summary .rating-summary-content .rating-details {
+    padding-inline-start: 10px;
+  }
+  .average-rating-summary .rating-summary-content .rating-details .star-count-progress .rating-star {
+    width: 215px;
+  }
+  .average-rating-summary .average-rating::after {
+    inset-inline-end: -15px;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary .average-rating {
+    width: auto;
+    padding-bottom: 15px;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary {
+    display: block;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary .average-rating::after {
+    width: 100%;
+    height: 1px;
+    inset-inline-end: 0;
+    top: auto;
+    bottom: 0;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary .rating-summary-content .rating-details {
+    padding-top: 15px;
+  }
+  .col-custom {
+    flex: 0 0 31%;
+  }
+  .default-tab-list.default-tab-list-v2.activeItem-bd-none ul li a.nav-link.active::after {
+    display: none;
+  }
+  .package-list-group .list-view-box {
+    gap: 40px;
+  }
+  .course-item.addons-item .title a {
+    font-size: 18px;
+  }
+  .oftions-content-left .select2-container--default {
+    width: 32% !important;
+  }
+  .fixedSide {
+    position: initial;
+  }
+  .fixedSide .simplebar {
+    padding: 25px 20px !important;
+  }
+  .builder-content {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .social-proof-section {
+    gap: 30px 52px;
+  }
+  .social-proof-thumb img {
+    width: 80px;
+    height: 80px;
+  }
+  .single-social-proof {
+    padding: 20px;
+  }
+  .resources-text-content {
+    width: 65%;
+    flex: 0 0 auto;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .button-default {
+    font-size: 14px;
+  }
+  .country-code-select {
+    width: 30%;
+  }
+  .country-code-filter li a.dropdown-toggle::after {
+    display: none;
+  }
+  body:not(.sidebar-collapse) .payment-icon .title {
+    display: none;
+  }
+  .instructor-content table tr {
+    margin-bottom: 15px;
+  }
+  .instructor-content table tr td {
+    display: block;
+  }
+}
+@media screen and (max-width: 991px) {
+  .dropdown-toggle::after {
+    display: none;
+  }
+  .navbar-respons {
+    padding-top: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .default-circle-btn {
+    border-radius: 50px;
+    height: 35px;
+    width: 35px;
+    place-content: center;
+  }
+  .default-circle-btn .las {
+    font-size: 24px;
+  }
+  .default-circle-btn span {
+    display: none;
+  }
+  .user-name {
+    display: none;
+  }
+  .add-new-page .button-default,
+  .add-new-page .button-default-lg {
+    padding-right: 15px;
+  }
+  .website-theme.header-section .website-thumb img {
+    width: 485px;
+  }
+  .default-tab-list.default-tab-list-v2.activeItem-bd-none ul li a.nav-link.active::after {
+    display: none;
+  }
+  .course-edit-action li.dropdown .dropdown-toggle::after {
+    display: block;
+  }
+  .submitter-info::after {
+    display: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .oftions-content-right {
+    justify-content: flex-start;
+  }
+  .oftions-content-right {
+    justify-content: flex-start;
+  }
+  .default-list-table .table td,
+  .default-list-table .table th {
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary .rating-summary-content .rating-details .star-count-progress .rating-star {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  body:not(.sidebar-collapse) .average-rating-summary .rating-summary-content .rating-details .star-count-progress {
+    display: block;
+  }
+  .average-rating-summary .average-rating {
+    width: 137px;
+  }
+  .average-rating-summary .rating-summary-content .rating-details {
+    padding-inline-start: 16px;
+  }
+  .average-rating-summary .rating-summary-content {
+    margin-inline-end: 0;
+  }
+  .average-rating-summary {
+    display: block;
+  }
+  .average-rating-summary .average-rating {
+    width: auto;
+    padding-bottom: 15px;
+  }
+  .average-rating-summary .average-rating::after {
+    width: 100%;
+    height: 1px;
+    inset-inline-end: 0;
+    top: auto;
+    bottom: 0;
+  }
+  .average-rating-summary .rating-summary-content .rating-details {
+    padding-inline-start: 0;
+    padding-top: 15px;
+  }
+  .average-rating-summary .average-rating h2 {
+    font-size: 56px;
+  }
+  .payment-icon .title {
+    font-size: 16px;
+    padding-left: 12px;
+  }
+  .payment-box.payment-box-v2 .payment-icon .title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 35px;
+    border-left: 1px solid #d7dde9;
+    padding-left: 20px;
+    display: none;
+  }
+  .payment-box.payment-box-v2 .payment-settings {
+    border-right: none;
+    margin-right: 10px;
+    padding-right: 10px;
+  }
+  .best-selling-courses tbody tr,
+  .best-selling-courses thead tr {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+  .selling-course-title p {
+    width: 100px;
+  }
+  .col-custom {
+    flex: 0 0 48%;
+  }
+  .dataTables_wrapper .dataTables_length {
+    margin-bottom: 15px;
+  }
+  .dataTables_wrapper .dataTables_filter {
+    float: left !important;
+    text-align: left !important;
+  }
+  .dataTables_wrapper .dataTables_filter input {
+    margin-left: 0 !important;
+  }
+  .package-list-group .list-view-box {
+    gap: 35px;
+    flex-wrap: wrap;
+  }
+  .default-tab-list.default-tab-list-v2.activeItem-bd-md ul li a.nav-link.active::after {
+    border: none;
+  }
+  .accordion.editCourseCurriculum .accordion-header {
+    flex-direction: column;
+    align-items: start;
+  }
+  .course-edit-action {
+    padding-left: 30px;
+    flex-wrap: wrap;
+  }
+  .list-view {
+    flex-direction: column;
+    align-items: start;
+  }
+  .package-list-group .list-view {
+    flex-direction: row;
+    align-items: center;
+  }
+  .moveable-list-view .list-view {
+    flex-direction: row;
+  }
+  ul.action-btn {
+    padding: 10px 0 15px;
+  }
+  .accordion.accordion-v2 .accordion-button ul {
+    right: 18px;
+    top: 22%;
+  }
+  .accordion.accordion-v2 .accordion-button .icon {
+    font-size: 18px;
+  }
+  .fixedSide {
+    position: initial;
+    right: 18px;
+  }
+  .builder-content {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .chat .redious-border {
+    border: none;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+  .chat .chat-sidebar-active-user {
+    display: none;
+  }
+  .chat .user-info-box {
+    padding: 15px !important;
+  }
+  .chat .user-info-box .user-name {
+    display: none !important;
+    flex: 0 0 0 !important;
+  }
+  .chat .user-info-box .user-img img {
+    height: 50px;
+    width: 50px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 50%;
+  }
+  .chat .user-info-box .user-img span.active_status {
+    top: 0px;
+    inset-inline-start: 38px;
+  }
+  .chat .chat-search-sm .oftions-content-search {
+    width: 97%;
+    margin: 0 20px 20px;
+  }
+  .chat .chat-search-sm .oftions-content-search input[type=search] {
+    width: 100%;
+  }
+  .chat-sidebar-scrollable {
+    max-height: 904px;
+    min-height: 904px;
+  }
+  .chat-sidebar-scrollable .user-info-box {
+    border-radius: 20px;
+  }
+  .chat-content-header .user-info-box .user-name {
+    flex: 0 0 auto !important;
+    display: block !important;
+  }
+}
+@media screen and (max-width: 575px) {
+  .header-position {
+    inset-inline-start: -312px;
+    z-index: 9999;
+  }
+  .header-position .sidebar-toggler {
+    position: absolute;
+    inset-inline-end: 4px;
+    border: none;
+    background: transparent;
+    display: block;
+  }
+  .sidebar-collapse .header-position {
+    inset-inline-start: 0;
+    width: 312px;
+  }
+  .sidebar-collapse .dashboard-logo .logo {
+    display: block;
+  }
+  .sidebar-collapse .dashboard-logo .logo-icon {
+    display: none;
+  }
+  .sidebar-collapse .side-nav ul li a span {
+    display: block;
+  }
+  .sidebar-collapse .side-nav ul li a.dropdown-icon::after {
+    display: block;
+    opacity: 1;
+  }
+  .sidebar-collapse .main-wrapper {
+    padding-left: 0;
+  }
+  .navbar-respons .navbar-left-content ul,
+  .navbar-respons .navbar-right-content ul {
+    gap: 10px;
+  }
+  .main-wrapper {
+    padding-left: 0;
+  }
+  .oftions-content-left label {
+    line-height: 20px;
+    font-size: 14px;
+  }
+  .button-default {
+    font-size: 14px;
+  }
+  .pagination-content-left {
+    margin-bottom: 20px;
+  }
+  .country-code-select {
+    width: 25%;
+  }
+  .media-sortField .select-type-v2 .choices .choices__inner {
+    padding: 7px 10px;
+    font-size: 14px;
+  }
+  .dataTables_wrapper .dataTables_filter {
+    float: none;
+  }
+  .default-list-table .dataTables_wrapper .dataTables_length,
+  .default-list-table .dataTables_wrapper .dataTables_filter {
+    text-align: left !important;
+  }
+  .payment-icon .title {
+    display: none;
+  }
+  .payment-box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .payment-box.payment-box-v2 .payment-settings {
+    border-right: none;
+    margin-right: 0px;
+    padding-right: 0px;
+  }
+  .best-selling-courses tbody tr,
+  .best-selling-courses thead tr {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+  .selling-course-title,
+  .instructors-pro {
+    gap: 10px;
+    flex-direction: column;
+    align-items: start !important;
+  }
+  .selling-course-title p {
+    width: 118px;
+  }
+  .statistics-view .dropdown-toggle::after {
+    display: block !important;
+  }
+  .col-custom {
+    flex: 0 0 46.8%;
+  }
+  .analytics.analytics-v3 .analytics-content {
+    height: 115px;
+  }
+  .builder-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .resources-text-content {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
+@media screen and (max-width: 475px) {
+  .builder-content .builder {
+    width: 115px;
+    height: 104px;
+  }
+  .package-list-group .list-view-content h3 {
+    font-size: 24px;
+    line-height: 44px;
+  }
+}
+@media screen and (max-width: 424px) {
+  .section-top {
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .file-upload-text span {
+    padding: 7px 10px;
+    font-size: 14px;
+  }
+  .country-code-select {
+    width: 42%;
+  }
+  .media-box {
+    width: 156.4px;
+  }
+  .average-rating-summary .rating-summary-content {
+    display: block;
+  }
+  .average-rating-summary .rating-summary-content .rating-details .star-count-progress {
+    display: block;
+  }
+  .average-rating-summary .rating-summary-content .rating-details .star-count-progress .rating-star {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .header-top {
+    flex-direction: column;
+    align-items: start !important;
+  }
+  .col-custom {
+    flex: 0 0 100%;
+  }
+  .instructor-content table tr {
+    margin-bottom: 15px;
+  }
+  .instructor-content table tr td {
+    display: block;
+  }
+  .builder-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}/*# sourceMappingURL=responsive.css.map */

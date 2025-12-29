@@ -1,0 +1,77 @@
+/*======= Template Button =======*/
+.template-btn {
+	display: inline-block;
+	color: $color-white;
+	padding: 11.5px 35px;
+	font: {
+		size: 14px;
+		family: $body-font;
+		weight: 500;
+	}
+	line-height: 1.5;
+	transition: all 0.4s;
+	position: relative;
+	z-index: 0;
+	vertical-align: middle;
+	border-radius: 3px;
+	background-color: $color-secondary-4;
+	border: 2px solid $color-secondary-4;
+	overflow: hidden;
+
+	i {
+		margin-left: 5px;
+	}
+
+	&:hover {
+		color: $color-white;
+		border-color: $color-hover;
+		background-color: $color-hover;
+	}
+
+	&.template-btn-dark {
+		color: $color-white;
+		border-color: $color-body;
+		background-color: $color-body;
+	}
+
+	&.bordered-btn {
+		background-color: transparent;
+		box-shadow: none;
+		color: $color-secondary-4;
+		border-color: $color-secondary-4;
+
+		&:hover {
+			border-color: $color-secondary-4;
+			color: $color-white;
+			background-color: $color-secondary-4;
+		}
+	}
+
+    &.bordered-btn-secondary {
+        background-color: transparent;
+        box-shadow: none;
+        border-color: $color-secondary-4;
+        color: $color-secondary-4;
+		&:hover {
+			border-color: $color-dark;
+			color: $color-dark;
+		}
+    }
+
+    &.template-btn-white {
+        color: $color-gray;
+        border-radius: 3px;
+        border-color: $color-white;
+        background-color: $color-white;
+    }
+}
+
+[dir="rtl"] {
+	.template-btn {
+		i.fa-long-arrow-right {
+			transform: rotate(-180deg);
+			margin-left: 0;
+			margin-right: 5px;
+		}
+	}
+}

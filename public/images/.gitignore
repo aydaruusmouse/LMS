@@ -1,0 +1,10 @@
+/*.jpg
+/*.png
+/*.webp
+!payment-method
+!others
+!icon
+!ico
+!flags
+!default
+!addons

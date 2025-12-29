@@ -1,0 +1,58 @@
+/*======= Recent Video Slider =======*/
+.recent-video-slider{
+    .slick-slide {
+        margin: 0 15px;
+        margin-bottom: 30px;
+    }
+}
+
+/*======= Recent Video Player =======*/
+.recent-videos {
+    .plyr {
+        height: 550px;
+        background-size: cover;
+        border: 15px solid $color-white;
+        border-radius: 5px;
+        box-shadow: 0px 10px 25px rgb($color-black-rgb / 0.06);
+        margin: 10px auto 0;
+        max-width: 1060px;
+        .plyr__poster {
+            background-size: cover;
+        }
+        &.plyr--full-ui {
+            .plyr__control--overlaid {
+                height: 100px;
+                width: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: $color-white;
+                opacity: 1;
+                svg {
+                    height: 24px;
+                    width: 28px;
+                    color: $color-secondary-4;
+                }
+                &::after {
+                    opacity: 0.2;
+                    border-radius: 50%;
+                    top: -10px;
+                    left: -10px;
+                    right: 0;
+                    bottom: 0;
+                    width: 120px;
+                    height: 120px;
+                    border: 20px solid $color-white;
+                    animation-delay: 0.5s;
+                    position: absolute;
+                    content: "";
+                }
+            }
+        }
+        &:fullscreen {
+            border: 0;
+            box-shadow: none;
+            border-radius: 0;
+        }
+    }
+}

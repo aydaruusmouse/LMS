@@ -1,0 +1,200 @@
+/*======= Quiz =======*/
+.quiz-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	h3 {
+		font-size: 20px;
+		line-height: 1.4;
+		font-weight: 500;
+	}
+}
+
+.quiz-question-wrapper {
+    counter-reset: count;
+    .quiz-question {
+        margin-bottom: 10px;
+        border: 1px solid $color-soft-white;
+        border-radius: 6px;
+        padding: 15px 15px 20px 15px;
+        background-color: $color-white;
+        .question-title {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 19px;
+            position: relative;
+            padding-inline-start: 45px;
+            &::before {
+                counter-increment: count;
+                content: "" counter(count) " ";
+                background-color: $color-secondary-4;
+                color: $color-white;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                text-align: center;
+                line-height: 30px;
+                border-radius: 50%;
+                font-size: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                inset-inline-start: 0;
+            }
+        }
+        .question-options {
+            &.textarea {
+                padding: 10px;
+                border: 1px solid $color-soft-white;
+                border-radius: 6px;
+            }
+            .option {
+                color: $color-gray;
+                font-size: 13px;
+                padding-inline-start: 45px;
+                input[type=radio],
+                input[type=checkbox] {
+                    display: none;
+                    &:checked {
+                        &+label {
+                            &::before {
+                                -webkit-transform: rotate(45deg);
+                                transform: rotate(45deg);
+                                position: absolute;
+                                inset-inline-start: 6px;
+                                top: 6px;
+                                width: 5px;
+                                height: 8px;
+                                border-width: 2px;
+                                border-style: solid;
+                                border-top: 0;
+                                border-left: 0;
+                                border-color: $color-secondary-4;
+                                content: "";
+                                z-index: 1;
+                            }
+                        }
+                    }
+                    &.false {
+                        &:checked {
+                            &+label {
+                                &::before {
+                                    border: none;
+                                    content: "\f00d";
+                                    font-family: "Font Awesome 5 Pro";
+                                    transform: none;
+                                    color: #D16D86;
+                                    top: 0px;
+                                    inset-inline-start: 4px;
+                                    height: auto;
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+                label {
+                    -webkit-padding-start: 28px;
+                    padding-inline-start: 28px;
+                    position: relative;
+                    cursor: pointer;
+                    &::after {
+                        position: absolute;
+                        inset-inline-start: 0px;
+                        top: 3px;
+                        display: inline-block;
+                        content: "";
+                        width: 16px;
+                        height: 16px;
+                        border: 1px solid $color-off-white-7;
+                        background-color: $color-white;
+                    }
+                }
+                &:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+            }
+            textarea {
+                padding-top: 0px;
+                padding-inline-end: 10px;
+                font-size: 13px;
+                color: $color-gray;
+                font-weight: 400;
+                height: 125px;
+                resize: none;
+                &::-webkit-scrollbar-track {
+                    border-radius: 6px;
+                    background-color: transparent;
+                }
+                &::-webkit-scrollbar {
+                    width: 8px;
+                    border-radius: 6px;
+                    background-color: $color-off-white;
+                }
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 6px;
+                    background-color: $color-soft-white-4;
+                }
+            }
+        }
+        &:nth-child(even) {
+            border: 1px dashed rgb($color-secondary-rgb/0.3);
+            .question-title {
+                &::before {
+                    background: rgb($color-secondary-rgb/0.08);
+                    color: $color-secondary-4;
+                }
+            }
+        }
+        .question-title {
+            &.false {
+                &::before {
+                    background: #D16D86;
+                    color: $color-white;
+                }
+            }
+        }
+    }
+}
+
+/*======= Quiz Result Boxes =======*/
+.quiz-result-wrapper {
+    background-color: $color-white;
+    box-shadow: 0px 4px 250px rgb($color-black-rgb/0.1);
+    padding: 37px 20px 35px 20px;
+    text-align: center;
+    border-radius: 3px;
+    position: relative;
+    z-index: 1;
+    h3 {
+		font-size: 20px;
+		line-height: 1.4;
+		font-weight: 400;
+	}
+    .quiz-result-boxes {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        .quiz-result-box {
+            background: rgb($color-secondary-rgb/0.08);
+            padding: 10px 44px;
+            border-radius: 6px;
+            h6 {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 1.2;
+                color: $color-secondary-4;
+                margin-bottom: 5px;
+            }
+            p {
+                line-height: 1.4;
+            }
+        }
+    }
+    .shape {
+        position: absolute;
+        top: 22px;
+        right: 80px;
+        z-index: -1;
+    }
+}

@@ -1,0 +1,29 @@
+// Custome Colors
+$custom-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark,
+  "gray-ligth":  $border-clr
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// Cutome Container
+$custome-container-max-widths: (
+  xxxl: 1560px
+);
+$container-max-widths: map-merge($container-max-widths, $custome-container-max-widths);
+
+// Custome Spacers
+$custom-spacers: (
+  12: $spacer * .75,
+  18: $spacer * 1.125,
+  20: $spacer * 1.25,
+  30: $spacer * 1.875,
+  40: $spacer * 2.5
+);
+$spacers: map-merge($spacers , $custom-spacers );

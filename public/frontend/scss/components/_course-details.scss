@@ -1,0 +1,327 @@
+/*======= Course Details Header =======*/
+.course-details-header {
+	.title {
+		font-weight: 600;
+		font-size: 20px;
+		color: $color-body;
+		margin-bottom: 10px;
+	}
+	.desc {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 24px;
+		color: $color-gray;
+	}
+	.course-details-info {
+		display: flex;
+		margin: 30px 0 0;
+		align-items: center;
+		flex-wrap: wrap;
+		row-gap: 10px;
+		li {
+			position: relative;
+			margin-inline-end: 30px;
+			font-weight: 400;
+			font-size: 13px;
+			line-height: 20px;
+			color: $color-body;
+			&.rating {
+				i {
+					color: $color-supernova;
+					margin-inline-end: 3px;
+				}
+				span {
+					color: $color-body;
+					font-size: 16px;
+					font-weight: 600;
+					margin-right: 3px;
+				}
+			}
+			i {
+				margin-inline-end: 8px;
+				font-size: 15px;
+			}
+			&::after {
+				position: absolute;
+				top: 2px;
+				inset-inline-end: -15px;
+				width: 1px;
+				height: 15px;
+				background: $color-off-white-5;
+				content: "";
+			}
+			&:last-child {
+				margin-inline-end: 0;
+				&::after {
+					display: none;
+				}
+			}
+		}
+	}
+	&.color-white {
+		.title {
+			color: $color-white;
+		}
+		.desc {
+			color: $color-off-white-6;
+		}
+		.course-details-info {
+			li {
+				color: $color-off-white;
+				span {
+					color: $color-off-white;
+				}
+			}
+		}
+	}
+}
+
+/*======= Course Details Overview =======*/
+.course-details-overview {
+	.course-details-overview-content {
+		h4 {
+			font-size: 16px;
+			color: $color-body;
+			margin-bottom: 15px;
+			font-weight: 600;
+		}
+		p {
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 24px;
+			color: $color-gray;
+			margin-bottom: 20px;
+		}
+		ul.course-description {
+			margin-bottom: 35px;
+			padding-top: 5px;
+			li {
+				font-weight: 400;
+				font-size: 14px;
+				position: relative;
+				color: $color-gray;
+				padding-inline-start: 18px;
+				&:not(:last-child) {
+					margin-bottom: 10px;
+				}
+				&::before {
+					position: absolute;
+					top: 10px;
+					inset-inline-start: 0px;
+					width: 6px;
+					height: 6px;
+					background: $color-gray;
+					content: "";
+					border-radius: 50px;
+				}
+			}
+		}
+	}
+}
+
+/*======= Course Details Sidebar =======*/
+.course-details-sidebar {
+	.course-details-info {
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		margin-bottom: 30px;
+		background-color: $color-white;
+		.course-video {
+			.plyr {
+				&.plyr--video {
+					border-radius: 3px 3px 0 0 !important;
+					height: 250px;
+				}
+				.plyr__poster {
+					border-radius: 3px 3px 0 0;
+					background-size: cover;
+					background-position: top center;
+				}
+				&.plyr--full-ui {
+					.plyr__control--overlaid {
+						height: 50px;
+						width: 50px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						background-color: $color-white;
+						opacity: 1;
+						svg {
+							height: 18px;
+							width: 18px;
+							color: $color-secondary-4;
+						}
+						&::after {
+							opacity: 0.2;
+							border-radius: 50%;
+							top: -10px;
+							left: -10px;
+							right: 0;
+							bottom: 0;
+							width: 70px;
+							height: 70px;
+							border: 20px solid $color-white;
+							-webkit-animation-delay: 0.5s;
+							animation-delay: 0.5s;
+							position: absolute;
+							content: "";
+						}
+					}
+				}
+			}
+		}
+		.single-course-info {
+			padding: 30px 25px 25px;
+		}
+		.price {
+			color: $color-secondary-4;
+			padding-bottom: 25px;
+			font-weight: 600;
+			font-size: 24px;
+			line-height: 18px;
+			display: block;
+			small {
+				color: $color-gray-3;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 21px;
+				text-decoration: line-through;
+				margin-inline-start: 5px;
+			}
+		}
+		.course-feature-list {
+			ul li {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 1px solid $color-soft-white;
+				padding-bottom: 10px;
+				margin-bottom: 10px;
+				h6,
+				span {
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 21px;
+				}
+				span {
+					font-weight: 400;
+				}
+			}
+		}
+		.course-enroll {
+			margin-top: 22px;
+			margin-bottom: 20px;
+			.template-btn {
+				font-weight: 600;
+				font-size: 14px;
+				line-height: 20px;
+				height: 48px;
+				padding: 12px;
+				display: block;
+				text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+		.course-social {
+			background: $color-white;
+			border: 1px solid $color-soft-white;
+			border-radius: 3px;
+			display: flex;
+			justify-content: space-between;
+			padding: 11px 15px;
+			align-items: center;
+			column-gap: 12px;
+			.share-course {
+				font-weight: 600;
+				font-size: 14px;
+				line-height: 20px;
+				color: $color-gray;
+				display: block;
+
+				i {
+					margin-left: 5px;
+				}
+			}
+			.social-profile li {
+				a {
+					height: 24px;
+					width: 24px;
+					line-height: 24px;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+	}
+	.course-instructor {
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		padding: 10px;
+		text-align: center;
+		margin-bottom: 30px;
+		.instructor-thumb {
+			margin-bottom: 18px;
+		}
+		.course-instructor-info {
+			padding-bottom: 15px;
+			h3 {
+				font-weight: 600;
+				font-size: 18px;
+				line-height: 28px;
+				text-align: center;
+				color: $color-body;
+				margin-bottom: 3px;
+			}
+			p {
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 24px;
+				text-align: center;
+				color: $color-gray;
+				margin-bottom: 12px;
+			}
+			.template-btn {
+				font-weight: 600;
+				padding: 8px 48px;
+			}
+		}
+	}
+}
+
+/*======= Course Playlist =======*/
+.course-playlist ul li {
+	padding: 5px;
+	border-radius: 3px;
+	transition: all 0.3s ease-in-out;
+	&:not(:last-child) {
+		margin-bottom: 5px;
+	}
+	a {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.title {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			margin-bottom: 0;
+		}
+		h6 {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 20px;
+			color: $color-gray;
+		}
+		span {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 20px;
+			letter-spacing: 0.05em;
+			color: $color-gray;
+		}
+	}
+}

@@ -1,0 +1,43 @@
+/*======= Simple Image Box V1 =======*/
+.simple-image-boxes-v1 {
+    .simple-image-box {
+        .image {
+            background: $color-soft-white-3;
+            border: 1px solid $color-soft-white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 15px;
+            min-height: 188px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+.simple-image-box {
+    position: relative;
+    text-align: center;
+    margin-bottom: 30px; 
+    .image {
+        margin-bottom: 15px;
+    }
+    a {
+        color: $color-body;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        transition: 0.3s;
+    }
+}
+
+/*======= Simple Image Box V2 =======*/
+.simple-image-boxes-v2 {
+    .simple-image-box {
+        .image {
+            img {
+                border-radius: 8px;
+            }
+        }
+    }
+}

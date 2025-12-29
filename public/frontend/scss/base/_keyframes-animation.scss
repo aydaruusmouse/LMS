@@ -1,0 +1,171 @@
+/*======= keyframes & Animation =======*/
+@keyframes sticky {
+    0% {
+        top: -200px;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+@keyframes zoomInOut {
+    0% {
+        transform: rotate(0deg) scale(0.7);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(180deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) scale(0.7);
+        opacity: 0;
+    }
+}
+
+@keyframes zoom-fade {
+    0% {
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(0.8);
+    }
+}
+
+@keyframes float-bob {
+    0% {
+        transform: translateX(-100px);
+    }
+
+    50% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translateX(-100px);
+    }
+}
+
+@keyframes float-bob-x {
+    0% {
+        transform: translateX(-20px);
+    }
+
+    50% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translateX(-20px);
+    }
+}
+
+@keyframes float-bob-y {
+    0% {
+        transform: translateY(-20px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes hero-float-bob-y {
+    0% {
+        transform: rotate(-90deg) translateY(-20px);
+        border-radius: 20px 90px;
+    }
+
+    50% {
+        transform: rotate(-90deg) translateY(-10px);
+        border-radius: 15px 70px;
+    }
+
+    100% {
+        transform: rotate(-90deg) translateY(-20px);
+        border-radius: 20px 90px;
+    }
+}
+
+@keyframes rotateme {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes slide-down {
+	0% {
+		// top: calc(100% + 10px);
+        transform: translateY(30px);
+        opacity: 0.5;
+	}
+
+	100% {
+		// top: 100%;
+        transform: translateY(15px);
+        opacity: 1;
+	}
+}
+
+@keyframes spin-infinity {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+.animate-zoominout {
+    animation-name: zoomInOut;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.animate-zoom-fade {
+    animation-name: zoom-fade;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.animate-float-bob {
+    animation-name: float-bob;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.animate-float-bob-x {
+    animation-name: float-bob-x;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.animate-float-bob-y {
+    animation-name: float-bob-y;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.animate-rotate-me {
+    animation-name: rotateme;
+    animation-duration: 24s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}

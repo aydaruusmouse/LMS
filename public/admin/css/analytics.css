@@ -1,0 +1,16 @@
+.analytics {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.analytics-icon {
+  height: 64px;
+  width: 64px;
+  background: lightblue;
+  border-radius: 8px;
+  display: flex;
+  font-size: 32px;
+  color: blue;
+  align-items: center;
+  justify-content: center;
+}/*# sourceMappingURL=analytics.css.map */

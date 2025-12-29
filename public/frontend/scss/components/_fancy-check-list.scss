@@ -1,0 +1,41 @@
+/*======= Fancy Check List =======*/
+.fancy-check-list {
+    .list-inner {
+        padding: 25px;
+        background: $color-white;
+        box-shadow: 0px 4px 15px rgb($color-black-rgb / 0.06);
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.5;
+        position: relative;
+        z-index: 1;
+        padding-left: 75px;
+        border-radius: 3px;
+        transition: 0.3s;
+        &::before {
+            position: absolute;
+            z-index: -1;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: $color-white;
+            content: "\f00c";
+            font-family: "Font Awesome 5 Pro";
+            font-weight: 900;
+            font-size: 15px;
+            background: $color-secondary-4;
+            opacity: 0.15;
+        }
+        &:hover {
+            box-shadow: 0px 10px 15px rgb($color-black-rgb / 0.1);
+            transform: translate(0, -10px);
+        }
+    }
+}

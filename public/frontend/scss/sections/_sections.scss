@@ -1,0 +1,63 @@
+/*======= Specific Section =======*/
+
+/*======= Recent Video =======*/
+.recent-videos-section {
+    position: relative;
+    z-index: 1;
+    &::after {
+        content: "";
+        height: 56%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        background-color: $color-secondary-4;
+        opacity: 0.92;
+    }
+    &::before {
+        position: absolute;
+        content: "";
+        height: 44%;
+        background-color: $color-white;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        width: 100%;
+    }
+}
+
+/*======= Our Instructor =======*/
+.our-instructor-section {
+    background-image: url(../img/section/our-instructor-bg.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+/*======= Popular Instructor =======*/
+.popular-instructor-section {
+    background-image: url(../img/section/our-instructor-bg.svg);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+/*======= Our Instructor =======*/
+.our-instructor-section {
+    background-image: url(../img/section/our-instructor-bg.svg);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+/*======= Become Instructor =======*/
+.become-instructor-section {
+    background-image: url(../img/section/become-instructor-bg.svg);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+/*======= Course Details =======*/
+.course-details-area {
+    .course-details-header-wrapper {
+        background: linear-gradient(90deg, #012A32 0%, #00594A 28.23%, #00737E 66.09%, #01735D 100%);
+    }
+}

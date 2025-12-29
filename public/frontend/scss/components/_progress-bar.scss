@@ -1,0 +1,45 @@
+/*======= Progress Bar =======*/
+.line-progress {
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	p {
+		color: $color-black;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		text-transform: capitalize;
+	}
+	*:not([data-progress]) {
+		margin: 0;
+		font-size: 14px;
+	}
+	[data-progress] {
+		height: 10px;
+		border-radius: 12px;
+		margin-top: 8px;
+		overflow: hidden;
+		background-color: $color-soft-white;
+	}
+}
+
+[data-progress] {
+	&::after {
+		content: "";
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		background-color: $color-secondary-4;
+		border-radius: 12px;
+		width: 0;
+		height: 100%;
+		box-sizing: border-box;
+		font-size: 10px;
+		color: $color-white;
+		padding: 0 3px;
+		transition: 2s;
+	}
+	&.animate-progress::after {
+		width: var(--animate-progress);
+	}
+}

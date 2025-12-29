@@ -1,0 +1,68 @@
+.default-tab-list {
+  ul li {
+    a.nav-link  {
+      color: $text-clr1;
+      font-weight: $fw-500;
+      line-height: 24px;
+      cursor: pointer;
+      position: relative;
+
+      &.active {
+        color: $primary;
+        font-weight: 500;
+
+        .default-tab-count {
+          border: 1px solid $primary !important;
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+
+    .default-tab-count {
+      background-color: $white;
+      color: $text-clr1;
+      border: 1px solid $themeSeceondary-clr;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      border-radius: 50%;
+      font-weight: $fw-500;
+      font-size: 16px;
+      text-align: center;
+      line-height: 24px;
+      margin-right: 15px;
+      transition: all 0.5s ease;
+    }
+  }
+}
+
+// Add Staff Tab Style
+.default-tab-list {
+  &.default-tab-list-v2 {
+    .nav {
+      border-bottom: 1px solid $border-clr;
+    }
+    ul li {
+      a.nav-link.active::after {
+        position: absolute;
+        bottom: -14px;
+        left: 0;
+        width: 100%;
+        border: 1px solid $primary;
+        content: "";
+      }
+    }
+  }
+}
+
+.default-tab-list {
+  &.media-modal-tab {
+    .oftions-content-search {
+      margin-right: 50px;
+    }
+    .btn-close.modal-close {
+      top: 42px;
+    }
+  }
+}

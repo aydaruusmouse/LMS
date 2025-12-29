@@ -1,0 +1,25 @@
+/* Student Profile Style Start========= */
+.student-certificate {
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+.certificate {
+  border: 1px solid #eee;
+  border-radius: 10px;
+
+  img {
+    border-radius: 10px;
+    height: 370px;
+    width: 508px;
+    //object-fit: contain;
+  }
+}
+
+.student-cert .row .col-lg-6:not(:nth-last-child(-n+2)) {
+  margin-bottom: 40px;
+}

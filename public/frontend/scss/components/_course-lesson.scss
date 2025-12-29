@@ -1,0 +1,84 @@
+/*======= Course Lesson V1 =======*/
+.course-lesson-v1 {
+    &.course-lesson-slider-v1 {
+        .slick-slide {
+            margin: 15px 15px 30px 15px;
+            &:focus {
+                box-shadow: 0px 3px 28px rgba($color-black-rgb / 0.06);
+            }
+        }
+    }
+    .course-lesson-item {
+        background: $color-white;
+        border: 1px solid $color-off-white-3;
+        border-radius: 15px;
+        transition: 0.3s;
+        margin-bottom: 30px;
+        img {
+            border-radius: 15px 15px 0 0;
+            width: 100%;
+        }
+        .course-lesson-item-content {
+            padding: 30px 19px 40px 19px;
+            text-align: center;
+            h5 {
+                font-weight: 600;
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
+            p {
+                color: $color-gray;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 16px;
+            }
+        }
+        &:hover {
+            box-shadow: 0px 3px 28px rgb($color-black-rgb / 0.06);
+            transform: translate(0px, -12px);
+        }
+    }
+}
+
+/*======= Course Lesson V2 =======*/
+.course-lesson-v2 {
+    &.course-lesson-slider-v2 {
+        .slick-slide {
+            margin: 0 15px;
+        }
+    }
+    .course-lesson-item {
+        background: $color-white;
+        box-shadow: 0px 4px 15px rgb($color-black-rgb / 0.06);
+        border-radius: 3px;
+        text-align: center;
+        color: $color-gray;
+        margin-top: 10px;
+        margin-bottom: 30px;
+        transition: 0.3s;
+        display: block;
+        img {
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+        }
+        .course-lesson-item-content {
+            padding: 34px 20px 36px 20px;
+            h5 {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 1.2;
+                margin-bottom: 8px;
+            }
+            p {
+                font-size: 16px;
+                line-height: 1.3;
+            }
+        }
+        &:hover {
+            transform: translate(0, -10px);
+            box-shadow: 0px 10px 25px rgb($color-black-rgb / 0.08);
+        }
+    }
+}
+
+

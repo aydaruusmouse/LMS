@@ -1,0 +1,140 @@
+/*=======  Header Topbar  =======*/
+.template-header {
+    &.nav-white-color {
+        .header-topbar {
+            background-color: rgb(255 255 255 / 4%);
+            .contact-info {
+                li {
+                    a {
+                        color: $color-white;
+                    }
+                }
+            }
+            .language-selection {
+                .nice-select {
+                    color: $color-white;
+                }
+            }
+            .header-topbar-right {
+                li {
+                    a {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.header-topbar {
+    background-color: $color-off-white;
+    padding: 10px 0;
+    .contact-info {
+        display: flex;
+        align-items: center;
+        li {
+            display: inline-block;
+            margin-inline-end: 36px;
+            &:last-child {
+                margin-inline-end: 0;
+            }
+            a {
+                font-size: 14px;
+                line-height: 1.8;
+                color: $color-body;
+                font-weight: 400;
+                i {
+                    margin-inline-end: 10px;
+                    font-weight: 400;
+                }
+            }
+        }
+        .language-selection {
+            .nice-select {
+                font-weight: 400;
+                .list {
+                    li {
+                        display: block;
+                        margin-inline-end: 0;
+                    }
+                }
+            }
+        }
+    }
+    .header-topbar-right {
+        &>ul {
+            display: flex;
+            align-items: center;
+            &>li {
+                &:not(:last-child) {
+                    margin-inline-end: 16px;
+                }
+                &>a {
+                    color: $color-body;
+                    font-size: 16px;
+                }
+            }
+            .shopping-mini-cart {
+                position: relative;
+                padding-right: 10px;
+                span {
+                    background-color: $color-secondary-4;
+                    height: 15px;
+                    width: 15px;
+                    line-height: 15px;
+                    text-align: center;
+                    padding: 0;
+                    font-size: 10px;
+                    border-radius: 50px;
+                    font-weight: 500;
+                    display: inline-block;
+                    position: absolute;
+                    right: 4px;
+                    top: 0;
+                    color: $color-white;
+                    white-space: nowrap;
+                    vertical-align: baseline;
+                }
+            }
+            .user-dropdown {
+                position: relative;
+                .dropdown-list {
+                    position: absolute;
+                    top: 49px;
+                    inset-inline-end: 0;
+                    width: 220px;
+                    height: auto;
+                    z-index: 2;
+                    background-color: $color-white;
+                    visibility: hidden;
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: all 0.3s;
+                    box-shadow: 0 2px 2px 0 rgb($color-black-rgb / 16%), $color-black-rgb 1px rgb($color-black-rgb / 8%);
+                    a {
+                        padding: 10px 20px;
+                        color: $color-body;
+                        font-size: 14px;
+                        font-family: $body-font;
+                        font-weight: 500;
+                        display: block;
+                        border-bottom: 1px solid rgba(0, 29, 35, 0.05);
+                        transition: 0.3s;
+                        &:hover {
+                            background-color: rgba(0, 29, 35, 0.05);
+                        }
+                        i {
+                            color: $color-secondary-4;
+                            margin-inline-end: 10px;
+                        }
+                    }
+                    &.dropdown-active {
+                        visibility: visible;
+                        opacity: 1;
+                        transform: translateY(-10px);
+                    }
+                }
+            }
+        }
+    }
+}

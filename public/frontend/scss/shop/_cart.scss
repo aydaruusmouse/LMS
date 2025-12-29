@@ -1,0 +1,285 @@
+/*======= Cart Product Table =======*/
+.cart-product-table {
+    .table {
+        border-color: $color-soft-white;
+        tr {
+            td {
+                font-size: 16px;
+                font-weight: 400;
+                padding: 20px 0;
+                border-color: $color-soft-white;
+                a {
+                    color: $color-body;
+                }
+            }
+        }
+        tbody {
+            border-top: 0;
+        }
+        th {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        &>:not(caption)>*>* {
+            padding: 0 0 15px 0;
+        }
+        .qty-and-stock {
+            .qty {
+                display: inline-flex;
+                width: 99px;
+                border: 1px solid $color-soft-white;
+                border-radius: 3px;
+                input[type="button"] {
+                    height: 38px;
+                    box-shadow: none;
+                    &.qtyminus {
+                        border-right: 1px solid $color-soft-white;
+                    }
+                    &.qtyplus {
+                        border-left: 1px solid $color-soft-white;
+                    }
+                }
+                input {
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 16px;
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                }
+                input[type="number"]  {
+                    height: 38px;
+                    border-radius: 0;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    margin: 0;
+                    text-align: center;
+                }
+            }
+        }
+        &.table-v2 {
+            thead {
+                th {
+                    background: $color-off-white;
+                    padding: 14px 0;
+                    border-color: $color-soft-white;
+                    border-top: 1px solid $color-soft-white;
+                    &:nth-child(3) {
+                        width: 12%;
+                    }
+                }
+                tr {
+                    th {
+                        &:first-child {
+                            padding-inline-start: 20px;
+                            border-inline-start: 1px solid $color-soft-white;
+                        }
+                        &:last-child {
+                            padding-inline-end: 20px;
+                            border-inline-end: 1px solid $color-soft-white;
+                            text-align: end;
+                            width: 14%;
+                        }
+                    }
+                }
+            }
+            tr {
+                td {
+                    &:first-child {
+                        padding-inline-start: 20px;
+                        border-inline-start: 1px solid $color-soft-white;
+                    }
+                    &:last-child {
+                        padding-inline-end: 20px;
+                        border-inline-end: 1px solid $color-soft-white;
+                        text-align: end;
+                        width: 14%;
+                    }
+                }
+            }
+            tbody {
+                td {
+                    &:nth-child(3) {
+                        width: 12%;
+                    }
+                }
+            }
+        }
+    }
+    .cart-product {
+        display: flex;
+        align-items: center;
+        gap: 10px 20px; 
+        .book-text-content {
+            position: relative;
+            flex: 1;
+            .quantity-price-wrapper {
+                position: absolute;
+                bottom: 0;
+                inset-inline-end: 0;
+                font-size: 16px;
+                line-height: 1;
+            }
+            h6 {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 1.3;
+                margin-bottom: 5px;
+                a {
+                    &:hover {
+                        color: $color-secondary-4;
+                    }
+                }
+            }
+            .author {
+                font-weight: 400;
+                font-size: 12px;
+                color: $color-gray-2;
+                margin-bottom: 5px;
+                a {
+                    color: $color-gray-2;
+                }
+            }
+            .file-type {
+                font-size: 12px;
+                color: $color-gray-2;
+            }
+        }
+        &.product-type-course {
+            gap: 10px 15px;
+            .book-thumbnail {
+                width: 120px;
+                flex: 0 0 auto;
+                height: 100px;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                img {
+                    width: 100%;
+                }
+            }
+            .book-text-content {
+                h6 {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+                .lesson {
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: $color-gray-2;
+                    i {
+                        margin-inline-end: 8px;
+                    }
+                }
+            }
+        }
+    }
+    .see-all-btn {
+        color: $color-gray;
+    }
+}
+
+/*======= Product Calculation =======*/
+.cart-product-calculation {
+    .table {
+        border: 1px solid $color-soft-white;
+        border-radius: 3px;
+        margin-bottom: 15px;
+        td {
+            border: 0;
+            padding: 5px 20px;
+        }
+        tr {
+            position: relative;
+            &:first-child {
+                td {
+                    padding-top: 13px;
+                }
+            }
+            &:nth-last-child(2) > td {
+                padding-bottom: 13px;
+            }
+            &:last-child {
+                td {
+                    padding-bottom: 13px;
+                    padding-top: 13px;
+                    font-weight: 600;
+                }
+                &::after {
+                    position: absolute;
+                    content: "";
+                    height: 1px;
+                    width: calc(100% - 40px);
+                    background: $color-soft-white;
+                    top: 0;
+                    inset-inline-start: 20px;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+    .valid-coupon-status {
+        margin-top: -5px;
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid $color-soft-white;
+        padding: 10px 20px;
+        align-items: center;
+        gap: 10px 15px;
+        .coupon-code {
+            h6 {
+                color: $color-secondary-4;
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            p {
+                color: $color-body;
+                opacity: 0.5;
+            }
+        }
+        .delete-btn {
+            cursor: pointer;
+        }
+    }
+    .coupon-input {
+        position: relative;
+        input[type="text"] {
+            border: 1px solid $color-soft-white;
+            border-radius: 3px;
+            padding: 10px 20px;
+            height: 48px;
+            font-size: 14px;
+            padding-inline-end: 80px;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+        button {
+            position: absolute;
+            top: 0;
+            inset-inline-end: 0;
+            width: 80px;
+            height: 100%;
+            color: $color-secondary-4;
+            font-weight: 600;
+            font-size: 14px;
+            border: 0;
+            background-color: transparent;
+        }
+    }
+    .invalid-coupon-status {
+        color: #D16D86;
+        i {
+            margin-inline-end: 5px;
+        }
+    }
+    .template-btn {
+        display: block;
+        text-align: center;
+        padding: 11.5px 35px;
+    }
+}

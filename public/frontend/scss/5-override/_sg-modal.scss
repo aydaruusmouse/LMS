@@ -1,0 +1,38 @@
+.modal {
+  --mdlPadding: 30px;
+  &-content {
+    background-color: #fff;
+    padding: var(--#{mdlPadding});
+  }
+  // &-header{
+  //   padding: 0;
+  // }
+  // &-body {
+  //   padding: 0;
+  // }
+
+}
+
+.btn-close.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  opacity: 1;
+  background: none;
+
+  &::after {
+    content: "\f00d";
+    font-family: "Line Awesome Free";
+    font-weight: 900;
+    font-size: 20px;
+    position: absolute;
+    top: -5px;
+    right: 0;
+    color: $text-clr1;
+    opacity: 1;
+  }
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+    }
+}

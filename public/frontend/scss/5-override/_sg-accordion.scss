@@ -1,0 +1,112 @@
+// Custom Accordion Style=======
+.accordion {
+  &-item {
+    margin-bottom: 24px;
+    background-color: $white;
+    border: 1px solid $border-clr;
+    border-radius: 20px;
+    &:first-of-type {
+      border-radius: 20px;
+
+      .accordion-button {
+        border-radius: 20px 20px 0 0;
+
+        &.collapsed {
+          border-radius: 20px;
+        }
+      }
+    }
+
+    &:not(:first-of-type){
+      border-top: 1px solid $border-clr;
+    }
+
+    &:last-of-type {
+      border-radius: 20px;
+      border-top: 1px solid $border-clr;
+      .accordion-button {
+        border-radius: 20px;
+
+        &.collapsed {
+          border-radius: 20px;
+        }
+      }
+    }
+  }
+
+  &-header {
+    position: relative;
+
+    .delete-icon {
+      position: absolute;
+      top: 50%;
+      right: 30px;
+      font-size: 20px;
+      transform: translateY(-50%);
+      z-index: 9;
+      transition: all 0.5s ease;
+
+      &:hover {
+        color: $danger;
+      }
+    }
+  }
+
+  &-button {
+    border-radius: 20px;
+    padding: 30px;
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: $text-clr1;
+    gap: 30px;
+
+    img {
+      height: 20px;
+      width: 20px;
+    }
+
+    span {
+      border-left: 1px solid $border-clr;
+      padding-left: 30px;
+    }
+
+    &:focus {
+      // border: none;
+      box-shadow: none;
+      border-color: transparent;
+    }
+    &:not(.collapsed) {
+      color: $text-clr1;
+      background-color: $white;
+      box-shadow: none;
+
+      &::after {
+        background-image: none;
+      }
+    }
+
+    &::after {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-left: auto;
+      content: "\f063";
+      background-image: var(--bs-accordion-btn-icon);
+      background-repeat: no-repeat;
+      background-size: var(--bs-accordion-btn-icon-width);
+      transition: var(--bs-accordion-btn-icon-transition);
+      font-family: "Line Awesome Free";
+      font-weight: 900;
+      background-image: none;
+      font-size: 20px;
+      margin-right: 50px;
+    }
+
+  }
+
+  &-body {
+    padding: 30px;
+  }
+}

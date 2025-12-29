@@ -1,0 +1,244 @@
+/*-----------------------------------------------------------------------------------
+    Template Name: Faculty - LMS Online Education Course HTML Template
+    Template URI: https://spagreen.net/faculty
+    Author: Humayun Ahmed
+    Author URI:  https://spagreen.net
+    Version: 1.0
+
+    Note: This is Main Style CSS File.
+-----------------------------------------------------------------------------------
+	CSS INDEX
+	===================
+    #. Fonts
+    #. Common
+    #. Input field
+    #. Keyframes & Animation
+    #. Header
+        ##. Header Topbar
+        ##. Header
+        ##. Off Canvas And Mobile Slide Panel
+    #. Components
+        ##. Template Button
+        ##. Social Icon
+            ###. Social Icon V2
+        ##. Slider Dot
+        ##. Rating
+            ###. Dynamic Rating
+            ###. Average Rating Summary
+            ###. Average Rating Summary V2
+            ###. Interactive Rating
+        ##. Hero Area
+            ###. Common Hero Area
+            ###. Hero Dark
+            ###. Hero Area V2
+            ###. Hero Area V3
+            ###. Hero Area V4
+            ###. Hero Area V5
+        ##. Section Title
+            ###. Section Title
+            ###. Section Title V2
+            ###. Section Title V3
+            ###. Section Title V4
+            ###. Common Heading
+            ###. Section Title with Progress Bar
+            ###. Page Navigation Progress Bar
+        ##. Course Tabs
+            ###. Main Tabs
+            ###. Education Level Tabs
+            ###. Education Group Tabs
+            ###. Course Subject
+            ###. Course Details Tabs
+            ###. Instructor Details Tabs
+        ##. Course
+            ###. Course Items
+            ###. Course Items V1
+            ###. Course Items V2
+            ###. Course Items V3
+            ###. Course Items V4
+            ###. Related Course Slider
+            ###. Course Shorter
+            ###. Course Shorter V2
+            ###. Course Sidebar
+            ###. Course Sidebar V2
+            ###. Course Details Header
+            ###. Course Details Overview
+            ###. Course Details Sidebar
+            ###. Course Playlist
+            ###. Course Curriculum Accordion
+            ###. Course FAQ Accordion
+        ##. Icon Box
+            ###. Icon Boxes V1
+            ###. Icon Boxes V2
+            ###. Icon Boxes V3
+            ###. Icon Boxes V4
+        ##. Testimonials
+            ###. Testimonial Item V1
+            ###. Testimonial Item V2
+        ##. Checklist
+        ##. Fancy Check List
+        ##. Solution Package
+        ##. Masonry Image
+        ##. Preview Gallery
+        ##. Course Lesson
+            ###. Course Lesson V1
+            ###. Course Lesson V2
+        ##. Video Lesson
+            ###. Video Lesson V1
+            ###. Video Lesson V2
+            ###. Lesson Content Block
+        ##. Success Story
+            ###. Success Story V1
+            ###. Success Story V2
+        ##. Counter
+            ###. Counter Items V1
+            ###. Counter Items V2
+            ###. Counter Items V3
+        ##. Brand Items
+            ###. Brand Items V1
+            ###. Brand Items V2
+        ##. Call To Action
+            ###. Call To Action
+            ###. Book Call To Action
+        ##. Info Box
+            ###. Simple Text Info box
+        ##. Simple Image Box
+            ###. Simple Image Box V1
+            ###. Simple Image Box V2
+        ##. Pricing Table
+        ##. Pricing Slider
+        ##. Team Member
+            ###. Team Member V1
+            ###. Team Member V2
+            ###. Team Member V3
+        ##. Instructor Details
+            ###. Instructor Profile Preview
+            ###. About Instructor
+        ##. Lesson Playlist
+        ##. Recent Video
+            ###. Recent Video Slider
+            ###. Recent Video Player
+        ##. Form
+            ###. Sign Up / Sign In Form
+            ###. Sign Up / Sign In Form V2
+            ###. Contact Form
+        ##. Scroll to Top
+        ##. Search Result
+        ##. Progress Bar
+        ##. Profile
+            ###. Profile Sidebar
+            ###. Profile Menu
+            ###. Edit Profile Form
+            ###. Profile Setting
+            ###. Profile Balance
+            ###. Profile Balance V2
+            ###. Profile Author Info
+            ###. Pending Order
+            ###. Payment Method
+            ###. Notebook
+            ###. Audio
+            ###. Assignment
+        ##. Notification
+            ###. Notification Sorting
+            ###. Notification Card
+        ##. Quiz
+            ###. Quiz
+            ###. Quiz Result Boxes
+        ##. Window Load Subscription Modal
+        ##. Cookie Alert Popup
+        ##. Specific Section
+            ###. Recent Video
+            ###. Our Instructor
+            ###. Popular Instructor
+            ###. Become Instructor
+            ###. Course Details
+        ##. Blog
+            ###. Blog Post Items V1
+            ###. Blog Post Items V2
+            ###. Blog Post Items V3
+            ###. Blog Shorter
+            ###. Blog Details
+            ###. Blog Pagination
+            ###. Blog Comments
+            ###. Blog Sidebar
+        ##. Books
+            ###. Book Details Header
+            ###. Book Details Overview
+            ###. Book Details Sidebar
+            ###. Read a Little Modal
+            ###. Book List Slider
+            ###. Book List Item
+            ###. Book List Items V1
+            ###. Book List Items V2
+            ###. Book List Items V3
+        ##. Shop
+            ###. Product Category Box
+            ###. Cart Product Table
+            ###. Checkout Accordion
+            ###. Checkout Address Card
+        ##. Footer
+            ###. Footer Area V2
+        ##. Page Title
+            ##. Error Page Title
+-----------------------------------------------------------------------------------*/
+@import "abstracts/mixin";
+@import "abstracts/variables";
+@import "base/fonts";
+@import "base/common";
+@import "base/utilities";
+@import "base/input-field";
+@import "base/keyframes-animation";
+@import "header/header-topbar";
+@import "header/header";
+@import "header/mobile-header";
+@import "components/button";
+@import "components/social-icon";
+@import "components/slider-dot";
+@import "components/rating";
+@import "components/hero-area";
+@import "components/course-tabs";
+@import "components/course";
+@import "components/course-details";
+@import "components/course-accordion";
+@import "components/section-title";
+@import "components/icon-box";
+@import "components/testimonials";
+@import "components/checklist";
+@import "components/fancy-check-list";
+@import "components/solution-package";
+@import "components/masonry-image";
+@import "components/preview-gallery";
+@import "components/course-lesson";
+@import "components/video-lesson";
+@import "components/success-story";
+@import "components/counter";
+@import "components/brands";
+@import "components/cta";
+@import "components/info-box";
+@import "components/simple-image-box";
+@import "components/pricing";
+@import "components/team";
+@import "components/instructor-details";
+@import "components/lesson-playlist";
+@import "components/recent-video";
+@import "components/form";
+@import "components/scroll-top";
+@import "components/search";
+@import "components/progress-bar";
+@import "components/book";
+@import "components/book-details";
+@import "components/profile";
+@import "components/notification";
+@import "components/quiz";
+@import "components/window-modal";
+@import "components/cookie-alert";
+@import "sections/sections";
+@import "blog/blog-standard";
+@import "blog/blog-details";
+@import "blog/pagination";
+@import "blog/blog-comments";
+@import "blog/sidebar";
+@import "shop/product-category";
+@import "shop/cart";
+@import "shop/checkout";
+@import "footer/footer";
+@import "components/page-title";

@@ -1,0 +1,45 @@
+/*======= Slider Dot =======*/
+.slider-primary {    
+    .slick-dots {
+        line-height: 0;
+        text-align: center;
+        margin-top: 10px;
+        li {
+            display: inline-block;
+            position: relative;
+            margin-right: 5px;
+            line-height: 0;
+            button {
+                font-size: 0px;
+                background-color: $color-soft-white;
+                border: none;
+                line-height: 0;
+                height: 5px;
+                width: 27px;
+                border-radius: 0;
+                cursor: pointer;
+                -webkit-transition: all 0.3s ease 0s;
+                transition: all 0.3s ease 0s;
+            }
+            &.slick-active {
+                button {
+                    background-color: $color-secondary-4;
+                    width: 40px;
+                }
+            }
+        }
+    }
+	&.testimonial-slider {
+		.slick-dots {
+			bottom: 60px;
+			position: absolute;
+            inset-inline-start: 43.3%;
+        }
+    }
+    &.success-story-author {
+        .slick-dots {
+            margin-top: 30px;
+            text-align: end;
+        }
+    }
+}

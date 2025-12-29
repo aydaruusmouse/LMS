@@ -1,0 +1,24 @@
+.bank_info_table{
+    border: 1px solid var(--sg-primary) !important;
+    padding: 5px;
+}
+.bank_info_table tr{
+    border: 0 !important;
+}
+.user-info-panel .badge {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+.active_color {
+    color: var(--color-secondary-4);
+}
+.disable_btn {
+    pointer-events: none;
+    opacity: 0.7;
+}
+.image_col{
+    padding-left: 50px;
+}

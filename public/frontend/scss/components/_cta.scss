@@ -1,0 +1,51 @@
+/*======= Call To Action =======*/
+.cta-wrapper {
+	background: $color-secondary-4;
+	border-radius: 5px;
+	position: relative;
+	z-index: 1;
+	padding: 80px 15px;
+	.cta-image {
+		position: absolute;
+		inset-inline-start: 15px;
+		inset-block-end: 0;
+		width: 48%;
+		z-index: -1;
+	}
+	.cta-text-block {
+		.common-heading {
+			h3 {
+				color: $color-white;
+			}
+			p {
+				color: $color-white;
+			}
+		}
+	}
+}
+
+/*======= Book Call To Action =======*/
+.book-cta-wrapper {
+    background-color: $color-dark-4;
+    border-radius: 3px;
+	overflow: hidden;
+	.book-cta-content {
+		text-align: center;
+		padding: 50px 0;
+		p {
+			font-weight: 600;
+			font-size: 18px;
+			color: $color-white;
+			text-transform: uppercase;
+		}
+		h3 {
+			font-weight: 600;
+			font-size: 28px;
+			color: $color-white;
+			margin-bottom: 20px;
+			span {
+				color: $color-supernova;
+			}
+		}
+	}
+}

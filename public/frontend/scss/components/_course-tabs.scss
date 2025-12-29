@@ -1,0 +1,222 @@
+/*======= Main Tabs =======*/
+.main-tabs {
+	.nav-pills {
+		justify-content: center;
+		margin-bottom: 50px;
+		box-shadow: 0px 10px 25px rgb($color-black-rgb / 10%);
+		&.max-content {
+			max-width: max-content;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		li {
+			.nav-link {
+				font-weight: 600;
+				font-size: 16px;
+				line-height: 24px;
+				border-radius: 3px;
+				padding: 14px 39.5px;
+				background: $color-white;
+				color: $color-body;
+				width: 100%;
+				&.active {
+					background: $color-secondary-4;
+					color: $color-white;
+				}
+			}
+			&:first-child {
+				.nav-link {
+					border-end-start-radius: 3px;
+					border-start-end-radius: 0;
+					border-end-end-radius: 0;
+					border-start-start-radius: 3px;
+				}
+			}
+			&:last-child {
+				.nav-link {
+					border-end-start-radius: 0;
+					border-start-end-radius: 3px;
+					border-end-end-radius: 3px;
+					border-start-start-radius: 0;
+				}
+			}
+		}
+	}
+}
+
+/*======= Education Level Tabs =======*/
+.education-level-tabs {
+	.nav-pills {
+		justify-content: center;
+		margin-bottom: 45px;
+		li {
+			.nav-link {
+				font-weight: 600;
+				font-size: 16px;
+				line-height: 24px;
+				border-radius: 7px;
+				padding: 14px 37px;
+				background: $color-white;
+				color: $color-body;
+				box-shadow: 0px 10px 25px rgb($color-black-rgb / 5%);
+				&.active {
+					background: $color-secondary-4;
+					color: $color-white;
+				}
+			}
+			&:first-child {
+				.nav-link {
+					border-end-start-radius: 7px;
+					border-start-end-radius: 0;
+					border-end-end-radius: 0;
+					border-start-start-radius: 7px;
+				}
+			}
+			&:last-child {
+				.nav-link {
+					border-end-start-radius: 0;
+					border-start-end-radius: 7px;
+					border-end-end-radius: 7px;
+					border-start-start-radius: 0;
+				}
+			}
+		}
+	}
+}
+
+/*======= Education Group Tabs =======*/
+.education-group-tabs {
+	.nav-tabs {
+		border-bottom: 1px solid $color-soft-white;
+		margin-bottom: 40px;
+		li {
+			.nav-link {
+				font-weight: 600;
+				font-size: 16px;
+				line-height: 24px;
+				color: $color-body;
+				border-color: transparent;
+				padding: 5px 0px 20px 0px;
+				border-radius: 0;
+				background: transparent;
+				border: 0;
+				position: relative;
+				z-index: 1;
+				&::after {
+					position: absolute;
+					content: "";
+					height: 3px;
+					width: 0;
+					background-color: $color-secondary-4;
+					bottom: -1px;
+					left: -100%;
+					z-index: -1;
+					transition: 0.3s;
+				}
+				&.active {
+					color: $color-secondary-4;
+					&::after {
+						width: 100%;
+						left: 0;
+					}
+				}
+			}
+			&:not(:last-child) {
+				margin-inline-end: 35px;
+			}
+		}
+	}
+	.single-education-group-tab-content {
+		.single-subject {
+			filter: drop-shadow(0px 5px 10px rgb($color-black-rgb / 0.059));
+			padding: 15px;
+			background-color: $color-white;
+			border: 1px solid $color-soft-white-2;
+			border-radius: 10px;
+			font-weight: 700;
+			color: $color-body;
+			margin-bottom: 24px;
+			display: flex;
+			align-items: center;
+			line-height: 1.4;
+			img {
+				margin-inline-end: 15px;
+				height: 50px;
+				width: 50px;
+				border-radius: 5px;
+			}
+		}
+	}
+}
+
+/*======= Course Subject =======*/
+.course-subject-items {
+	.course-subject-item {
+		padding: 15px 20px;
+		background-color: $color-white;
+		border: 1px solid $color-soft-white;
+		border-radius: 5px;
+		font-weight: 600;
+		color: $color-body;
+		margin-bottom: 24px;
+		display: flex;
+		align-items: center;
+		line-height: 1.4;
+		font-size: 16px;
+		text-transform: uppercase;
+		border-radius: 3px;
+		transition: 0.3s;
+		img {
+			margin-inline-end: 15px;
+			height: 50px;
+			width: 50px;
+		}
+		&:hover {
+			box-shadow: 0px 10px 15px rgb($color-black-rgb / 0.1);
+			transform: translate(0, -10px);
+		}
+	}
+}
+
+/*======= Course Details Tabs =======*/
+.course-details-tabs {
+	&.main-tabs {
+		.nav-pills {
+			margin-bottom: 35px;
+			li {
+				flex-grow: 1;
+				.nav-link {
+					padding: 18px 15px;
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+/*======= Instructor Details Tabs =======*/
+.instructor-details-tabs {
+	&.main-tabs {
+		.nav-pills {
+			margin-bottom: 35px;
+			li {
+				flex-grow: 1;
+			}
+		}
+	}
+}
+
+/*======= Books Details Tabs =======*/
+.book-details-tabs {
+	&.main-tabs {
+		.nav-pills {
+			margin-bottom: 35px;
+			li {
+				flex-grow: 1;
+				.nav-link {
+					padding: 14px 45.58px;
+				}
+			}
+		}
+	}
+}

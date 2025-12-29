@@ -1,0 +1,25 @@
+/*======= Brand Items V1 =======*/
+.brand-items-v1 {
+    .brand-item {
+        text-align: center;
+        padding: 0 12px;
+    }
+    .slick-track {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/*======= Brand Items V2 =======*/
+.brand-items-v2 {
+    .brand-item {
+        min-height: 125px;
+        background: $color-white;
+        border: 1px solid $color-off-white-4;
+        border-radius: 3px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

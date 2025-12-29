@@ -1,0 +1,110 @@
+/*======= Info box =======*/
+.info-box {
+    background-color: rgb($color-secondary-rgb / 10%);
+    border-radius: 10px;
+    padding: 32px 30px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    justify-content: space-between;
+    .info-box-content {
+        .title {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 30px;
+        }
+        p {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            margin-bottom: 22px;
+        }
+        .template-btn {
+            padding: 12px 18px;
+            font-size: 14px;
+            background: $color-secondary-4;
+            border: 0;
+        }
+    }
+    .info-box-thumbnail {
+        flex: 0 0 178px;
+        max-width: 178px;
+        margin-inline-start: 35px;
+        background-color: rgba($color-secondary-rgb / 10%);
+        border: 1px solid $color-secondary-4;
+        border-radius: 50%;
+        padding: 10px;
+        position: relative;
+        img {
+            border-radius: 50%;
+            max-width: 158px;
+            height: 158px;
+            background-color: $color-secondary-4;
+        }
+        .info-box-shape {
+            .shape-1 {
+                height: 77px;
+                width: 77px;
+                top: -25px;
+                inset-inline-end: 0;
+                position: absolute;
+                border: 1px solid $color-secondary-4;
+                border-radius: 50%;
+                z-index: -1;
+            }
+            .shape-2 {
+                height: 40px;
+                width: 40px;
+                bottom: -25px;
+                inset-inline-end: 0;
+                position: absolute;
+                border: 1px solid $color-secondary-4;
+                border-radius: 50%;
+                z-index: -1;
+            }
+        }
+    }
+    &.color-2 {
+        background-color: rgb($color-supernova-rgb / 10%);
+        .info-box-thumbnail {
+            background-color: rgb($color-supernova-rgb / 10%);
+            border: 1px solid $color-supernova;
+            img {
+                background-color: $color-supernova;
+            }
+            .info-box-shape {
+                .shape-1 {
+                    border-color: $color-pink-2;
+                    background-color: $color-pink-2;
+                }
+                .shape-2 {
+                    border-color: $color-secondary-4;
+                    background-color: $color-secondary-4;
+                }
+            }
+        }
+    }
+}
+
+/*======= Simple Text Info box =======*/ 
+.simple-text-infobox {
+    border: 1px solid $color-soft-white;
+    border-radius: 3px;
+    padding: 18px 20px;
+    &.height-100 {
+        height: calc(100% - 30px);
+    }
+    h6 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    ul {
+        li {
+            &:not(:last-child) {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

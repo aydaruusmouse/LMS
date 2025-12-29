@@ -1,0 +1,27 @@
+/*======= Checklist =======*/
+.check-list {
+    li {
+        color: $color-gray-2;
+        font-size: 16px;
+        position: relative;
+        z-index: 1;
+        padding-inline-start: 28px;
+        margin-bottom: 13px;
+        &::after {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Pro";
+            font-size: 10px;
+            height: 18px;
+            width: 18px;
+            background-color: rgb($color-secondary-rgb / 0.1);
+            text-align: center;
+            line-height: 18px;
+            position: absolute;
+            inset-inline-start: 0;
+            top: 4px;
+            z-index: -1;
+            border-radius: 50%;
+            color: $color-secondary-4;
+        }
+    }
+}

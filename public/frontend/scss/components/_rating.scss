@@ -1,0 +1,336 @@
+/*======= Dynamic Rating =======*/
+.rating-review {
+	display: inline-flex;
+	li {
+		float: left;
+		&:last-child {
+			a {
+				color: $color-gray-4;
+				padding-left: 5px;
+			}
+		}
+	}
+	.all-rating {
+		height: 21px;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+		.blank-rating {
+			bottom: 0;
+			color: $color-supernova;
+			inset-inline-start: 0;
+			position: absolute;
+			inset-inline-end: 0;
+			top: 0;
+		}
+		&.star-5 {
+			.main-rating {
+				width: 100%;
+			}
+		}
+		&.star-5 {
+			.blank-rating {
+				inset-inline-start: 100%;
+			}
+		}
+		&.star-4 {
+			.main-rating {
+				width: 81%;
+			}
+		}
+		&.star-4 {
+			.blank-rating {
+				inset-inline-start: 81%;
+			}
+		}
+		&.star-3 {
+			.main-rating {
+				width: 60%;
+			}
+		}
+		&.star-3 {
+			.blank-rating {
+				inset-inline-start: 60%;
+			}
+		}
+		&.star-2 {
+			.main-rating {
+				width: 38%;
+			}
+		}
+		&.star-2 {
+			.blank-rating {
+				inset-inline-start: 41%;
+			}
+		}
+		&.star-1 {
+			.main-rating {
+				width: 12%;
+			}
+		}
+		&.star-1 {
+			.blank-rating {
+				inset-inline-start: 20%;
+			}
+		}
+		.main-rating i {
+			color: $color-supernova;
+		}
+	}
+	.total-review {
+		margin-inline-start: 8px;
+	}
+}
+
+/*======= Average Rating Summary =======*/
+.average-rating-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 30px;
+	h5 {
+		font-weight: 600;
+		font-size: 16px;
+	}
+	.average-rating {
+		width: 190px;
+		h2 {
+			font-weight: 500;
+			font-size: 70px;
+			line-height: 70px;
+			margin-bottom: 25px;
+		}
+		h5 {
+			margin-bottom: 25px;
+		}
+		.rating-star {
+			i {
+				color: $color-supernova;
+			}
+			span {
+				margin-top: 5px;
+			}
+		}
+	}
+	.average-rating-details {
+		flex: 1;
+		h5 {
+			margin-bottom: 10px;
+		}
+		[data-progress]::after {
+			background-color: $color-supernova;
+		}
+		.line-progress {
+			margin-bottom: 20px;
+		}
+	}
+}
+
+/*======= Average Rating Summary V2 =======*/
+.rating-summary {
+    display: flex;
+	.rating-summary-content {
+		flex: 0 0 70.2%;
+		display: flex;
+		align-items: center;
+		border: 1px solid $color-soft-white;
+		border-radius: 3px;
+		padding: 20px 15px;
+		margin-inline-end: 40px;
+		position: relative;
+		.total-rating {
+			width: 137px;
+			text-align: center;
+			h4 {
+				font-weight: 700;
+				font-size: 18px;
+				color: $color-supernova;
+			}
+			p {
+				font-weight: 400;
+				font-size: 12px;
+				color: $color-gray;
+			}
+		}
+		.rating-details {
+			flex: 1;
+			position: relative;
+			padding-inline-start: 16px;
+			&::after {
+				content: "";
+				position: absolute;
+				height: 100%;
+				width: 1px;
+				background-color: $color-soft-white;
+				top: 0;
+				inset-inline-start: 0;
+			}
+			.star-count-progress {
+				display: flex;
+				align-items: center;
+				.rating-star {
+					width: 143px;
+					margin-inline-end: 10px;
+					i {
+						color: $color-supernova;
+					}
+				}
+				.line-progress {
+					position: relative;
+					margin: 0;
+					padding-inline-end: 50px;
+					p {
+						position: absolute;
+						inset-inline-end: 0;
+						top: -1px;
+						line-height: 1;
+						color: $color-gray;
+						font-weight: 400;
+						font-size: 12px;
+					}
+					[data-progress] {
+						margin: 0;
+						border-radius: 5px;
+						&::after {
+							background: $color-supernova;
+							border-radius: 5px;
+						}
+					}
+				}
+				&:not(:last-child) {
+					margin-bottom: 7px;
+				}
+			}			
+		}
+	}
+	.write-review {
+		flex: 1;
+		text-align: center;
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		a {
+			color: $color-secondary-4;
+			font-weight: 600;
+			font-size: 16px;
+		}
+		&::after {
+			content: "";
+			position: absolute;
+			height: 75%;
+			width: 1px;
+			top: 50%;
+			inset-inline-start: 0;
+			transform: translate(0, -50%);
+			background-image: url("data:image/svg+xml,%3Csvg width='2' height='147' viewBox='0 0 2 147' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0V146.5' stroke='url(%23paint0_linear_92_11849)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_92_11849' x1='1.5' y1='0' x2='1.5' y2='146.5' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23EEEEEE' stop-opacity='0'/%3E%3Cstop offset='0.484375' stop-color='%23EEEEEE'/%3E%3Cstop offset='1' stop-color='%23EEEEEE' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+		}
+	}
+}
+
+/*======= Interactive Rating =======*/
+.rate {
+	position: relative;
+	float: left;
+	line-height: 1;
+	&:not(:checked) {
+		>input {
+			position: absolute;
+			top: -9999px;
+		}
+		>label {
+			float: right;
+			width: 1em;
+			overflow: hidden;
+			white-space: nowrap;
+			cursor: pointer;
+			font-size: 18px;
+			color: $color-supernova;
+			&:not(:first-child) { 
+				margin-inline-end: 6px;
+			}
+			&:hover {
+				~ {
+					label {
+						&::before {
+							font-weight: 700;
+						}
+						color: $color-supernova;
+					}
+				}
+				color: $color-supernova;
+			}
+			&:before {
+				content: '\f005';
+				font-family: 'Font Awesome 5 Pro';
+				font-size: 16px;
+				font-weight: 300;
+				transition: 0.3s;
+			}
+		}
+	}
+	>input {
+		&:checked {
+			~ {
+				label {
+					color: $color-supernova;
+					&::before {
+						font-weight: 700;
+					}
+					&:hover {
+						color: $color-supernova;
+						~ {
+							label {
+								color: $color-supernova;
+							}
+						}
+					}
+				}
+			}
+			+ {
+				label {
+					&:hover {
+						color: $color-supernova;
+						~ {
+							label {
+								color: $color-supernova;
+							}
+						}
+					}
+				}
+			}
+		}
+		~ {
+			label {
+				&:hover {
+					&::before {
+						font-weight: 700;
+					}
+				}
+			}
+		}
+	}
+	>label {
+		&:hover {
+			~ {
+				input {
+					&:checked {
+						~ {
+							label {
+								color: $color-supernova;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+[dir="rtl"] {
+	.rate {
+		float: right;
+	}
+	.rate:not(:checked) > label {
+		float: left;
+	}
+}
