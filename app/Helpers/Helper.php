@@ -179,7 +179,11 @@ if (! function_exists('static_asset')) {
 
     function static_asset($path = null, $secure = null)
     {
-        if (strpos(php_sapi_name(), 'cli') !== false || defined('LARAVEL_START_FROM_PUBLIC')) {
+        // Check if using built-in PHP server (php artisan serve) or CLI
+        $sapi = php_sapi_name();
+        $isBuiltInServer = strpos($sapi, 'cli-server') !== false || strpos($sapi, 'built-in') !== false;
+        
+        if (strpos($sapi, 'cli') !== false || $isBuiltInServer || defined('LARAVEL_START_FROM_PUBLIC')) {
             return app('url')->asset($path, $secure);
         } else {
             return app('url')->asset('public/'.$path, $secure);

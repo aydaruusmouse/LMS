@@ -4,6 +4,9 @@
     </IfModule>
 
     RewriteEngine On
+    
+    # If your application is in a subdirectory, uncomment and set the path below
+    # RewriteBase /FacultyLMS%20V160/
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -14,6 +17,11 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Handle admin routes first - always route to Laravel (even if directory exists)
+    # Match /admin or /admin/ or any path starting with /admin/
+    RewriteCond %{REQUEST_URI} ^/admin(/.*)?$
+    RewriteRule ^ index.php [L]
+    
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

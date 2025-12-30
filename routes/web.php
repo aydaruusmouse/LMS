@@ -53,6 +53,15 @@ Route::group(['prefix' => $localePrefix], function () {
     Route::get('blog', [BlogController::class, 'showAllBlog'])->name('blog');
     Route::get('blog-feature', [BlogController::class, 'showAllBlogFeature'])->name('blog.feature');
     Route::get('blog/{slug}', [BlogController::class, 'blogDetails'])->name('blog-details');
+    Route::post('filter-blog', [BlogController::class, 'filterBlog'])->name('filter.blog');
+    
+    // Blog comment routes (require authentication)
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::post('blog-comment', [BlogController::class, 'comment'])->name('blog.comment');
+        Route::get('blog-comments/{id}', [BlogController::class, 'comments'])->name('blog.comments');
+        Route::post('blog-comment-reply', [BlogController::class, 'reply'])->name('blog.comment.reply');
+        Route::get('blog-comment-replies', [BlogController::class, 'replies'])->name('blog.comment.replies');
+    });
     
     // Instructor routes
     Route::get('instructor', [InstructorController::class, 'instructor'])->name('instructor');
