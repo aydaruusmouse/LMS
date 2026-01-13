@@ -47,6 +47,13 @@ class CourseController extends Controller
 
         try {
             $user          = auth()->user();
+            
+            // Check if user has instructor record
+            if (!$user->instructor || !$user->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
+            
             $org_id        = $user->instructor->organization_id;
             $organization  = $this->organization->find($org_id);
 
@@ -86,6 +93,13 @@ class CourseController extends Controller
     {
         try {
             $user = $this->user->find(auth()->user()->id);
+            
+            // Check if user has instructor record
+            if (!$user->instructor || !$user->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
+            
             $data = [
                 'languages'    => $languageRepository->activeLanguage(),
                 'levels'       => $levelRepository->activeLevels(),
@@ -114,8 +128,14 @@ class CourseController extends Controller
             return back();
         }
         try {
-
-            $user                       = $this->user->find(auth()->user()->id);
+            $user = $this->user->find(auth()->user()->id);
+            
+            // Check if user has instructor record
+            if (!$user->instructor || !$user->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
+            
             $request['organization_id'] = $user->instructor->organization_id;
             $request['instructor_ids']  = [(string) auth()->user()->id];
 

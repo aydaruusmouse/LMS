@@ -652,8 +652,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('frontend/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
 
 
     <script>
@@ -734,6 +734,14 @@
                                 $('#' + error_length[i] + '_error').text(errors[error_length[i]]
                                     [0]);
                             }
+                        } else if (error.status === 0 || error.statusText === 'error') {
+                            // Handle network/SSL errors
+                            $('#error_m').removeClass('hide').text('Network error: Please check your internet connection and try again. If the issue persists, ensure your server can make HTTPS requests.');
+                        } else {
+                            let errorMessage = error.responseJSON && error.responseJSON.error 
+                                ? error.responseJSON.error 
+                                : 'An error occurred. Please try again.';
+                            $('#error_m').removeClass('hide').text(errorMessage);
                         }
                     }
                 })

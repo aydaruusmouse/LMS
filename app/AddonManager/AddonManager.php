@@ -64,6 +64,10 @@ class AddonManager
 
     protected function bootAddons()
     {
+        if (!is_dir($this->addonDirectory)) {
+            return;
+        }
+
         foreach (Finder::create()->in($this->addonDirectory)->directories()->depth(0) as $dir) {
             /** @var SplFileInfo $dir */
             $directoryName              = $dir->getBasename();

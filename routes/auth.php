@@ -15,14 +15,6 @@ Route::group(['prefix' => localeRoutePrefix()], function () {
     Route::middleware('guest')->group(function () {
         Route::get('register', [RegisteredUserController::class, 'create'])
             ->name('register');
-        
-        // Alias route for student sign up
-        Route::get('student-sign-up', [RegisteredUserController::class, 'create'])
-            ->name('student.sign_up');
-        
-        // Alias route for instructor sign up
-        Route::get('instructor-sign-up', [RegisteredUserController::class, 'create'])
-            ->name('instructor.sign_up');
 
         Route::post('register', [RegisteredUserController::class, 'store'])->name('signup.store');
 
@@ -32,7 +24,7 @@ Route::group(['prefix' => localeRoutePrefix()], function () {
         Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
         Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-            ->name('password.forgot');
+            ->name('password.request');
 
         Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
             ->name('password.email');
@@ -65,9 +57,5 @@ Route::group(['prefix' => localeRoutePrefix()], function () {
 
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
-        
-        // Alias route for student logout
-        Route::post('student-logout', [AuthenticatedSessionController::class, 'destroy'])
-            ->name('student.logout');
     });
 });

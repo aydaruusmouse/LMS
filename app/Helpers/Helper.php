@@ -934,10 +934,16 @@ if (! function_exists('authOrganizationId')) {
     function authOrganizationId()
     {
         if (Auth::check() && Auth::user()->role_id == 5) {
+            if (!Auth::user()->organizationStaff || !Auth::user()->organizationStaff->organization_id) {
+                throw new \Exception('Organization not found', 422);
+            }
             return Auth::user()->organizationStaff->organization_id;
         }
 
         if (Auth::check() && Auth::user()->role_id == 2) {
+            if (!Auth::user()->instructor || !Auth::user()->instructor->organization_id) {
+                throw new \Exception('Instructor not found or missing organization', 422);
+            }
             return Auth::user()->instructor->organization_id;
         }
 

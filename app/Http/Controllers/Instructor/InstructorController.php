@@ -43,7 +43,14 @@ class InstructorController extends Controller
     public function index(InstructorDataTable $dataTable, $org_id = null)
     {
         try {
-            $user         = $this->user->find(auth()->user()->role_id);
+            $user = auth()->user();
+            
+            // Check if user has instructor record
+            if (!$user->instructor || !$user->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
+            
             $organization = $this->organization->find($user->instructor->organization_id);
 
             $data         = [
@@ -89,6 +96,12 @@ class InstructorController extends Controller
         DB::beginTransaction();
         $user = $userRepository->find(auth()->user()->id);
         try {
+            // Check if user has instructor record
+            if (!$user->instructor || !$user->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return response()->json(['error' => __('instructor_not_found')]);
+            }
+            
             $request['permissions']     = $this->setInstructorPermission($request);
             $request['organization_id'] = $user->instructor->organization_id;
             $this->instructor->store($request->all());

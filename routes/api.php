@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Student\ApiController;
 use App\Http\Controllers\Api\Student\AssignmentController;
 use App\Http\Controllers\Api\Student\AuthController;
+use App\Http\Controllers\Api\Student\BlogController;
 use App\Http\Controllers\Api\Student\BookController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
@@ -93,7 +94,11 @@ Route::middleware(['CheckApiKey'])->group(function () {
         //quize
         Route::post('sections', [QuizeController::class, 'courseSections']);
         Route::post('quizzes', [QuizeController::class, 'courseQuiz']);
+        Route::get('quiz-list/{slug}', [CourseController::class, 'quizList']);
+        Route::get('course-list', [CourseController::class, 'courseList']);
         Route::post('questions', [QuizeController::class, 'quizQuestions']);
+        Route::get('meetings', [QuizeController::class, 'meeting']);
+        Route::get('my-quiz/{slug}', [QuizeController::class, 'myQuiz']);
 
         Route::get('notifications', [NotificationController::class, 'index']);
         Route::post('delete-notification', [NotificationController::class, 'destroy']);
@@ -103,6 +108,9 @@ Route::middleware(['CheckApiKey'])->group(function () {
         Route::get('my-assignments', [AssignmentController::class, 'myAssignments']);
         Route::post('submit-assignment', [AssignmentController::class, 'submitAssignment']);
 
+        Route::post('my-answer', [QuizeController::class, 'quizAnswerSubmit']);
+        Route::get('answers/{slug}', [QuizeController::class, 'showQuizAnswer']);
+
     });
 
     Route::get('configs', [ApiController::class, 'configs']);
@@ -110,6 +118,7 @@ Route::middleware(['CheckApiKey'])->group(function () {
     Route::get('explore', [ApiController::class, 'explore']);
     Route::get('search-courses', [CourseController::class, 'searchCourses']);
     Route::get('latest-courses', [CourseController::class, 'latestCourses']);
+    Route::get('all-courses', [CourseController::class, 'allCourses']);
     Route::get('course/{id}', [CourseController::class, 'courseDetails']);
     Route::get('reviews', [ReviewController::class, 'reviews']);
     Route::get('on-boards', [ApiController::class, 'onBoards']);
@@ -118,6 +127,7 @@ Route::middleware(['CheckApiKey'])->group(function () {
     Route::get('latest-books', [BookController::class, 'latestBooks']);
     Route::get('categories', [CategoryController::class, 'categories']);
     Route::get('category-courses/{id}', [CategoryController::class, 'courses']);
+    Route::get('blog/{slug}', [BlogController::class, 'blogDetails']);
 
     Route::prefix('instructor')->group(function () {
         Route::get('profile/{id}', [InstructorController::class, 'profile']);

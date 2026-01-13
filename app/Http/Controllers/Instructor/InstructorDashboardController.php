@@ -22,55 +22,71 @@ class InstructorDashboardController extends Controller
 {
     public function index(Request $request)
     {
+        try {
+            // Check if user has instructor record
+            if (!auth()->user()->instructor) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
 
-        if ($request->ajax() && $request->has('course_statistic')) {
-            return app(CourseStatistic::class)->execute($request);
+            // Check if instructor has organization
+            if (!auth()->user()->instructor->organization_id) {
+                Toastr::error(__('instructor_not_found'));
+                return redirect()->route('home');
+            }
+
+            if ($request->ajax() && $request->has('course_statistic')) {
+                return app(CourseStatistic::class)->execute($request);
+            }
+
+            if ($request->ajax() && $request->has('selling_report')) {
+                return app(AdvanceEarningStatistic::class)->execute($request);
+            }
+
+            if ($request->ajax() && $request->has('best_selling_course')) {
+                $data = app(BestSellingCourse::class)->execute($request);
+
+                return view('backend.instructor.dashboard.best_selling_table', ['best_selling_courses' => $data]);
+            }
+
+            if ($request->ajax() && $request->has('best_instructor')) {
+
+                $data = Instructor::with('organization')->get();
+
+                return view('backend.instructor.dashboard.best_instructor_table', ['best_instructors' => $data]);
+            }
+
+            $data = [
+
+                'total_student_count'    => User::whereHas('checkouts')->where('user_type', 'student')->count(),
+
+                'total_instructor_count' => Instructor::where('organization_id', authOrganizationId())->count(),
+
+                'total_enrolment_count'  => Enroll::count(),
+
+                'new_course_count'       => Course::whereHas('users', function ($query) {
+                    $query->where('users.id', auth()->id());
+                })->count(),
+
+                'best_selling_courses'   => app(BestSellingCourse::class)->execute($request),
+
+                'charts'                 => [
+
+                    'course'  => app(CourseStatistic::class)->execute($request),
+
+                    'advance' => app(AdvanceEarningStatistic::class)->execute($request),
+
+                ],
+
+                'total_course'           => Course::count(),
+
+            ];
+
+            return view('backend.instructor.dashboard', $data);
+        } catch (\Exception $e) {
+            Toastr::error(__('instructor_not_found') . ': ' . $e->getMessage());
+            return redirect()->route('home');
         }
-
-        if ($request->ajax() && $request->has('selling_report')) {
-            return app(AdvanceEarningStatistic::class)->execute($request);
-        }
-
-        if ($request->ajax() && $request->has('best_selling_course')) {
-            $data = app(BestSellingCourse::class)->execute($request);
-
-            return view('backend.instructor.dashboard.best_selling_table', ['best_selling_courses' => $data]);
-        }
-
-        if ($request->ajax() && $request->has('best_instructor')) {
-
-            $data = Instructor::with('organization')->get();
-
-            return view('backend.instructor.dashboard.best_instructor_table', ['best_instructors' => $data]);
-        }
-
-        $data = [
-
-            'total_student_count'    => User::whereHas('checkouts')->where('user_type', 'student')->count(),
-
-            'total_instructor_count' => Instructor::where('organization_id', authOrganizationId())->count(),
-
-            'total_enrolment_count'  => Enroll::count(),
-
-            'new_course_count'       => Course::whereHas('users', function ($query) {
-                $query->where('users.id', auth()->id());
-            })->count(),
-
-            'best_selling_courses'   => app(BestSellingCourse::class)->execute($request),
-
-            'charts'                 => [
-
-                'course'  => app(CourseStatistic::class)->execute($request),
-
-                'advance' => app(AdvanceEarningStatistic::class)->execute($request),
-
-            ],
-
-            'total_course'           => Course::count(),
-
-        ];
-
-        return view('backend.instructor.dashboard', $data);
     }
 
     public function profile(UserRepository $userRepository)

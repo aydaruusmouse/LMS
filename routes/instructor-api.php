@@ -20,8 +20,13 @@ Route::group(['middleware' => ['CheckApiKey']], function () {
         //instructor profile
         Route::get('profile', [InstructorController::class, 'profile']);
         Route::post('update-profile', [InstructorController::class, 'updateProfile']);
+        Route::get('instructors', [InstructorController::class, 'instructorsList']);
+
         //courses
-        Route::get('courses', [CourseController::class, 'courses']);
+        Route::post('courses', [CourseController::class, 'courses']);
+
+
+        Route::get('courses-categories', [CourseController::class, 'coursesCategories']);
         Route::get('pending-courses', [CourseController::class, 'pendingCourses']);
         Route::get('courses-details/{id}', [CourseController::class, 'courseDetails']);
         Route::post('change-status/{id}', [CourseController::class, 'changeStatus']);
