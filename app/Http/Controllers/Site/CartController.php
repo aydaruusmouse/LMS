@@ -41,6 +41,23 @@ class CartController extends Controller
     public function addToCart(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
+            // Check if user is authenticated, if not redirect to login/register
+            if (!auth()->check()) {
+                // Store the course/book ID and type in session for redirect after login
+                session()->put('pending_enrollment', [
+                    'id' => $request->id,
+                    'type' => $request->type,
+                    'quantity' => $request->quantity ?? 1,
+                ]);
+                
+                return response()->json([
+                    'requires_login' => true,
+                    'message' => __('please_login_or_register_to_enroll'),
+                    'login_url' => route('login'),
+                    'register_url' => route('register'),
+                ]);
+            }
+            
             if (auth()->check()) {
                 $user_id  = auth()->id();
                 if ($request->type == 'course') {

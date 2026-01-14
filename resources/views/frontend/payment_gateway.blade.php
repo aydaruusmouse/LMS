@@ -485,27 +485,39 @@
     </section>
     <div class="modal window-load-modal fade" id="offline_method_modal" tabindex="-1"
          aria-labelledby="windowLoadModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">{{ __('pay_with_offline') }} - <span id="method_title"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('complete.order') }}" method="POST" class="ajax_form">@csrf
-                    <div class="modal-body mt-4">
+                    <div class="modal-body mt-4" style="max-height: 60vh; overflow-y: auto;">
                         <input type="hidden" name="trx_id" value="{{ $trx_id }}">
                         <input type="hidden" name="payment_type" value="offline_method">
                         <input type="hidden" name="offline_method_id" id="offline_method_id" value="">
-                        <input type="file" name="offline_method_file" id="chooseFile" accept=".jpg, .jpeg, .gif, .png">
+                        <input type="hidden" name="amount" id="offline_payment_amount" value="{{ $amount }}">
+                        <input type="hidden" name="total_discount" value="{{ $total_discount }}">
+                        <div class="mb-4">
+                            @php
+                                $somalia = \App\Models\Country::where('phonecode', '252')->orWhere('phonecode', '+252')->first();
+                                $somalia_id = $somalia ? $somalia->id : (old('phone_country_id') ? : (setting('default_country') ? : 19));
+                            @endphp
+                            @include('backend.common.tel-input',[
+                                    'name' => 'phone_number',
+                                    'value' => old('phone_number'),
+                                    'label' => __('Phone Number'),
+                                    'id' => 'offlinePaymentPhone',
+                                    'country_id_field' => 'phone_country_id',
+                                    'country_id' => $somalia_id
+                            ])
+                            <small class="text-muted">{{ __('Phone number should start with 63 or 252') }}</small>
+                        </div>
                         <h6 class="mb-2 mt-2 instruction_header">{{ __('instructions') }} :</h6>
                         <div class="instructions"></div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="template-btn btn-secondary" data-bs-dismiss="modal">{{ __('cancel') }}</button>
-                        <button type="submit" class="template-btn">{{ __('proceed') }}</button>
-                        @include('components.frontend_loading_btn', [
-                                            'class' => 'template-btn',
-                                        ])
+                    <div class="modal-footer" style="display: flex !important; justify-content: center !important; align-items: center !important; padding: 1rem !important; border-top: 1px solid #dee2e6 !important;">
+                        <button type="submit" class="template-btn" id="offline_payment_submit_btn" style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; min-width: 200px;">{{ __('pay_now') }}</button>
                     </div>
                 </form>
             </div>
@@ -593,6 +605,36 @@
            value="{{ setting('is_sslcommerz_sandbox_mode_activated') == 1 }}">
     <input type="hidden" id="stripe_key" value="{{ setting('stripe_key') }}">
 @endsection
+@push('css')
+    <style>
+        #offline_payment_submit_btn {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        #offline_method_modal .modal-footer {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 1rem !important;
+            border-top: 1px solid #dee2e6 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        #offline_method_modal .modal-footer #offline_payment_submit_btn {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        #offline_method_modal .modal-footer button {
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+        #offline_method_modal.modal .modal-footer {
+            display: flex !important;
+        }
+    </style>
+@endpush
 @push('js')
     <script>
         window.url = '';
@@ -708,7 +750,155 @@
                     $('.instruction_header').addClass('d-none');
                     $('.instructions').addClass('d-none');
                 }
+                // Set the amount in the form
+                $('#offline_payment_amount').val({{ $amount }});
+                // Ensure submit button is visible when modal opens
+                $('#offline_payment_submit_btn').removeClass('d-none').css({
+                    'display': 'inline-block !important',
+                    'visibility': 'visible',
+                    'opacity': '1'
+                });
                 $('#offline_method_modal').modal('show');
+            });
+            
+            // Ensure submit button is visible when modal is shown
+            $('#offline_method_modal').on('shown.bs.modal', function () {
+                $('#offline_payment_submit_btn').removeClass('d-none').css({
+                    'display': 'inline-block !important',
+                    'visibility': 'visible',
+                    'opacity': '1'
+                }).show();
+            });
+            
+            // Reset form state when modal is hidden
+            $('#offline_method_modal').on('hidden.bs.modal', function () {
+                $('#offline_payment_submit_btn').removeClass('d-none').css({
+                    'display': 'inline-block !important',
+                    'visibility': 'visible',
+                    'opacity': '1'
+                }).show();
+                $('#offline_method_modal form')[0].reset();
+            });
+            
+            // Override default AJAX form behavior to keep button visible (no loading spinner)
+            $(document).on('submit', '#offline_method_modal form.ajax_form', function(e) {
+                let form = $(this);
+                let submitBtn = form.find('#offline_payment_submit_btn');
+                
+                // Ensure phone number is captured from the input field
+                let phoneInput = form.find('#offlinePaymentPhone');
+                let phoneNumber = phoneInput.val();
+                let countryIdInput = form.find('input[name="phone_country_id"]');
+                let countryId = countryIdInput.val();
+                
+                // Make sure phone_number is in the form (update or add hidden input)
+                let phoneHiddenInput = form.find('input[name="phone_number"]');
+                if (phoneHiddenInput.length) {
+                    phoneHiddenInput.val(phoneNumber);
+                } else {
+                    form.append('<input type="hidden" name="phone_number" value="' + phoneNumber + '">');
+                }
+                
+                // Make sure phone_country_id is in the form
+                if (!countryIdInput.length || !countryId) {
+                    // Try to get from the tel-input component
+                    countryId = form.find('.country_id').val();
+                    if (countryId) {
+                        if (countryIdInput.length) {
+                            countryIdInput.val(countryId);
+                        } else {
+                            form.append('<input type="hidden" name="phone_country_id" value="' + countryId + '">');
+                        }
+                    }
+                }
+                
+                // Prevent the default behavior of hiding the button and showing loading spinner
+                // Keep button visible but disable it during submission
+                submitBtn.prop('disabled', true).css('opacity', '0.6');
+                
+                // Prevent the global AJAX handler from hiding this button
+                setTimeout(function() {
+                    submitBtn.removeClass('d-none').show();
+                    form.find('.loading_button').addClass('d-none').hide();
+                }, 10);
+            });
+            
+            // Re-enable button after AJAX completes (handled by global handler, but we ensure button stays visible)
+            $(document).ajaxComplete(function(event, xhr, settings) {
+                if (settings.url && settings.url.includes('complete-order')) {
+                    let submitBtn = $('#offline_payment_submit_btn');
+                    submitBtn.removeClass('d-none').show().prop('disabled', false).css('opacity', '1');
+                    $('#offline_method_modal').find('.loading_button').addClass('d-none').hide();
+                }
+            });
+            
+            // Validate phone number before form submission for offline payment
+            $(document).on('submit', '#offline_method_modal form.ajax_form', function(e) {
+                let form = $(this);
+                let phoneInput = $('#offlinePaymentPhone');
+                let phoneNumber = phoneInput.val().trim();
+                let countryIdInput = form.find('input[name="phone_country_id"]');
+                let countryId = countryIdInput.val();
+                
+                // Validate phone number is provided
+                if (!phoneNumber) {
+                    e.preventDefault();
+                    toastr.error('{{ __("Phone number is required") }}');
+                    return false;
+                }
+                
+                // Validate country ID is provided
+                if (!countryId) {
+                    e.preventDefault();
+                    toastr.error('{{ __("Phone country code is required") }}');
+                    return false;
+                }
+                
+                // Ensure phone number and country_id are in the form data
+                // Make sure hidden inputs exist
+                if (!form.find('input[name="phone_number"]').length) {
+                    form.append('<input type="hidden" name="phone_number" value="' + phoneNumber + '">');
+                } else {
+                    form.find('input[name="phone_number"]').val(phoneNumber);
+                }
+                
+                if (!form.find('input[name="phone_country_id"]').length) {
+                    form.append('<input type="hidden" name="phone_country_id" value="' + countryId + '">');
+                } else {
+                    form.find('input[name="phone_country_id"]').val(countryId);
+                }
+                
+                // Remove any non-digit characters
+                phoneNumber = phoneNumber.replace(/[^\d]/g, '');
+                
+                // Get country code (default to 252 for Somalia)
+                let countryCode = '252';
+                if (countryId) {
+                    // Try to get country code from the selected country
+                    let countryElement = $('.country_li[data-id="' + countryId + '"]');
+                    if (countryElement.length) {
+                        let code = countryElement.attr('data-country_code');
+                        if (code) {
+                            countryCode = code.replace('+', '');
+                        }
+                    }
+                }
+                
+                // Ensure phone number starts with 63 or 252
+                if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
+                    // Prepend country code if not present (default to 252)
+                    phoneNumber = countryCode + phoneNumber;
+                }
+                
+                // Final validation - must start with 63 or 252
+                if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
+                    e.preventDefault();
+                    toastr.error('{{ __("Phone number must start with 63 or 252") }}');
+                    return false;
+                }
+                
+                // Update the phone input with formatted number
+                phoneInput.val(phoneNumber);
             });
         });
     </script>

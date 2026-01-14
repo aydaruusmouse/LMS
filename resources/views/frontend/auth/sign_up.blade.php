@@ -159,15 +159,27 @@
                                             <p>{{ $errors->first('email') }}</p>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-4">
+                                        @php
+                                            $somalia = \App\Models\Country::where('phonecode', '252')->orWhere('phonecode', '+252')->first();
+                                            $somalia_id = $somalia ? $somalia->id : (old('phone_country_id') ? : (setting('default_country') ? : 19));
+                                        @endphp
                                         @include('backend.common.tel-input',[
                                                 'name' => 'phone',
                                                 'value' => old('phone'),
-                                                'label' => __('phone_number'),
+                                                'label' => __('WhatsApp Number'),
                                                 'id' => 'phoneNumber',
                                                 'country_id_field' => 'phone_country_id',
-                                                'country_id' => old('phone_country_id') ? : (setting('default_country') ? : 19)
+                                                'country_id' => $somalia_id
                                     ])
+                                    </div>
+                                    <div class="col-12 mb-4">
+                                        <label for="city">{{__('city') }} *</label>
+                                        <input type="text" class="form-control" name="city" id="city"
+                                               placeholder="{{__('enter_city') }}" value="{{ old('city') }}">
+                                        <div class="nk-block-des text-danger">
+                                            <p>{{ $errors->first('city') }}</p>
+                                        </div>
                                     </div>
                                     <div class="col-12 password-input mb-4">
                                         <label for="password">{{__('password') }} *</label>

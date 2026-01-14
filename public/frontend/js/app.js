@@ -273,7 +273,15 @@ let modal_hide = localStorage.getItem('modal_hide');
                 url: route,
                 success: function (response) {
                     selector.closest('.cart_area').find('.loading_button').addClass('d-none');
-                    if (response.error) {
+                    if (response.requires_login) {
+                        // User needs to login/register
+                        selector.removeClass('d-none');
+                        toastr["info"](response.message);
+                        // Redirect to login page (user can choose to register from there)
+                        setTimeout(function() {
+                            window.location.href = response.login_url;
+                        }, 1500);
+                    } else if (response.error) {
                         selector.removeClass('d-none');
                         toastr["error"](response.error);
                     } else {
