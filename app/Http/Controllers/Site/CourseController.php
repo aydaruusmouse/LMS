@@ -407,11 +407,48 @@ class CourseController extends Controller
                 return back();
             }
 
-            if ($course->enrolls->first()->checkout->status == 0) {
-                Toastr::warning(__('you_cannot_access_this_course'));
-
+            // Load enrolls with checkout relationship - get enrolls for current user with paid checkout
+            $course->load(['enrolls' => function($query) {
+                $query->whereHas('checkout', function($q) {
+                    $q->where('user_id', auth()->id());
+                })->with('checkout');
+            }]);
+            
+            // Get the first enroll with a paid checkout (status = 1)
+            $first_enroll = $course->enrolls->filter(function($enroll) {
+                return $enroll->checkout && $enroll->checkout->user_id == auth()->id();
+            })->first();
+            
+            if (!$first_enroll || !$first_enroll->checkout) {
+                \Log::warning('Course Access Denied: No enrollment found', [
+                    'course_id' => $course->id,
+                    'user_id' => auth()->id(),
+                    'course_slug' => $slug,
+                ]);
+                Toastr::warning(__('sorry_course_not_purchased'));
                 return back();
             }
+            
+            // Check checkout status - if status is 0 (pending), deny access
+            if ($first_enroll->checkout->status == 0) {
+                \Log::warning('Course Access Denied: Checkout status is pending', [
+                    'course_id' => $course->id,
+                    'user_id' => auth()->id(),
+                    'checkout_id' => $first_enroll->checkout->id,
+                    'checkout_status' => $first_enroll->checkout->status,
+                    'trx_id' => $first_enroll->checkout->trx_id,
+                    'payment_type' => $first_enroll->checkout->payment_type,
+                ]);
+                Toastr::warning(__('you_cannot_access_this_course'));
+                return back();
+            }
+            
+            \Log::info('Course Access Granted', [
+                'course_id' => $course->id,
+                'user_id' => auth()->id(),
+                'checkout_id' => $first_enroll->checkout->id,
+                'checkout_status' => $first_enroll->checkout->status,
+            ]);
 
             $sections         = $course->sections()->active()->with('lessons')->whereHas('lessons', function ($query) {
                 $query->where('status', 1);

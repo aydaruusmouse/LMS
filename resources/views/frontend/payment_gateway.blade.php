@@ -517,7 +517,13 @@
                         <div class="instructions"></div>
                     </div>
                     <div class="modal-footer" style="display: flex !important; justify-content: center !important; align-items: center !important; padding: 1rem !important; border-top: 1px solid #dee2e6 !important;">
-                        <button type="submit" class="template-btn" id="offline_payment_submit_btn" style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; min-width: 200px;">{{ __('pay_now') }}</button>
+                        <button type="submit" class="template-btn" id="offline_payment_submit_btn" style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; min-width: 200px; position: relative;">
+                            <span class="btn-text">{{ __('pay_now') }}</span>
+                            <span class="btn-spinner d-none" style="display: inline-block; margin-left: 8px;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="width: 1rem; height: 1rem; border-width: 2px;"></span>
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -611,6 +617,14 @@
             display: inline-block !important;
             visibility: visible !important;
             opacity: 1 !important;
+        }
+        #offline_payment_submit_btn .btn-spinner {
+            vertical-align: middle;
+        }
+        #offline_payment_submit_btn .spinner-border-sm {
+            border-width: 2px;
+            width: 1rem;
+            height: 1rem;
         }
         #offline_method_modal .modal-footer {
             display: flex !important;
@@ -772,18 +786,28 @@
             
             // Reset form state when modal is hidden
             $('#offline_method_modal').on('hidden.bs.modal', function () {
-                $('#offline_payment_submit_btn').removeClass('d-none').css({
+                let submitBtn = $('#offline_payment_submit_btn');
+                let btnText = submitBtn.find('.btn-text');
+                let btnSpinner = submitBtn.find('.btn-spinner');
+                
+                // Reset button state
+                btnSpinner.addClass('d-none');
+                btnText.removeClass('d-none');
+                submitBtn.removeClass('d-none').prop('disabled', false).css({
                     'display': 'inline-block !important',
                     'visibility': 'visible',
-                    'opacity': '1'
+                    'opacity': '1',
+                    'cursor': 'pointer'
                 }).show();
                 $('#offline_method_modal form')[0].reset();
             });
             
-            // Override default AJAX form behavior to keep button visible (no loading spinner)
+            // Override default AJAX form behavior - show loading spinner
             $(document).on('submit', '#offline_method_modal form.ajax_form', function(e) {
                 let form = $(this);
                 let submitBtn = form.find('#offline_payment_submit_btn');
+                let btnText = submitBtn.find('.btn-text');
+                let btnSpinner = submitBtn.find('.btn-spinner');
                 
                 // Ensure phone number is captured from the input field
                 let phoneInput = form.find('#offlinePaymentPhone');
@@ -812,9 +836,14 @@
                     }
                 }
                 
-                // Prevent the default behavior of hiding the button and showing loading spinner
-                // Keep button visible but disable it during submission
-                submitBtn.prop('disabled', true).css('opacity', '0.6');
+                // Show loading spinner and disable button
+                submitBtn.prop('disabled', true);
+                btnText.addClass('d-none');
+                btnSpinner.removeClass('d-none');
+                submitBtn.css({
+                    'opacity': '0.8',
+                    'cursor': 'not-allowed'
+                });
                 
                 // Prevent the global AJAX handler from hiding this button
                 setTimeout(function() {
@@ -823,12 +852,42 @@
                 }, 10);
             });
             
-            // Re-enable button after AJAX completes (handled by global handler, but we ensure button stays visible)
+            // Re-enable button after AJAX completes (success or error)
             $(document).ajaxComplete(function(event, xhr, settings) {
                 if (settings.url && settings.url.includes('complete-order')) {
                     let submitBtn = $('#offline_payment_submit_btn');
-                    submitBtn.removeClass('d-none').show().prop('disabled', false).css('opacity', '1');
+                    let btnText = submitBtn.find('.btn-text');
+                    let btnSpinner = submitBtn.find('.btn-spinner');
+                    
+                    // Hide spinner and show text
+                    btnSpinner.addClass('d-none');
+                    btnText.removeClass('d-none');
+                    
+                    // Re-enable button
+                    submitBtn.removeClass('d-none').show().prop('disabled', false).css({
+                        'opacity': '1',
+                        'cursor': 'pointer'
+                    });
                     $('#offline_method_modal').find('.loading_button').addClass('d-none').hide();
+                }
+            });
+            
+            // Also handle AJAX errors to reset button state
+            $(document).ajaxError(function(event, xhr, settings) {
+                if (settings.url && settings.url.includes('complete-order')) {
+                    let submitBtn = $('#offline_payment_submit_btn');
+                    let btnText = submitBtn.find('.btn-text');
+                    let btnSpinner = submitBtn.find('.btn-spinner');
+                    
+                    // Hide spinner and show text
+                    btnSpinner.addClass('d-none');
+                    btnText.removeClass('d-none');
+                    
+                    // Re-enable button
+                    submitBtn.prop('disabled', false).css({
+                        'opacity': '1',
+                        'cursor': 'pointer'
+                    });
                 }
             });
             

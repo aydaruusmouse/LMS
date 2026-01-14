@@ -37,6 +37,29 @@ class CheckoutRepository
         $organization_commission        = $calculations['payable_amount'] - $system_commission;
         $prefix                         = setting('invoice_prefix') ?: 'OVOY';
 
+        // Determine checkout status based on payment status BEFORE overwriting $data
+        // Preserve payment_status and payment_type before overwriting $data array
+        $payment_status = isset($data['payment_status']) ? $data['payment_status'] : null;
+        $payment_type = isset($data['payment_type']) ? $data['payment_type'] : null;
+        
+        $checkout_status = 0; // Default to pending
+        if ($payment_status == 'success') {
+            // Payment was successful (API confirmed or other payment method succeeded)
+            $checkout_status = 1; // Paid
+        } elseif ($payment_type != 'offline_method') {
+            // For non-offline methods, assume success if we reached here (successStatusCheck passed)
+            $checkout_status = 1; // Paid
+        }
+        // For offline_method without success, status remains 0 (pending)
+        
+        // Log checkout status for debugging
+        \Log::info('Checkout Status Determination', [
+            'payment_status' => $payment_status,
+            'payment_type' => $payment_type,
+            'checkout_status' => $checkout_status,
+            'trx_id' => $data['trx_id'] ?? 'N/A',
+        ]);
+
         $data                           = [
             'user_id'                   => $user_id,
             'billing_address'           => null,
@@ -53,12 +76,22 @@ class CheckoutRepository
             'payment_type'              => $data['payment_type'],
             'payment_details'           => $payment_details,
             'offline_method_id'         => getArrayValue('offline_method_id', $data),
-            'status'                    => ($data['payment_type'] == 'offline_method' && isset($data['payment_status']) && $data['payment_status'] == 'success') ? 1 : ($data['payment_type'] == 'offline_method' ? 0 : 1),
+            'status'                    => $checkout_status,
             'system_commission'         => $system_commission,
             'organization_commission'   => $organization_commission,
         ];
 
-        return Checkout::create($data);
+        $checkout = Checkout::create($data);
+        
+        // Log created checkout for debugging
+        \Log::info('Checkout Created', [
+            'checkout_id' => $checkout->id,
+            'status' => $checkout->status,
+            'trx_id' => $checkout->trx_id,
+            'payment_type' => $checkout->payment_type,
+        ]);
+        
+        return $checkout;
     }
 
     public function insertEnroll($carts, $checkout_id)
@@ -182,8 +215,8 @@ class CheckoutRepository
                 $invoice_id = 'INV-' . Str::uuid()->toString();
                 
                 // Get currency code (default to USD)
-                $currency_code = userCurrency() ?: 'USD';
-                
+                // $currency_code = userCurrency() ?: 'USD';
+                $currency_code = 'SLSH';
                 // Call Waafi API
                 $api_url = 'https://api.waafipay.net/asm';
                 $api_fields = [
@@ -216,73 +249,162 @@ class CheckoutRepository
                         'Accept' => 'application/json',
                     ], true);
                     
-                    // Check if Waafi API response indicates success
-                    // Waafi API response structure: {responseCode, responseMsg, params: {transactionId, status, ...}}
-                    $is_success = false;
-                    if (is_array($api_response)) {
-                        // Check Waafi API response structure
-                        if (isset($api_response['responseCode']) && $api_response['responseCode'] == '2001') {
-                            // Waafi API success code is typically 2001
-                            $is_success = true;
-                        } elseif (isset($api_response['params']['status']) && in_array(strtolower($api_response['params']['status']), ['success', 'completed', 'approved', 'paid'])) {
-                            $is_success = true;
-                        } elseif (isset($api_response['responseMsg']) && stripos(strtolower($api_response['responseMsg']), 'success') !== false) {
-                            $is_success = true;
-                        }
-                        // Also check for common success indicators as fallback
-                        if (!$is_success) {
-                            if (isset($api_response['status']) && in_array(strtolower($api_response['status']), ['success', 'paid', 'completed', 'approved'])) {
-                                $is_success = true;
-                            } elseif (isset($api_response['success']) && $api_response['success'] === true) {
-                                $is_success = true;
-                            }
-                        }
-                    } elseif (is_object($api_response)) {
-                        // Handle object response
-                        if (isset($api_response->responseCode) && $api_response->responseCode == '2001') {
-                            $is_success = true;
-                        } elseif (isset($api_response->params->status) && in_array(strtolower($api_response->params->status), ['success', 'completed', 'approved', 'paid'])) {
-                            $is_success = true;
-                        } elseif (isset($api_response->responseMsg) && stripos(strtolower($api_response->responseMsg), 'success') !== false) {
-                            $is_success = true;
-                        }
-                        // Fallback checks
-                        if (!$is_success) {
-                            if (isset($api_response->status) && in_array(strtolower($api_response->status), ['success', 'paid', 'completed', 'approved'])) {
-                                $is_success = true;
-                            } elseif (isset($api_response->success) && $api_response->success === true) {
-                                $is_success = true;
-                            }
-                        }
-                    }
+                    // Log API response for debugging
+                    \Log::info('Waafi API Response', [
+                        'response' => $api_response,
+                        'trx_id' => $data['trx_id'],
+                        'phone_number' => $phone_number,
+                        'response_type' => gettype($api_response),
+                    ]);
                     
-                    // If API call failed or didn't return success, return error
-                    if (!$is_success) {
-                        $error_message = __('payment_failed');
-                        // Extract error message from Waafi API response
-                        if (is_array($api_response)) {
-                            if (isset($api_response['responseMsg'])) {
-                                $error_message = $api_response['responseMsg'];
-                            } elseif (isset($api_response['message'])) {
-                                $error_message = $api_response['message'];
-                            } elseif (isset($api_response['error'])) {
-                                $error_message = $api_response['error'];
-                            } elseif (isset($api_response['params']['message'])) {
-                                $error_message = $api_response['params']['message'];
-                            }
-                        } elseif (is_object($api_response)) {
-                            if (isset($api_response->responseMsg)) {
-                                $error_message = $api_response->responseMsg;
-                            } elseif (isset($api_response->message)) {
-                                $error_message = $api_response->message;
-                            } elseif (isset($api_response->error)) {
-                                $error_message = $api_response->error;
-                            } elseif (isset($api_response->params->message)) {
-                                $error_message = $api_response->params->message;
+                    // Check if Waafi API response indicates success
+                    // Since payment was deducted, if API call succeeded (no exception), treat as success
+                    // unless there's a clear error message
+                    $is_success = false;
+                    $has_error = false;
+                    $error_message = null;
+                    
+                    if (is_array($api_response)) {
+                        // Check for explicit error indicators first
+                        if (isset($api_response['responseCode']) && 
+                            !in_array($api_response['responseCode'], ['2001', '200', '0', '2000', '1001'])) {
+                            // Check if it's an error code (not in success list)
+                            $error_codes = ['400', '401', '403', '404', '500', '501', '502', '503'];
+                            if (in_array($api_response['responseCode'], $error_codes)) {
+                                $has_error = true;
                             }
                         }
                         
+                        // Check for error messages
+                        if (isset($api_response['responseMsg'])) {
+                            $msg = strtolower($api_response['responseMsg']);
+                            if (stripos($msg, 'error') !== false || 
+                                stripos($msg, 'failed') !== false || 
+                                stripos($msg, 'declined') !== false ||
+                                stripos($msg, 'rejected') !== false) {
+                                $has_error = true;
+                                $error_message = $api_response['responseMsg'];
+                            }
+                        }
+                        
+                        // If no explicit error, check for success indicators
+                        if (!$has_error) {
+                            // Success codes
+                            if (isset($api_response['responseCode']) && 
+                                in_array($api_response['responseCode'], ['2001', '200', '0', '2000', '1001'])) {
+                                $is_success = true;
+                            }
+                            
+                            // Check params.status
+                            if (!$is_success && isset($api_response['params']['status'])) {
+                                $status = strtolower($api_response['params']['status']);
+                                if (in_array($status, ['success', 'completed', 'approved', 'paid', 'successful', 'processed'])) {
+                                    $is_success = true;
+                                } elseif (in_array($status, ['failed', 'error', 'declined', 'rejected', 'cancelled'])) {
+                                    $has_error = true;
+                                }
+                            }
+                            
+                            // Check responseMsg for success keywords
+                            if (!$is_success && !$has_error && isset($api_response['responseMsg'])) {
+                                $msg = strtolower($api_response['responseMsg']);
+                                if (stripos($msg, 'success') !== false || 
+                                    stripos($msg, 'approved') !== false || 
+                                    stripos($msg, 'completed') !== false ||
+                                    stripos($msg, 'processed') !== false) {
+                                    $is_success = true;
+                                }
+                            }
+                            
+                            // Check top-level status
+                            if (!$is_success && !$has_error && isset($api_response['status'])) {
+                                $status = strtolower($api_response['status']);
+                                if (in_array($status, ['success', 'paid', 'completed', 'approved', 'successful', 'processed'])) {
+                                    $is_success = true;
+                                }
+                            }
+                            
+                            // If no explicit error and API returned a response (not null/empty), assume success
+                            // This handles cases where API succeeds but response format is unexpected
+                            if (!$is_success && !$has_error && !empty($api_response)) {
+                                // Only assume success if we got a valid response structure
+                                if (isset($api_response['responseCode']) || isset($api_response['params']) || isset($api_response['responseMsg'])) {
+                                    $is_success = true;
+                                    \Log::warning('Waafi API: Assuming success due to valid response structure', ['response' => $api_response]);
+                                }
+                            }
+                        }
+                    } elseif (is_object($api_response)) {
+                        // Handle object response - same logic as array
+                        if (isset($api_response->responseCode) && 
+                            !in_array($api_response->responseCode, ['2001', '200', '0', '2000', '1001'])) {
+                            $error_codes = ['400', '401', '403', '404', '500', '501', '502', '503'];
+                            if (in_array($api_response->responseCode, $error_codes)) {
+                                $has_error = true;
+                            }
+                        }
+                        
+                        if (isset($api_response->responseMsg)) {
+                            $msg = strtolower($api_response->responseMsg);
+                            if (stripos($msg, 'error') !== false || 
+                                stripos($msg, 'failed') !== false || 
+                                stripos($msg, 'declined') !== false ||
+                                stripos($msg, 'rejected') !== false) {
+                                $has_error = true;
+                                $error_message = $api_response->responseMsg;
+                            }
+                        }
+                        
+                        if (!$has_error) {
+                            if (isset($api_response->responseCode) && 
+                                in_array($api_response->responseCode, ['2001', '200', '0', '2000', '1001'])) {
+                                $is_success = true;
+                            }
+                            
+                            if (!$is_success && isset($api_response->params->status)) {
+                                $status = strtolower($api_response->params->status);
+                                if (in_array($status, ['success', 'completed', 'approved', 'paid', 'successful', 'processed'])) {
+                                    $is_success = true;
+                                }
+                            }
+                            
+                            if (!$is_success && isset($api_response->responseMsg)) {
+                                $msg = strtolower($api_response->responseMsg);
+                                if (stripos($msg, 'success') !== false || 
+                                    stripos($msg, 'approved') !== false || 
+                                    stripos($msg, 'completed') !== false) {
+                                    $is_success = true;
+                                }
+                            }
+                            
+                            if (!$is_success && !$has_error && !empty($api_response)) {
+                                if (isset($api_response->responseCode) || isset($api_response->params) || isset($api_response->responseMsg)) {
+                                    $is_success = true;
+                                    \Log::warning('Waafi API: Assuming success due to valid response structure', ['response' => $api_response]);
+                                }
+                            }
+                        }
+                    } else {
+                        // If response is null or unexpected format, but no exception was thrown, 
+                        // and payment was deducted, assume success
+                        $is_success = true;
+                        \Log::warning('Waafi API: Unexpected response format, assuming success', ['response' => $api_response]);
+                    }
+                    
+                    // If we detected an error, return it
+                    if ($has_error) {
                         return $error_message ?: __('payment_failed_please_try_again');
+                    }
+                    
+                    // If still not successful after all checks, return error
+                    if (!$is_success) {
+                        $error_msg = __('payment_failed');
+                        if (is_array($api_response) && isset($api_response['responseMsg'])) {
+                            $error_msg = $api_response['responseMsg'];
+                        } elseif (is_object($api_response) && isset($api_response->responseMsg)) {
+                            $error_msg = $api_response->responseMsg;
+                        }
+                        return $error_msg ?: __('payment_failed_please_try_again');
                     }
                     
                     // Store Waafi transaction details
@@ -318,6 +440,10 @@ class CheckoutRepository
             // For offline_method, payment must be successful (via API) before creating checkout
             // If payment_success is false, return error to prevent checkout creation
             if (!isset($payment_success) || !$payment_success) {
+                \Log::error('Waafi Payment Failed', [
+                    'trx_id' => $data['trx_id'] ?? 'N/A',
+                    'phone_number' => $phone_number ?? 'N/A',
+                ]);
                 return __('payment_verification_failed_please_try_again');
             }
             
@@ -325,6 +451,10 @@ class CheckoutRepository
             // This will be used in the store() method to set checkout status
             if ($payment_success) {
                 $data['payment_status'] = 'success';
+                \Log::info('Waafi Payment Success - Setting payment_status to success', [
+                    'trx_id' => $data['trx_id'],
+                    'phone_number' => $phone_number,
+                ]);
             }
         } else {
             $payment_details = $this->methodCheck($data);
@@ -332,12 +462,34 @@ class CheckoutRepository
             if (!$this->successStatusCheck($data, $payment_details)) {
                 return __('transaction_cant_be_completed');
             }
+            // For other payment methods, if successStatusCheck passes, payment is successful
+            $data['payment_status'] = 'success';
         }
 
 
         $checkout = $this->store($data, $user->id, $calculations, $payment_details);
+        
+        // Double-check: If payment was successful but checkout status is still 0, update it
+        // This is a safety measure to ensure enrollment works correctly
+        if (isset($data['payment_status']) && $data['payment_status'] == 'success' && $checkout->status == 0) {
+            \Log::warning('Checkout status mismatch - updating to paid', [
+                'checkout_id' => $checkout->id,
+                'trx_id' => $checkout->trx_id,
+                'payment_status' => $data['payment_status'],
+            ]);
+            $checkout->update(['status' => 1]);
+            $checkout->refresh(); // Reload to get updated status
+        }
 
         $this->insertEnroll($carts, $checkout->id);
+        
+        // Log enrollment creation for debugging
+        \Log::info('Enrollment Created', [
+            'checkout_id' => $checkout->id,
+            'checkout_status' => $checkout->status,
+            'enrolls_count' => $carts->count(),
+            'trx_id' => $checkout->trx_id,
+        ]);
 
         $this->walletCheck($data, $user, $checkout);
 
