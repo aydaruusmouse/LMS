@@ -512,7 +512,7 @@
                                     'country_id_field' => 'phone_country_id',
                                     'country_id' => $somalia_id
                             ])
-                            <small class="text-muted" id="phone_validation_message">{{ __('Phone number should start with 63 or 252') }}</small>
+                            <small class="text-muted" id="phone_validation_message">{{ __('Phone number must be exactly 9 digits (252 prefix will be added automatically)') }}</small>
                         </div>
                         <h6 class="mb-2 mt-2 instruction_header">{{ __('instructions') }} :</h6>
                         <div class="instructions"></div>
@@ -774,13 +774,8 @@
                 // Clear any dynamically added hidden phone_number inputs
                 form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
                 
-                // Reset validation message based on current method
-                let methodName = offline_method.method_name || '';
-                if (methodName.includes('edahab') || methodName.includes('dahab')) {
-                    $('#phone_validation_message').text('{{ __('Phone number should start with 65') }}');
-                } else {
-                    $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
-                }
+                    // Reset validation message
+                    $('#phone_validation_message').text('{{ __('Phone number must be exactly 9 digits (252 prefix will be added automatically)') }}');
             }
             
             $(document).on('click','.offline_method_btn',function () {
@@ -793,13 +788,8 @@
                     $('.instruction_header').addClass('d-none');
                     $('.instructions').addClass('d-none');
                 }
-                // Update phone validation message based on method
-                let methodName = offline_method.method_name || '';
-                if (methodName.includes('edahab') || methodName.includes('dahab')) {
-                    $('#phone_validation_message').text('{{ __('Phone number should start with 65') }}');
-                } else {
-                    $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
-                }
+                // Update phone validation message
+                $('#phone_validation_message').text('{{ __('Phone number must be exactly 9 digits (252 prefix will be added automatically)') }}');
                 // Set the amount in the form
                 $('#offline_payment_amount').val({{ $amount }});
                 // Ensure submit button is visible when modal opens
@@ -824,7 +814,7 @@
                 form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
                 
                 // Reset validation message
-                $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                $('#phone_validation_message').text('{{ __('Phone number must start with 252 followed by exactly 9 digits (total 12 digits)') }}');
                 
                 // Reset button state
                 $('#offline_payment_submit_btn').removeClass('d-none').css({
@@ -868,7 +858,7 @@
                 form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
                 
                 // Reset validation message
-                $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                $('#phone_validation_message').text('{{ __('Phone number must start with 252 followed by exactly 9 digits (total 12 digits)') }}');
                 
                 // Clear method ID
                 $('#offline_method_id').val('');
@@ -894,37 +884,20 @@
                     return false;
                 }
                 
-                // Check which method is being used
-                let methodName = offline_method.method_name || '';
-                let isEdahab = methodName.includes('edahab') || methodName.includes('dahab');
+                // Validate phone number format: user enters 9 digits, 252 is added automatically
+                // Remove all non-digit characters for validation
+                let phoneForValidation = phoneNumber.replace(/[^\d]/g, '');
                 
-                // Validate phone number format based on method
-                if (isEdahab) {
-                    // eDahab: phone must start with 65
-                    // Remove country code prefix (252, +252, etc.) for validation only
-                    let phoneForValidation = phoneNumber.replace(/^(\+?252)/, '');
-                    phoneForValidation = phoneForValidation.trim();
-                    
-                    // Validate phone number starts with 65 only
-                    if (!phoneForValidation.startsWith('65')) {
-                        e.preventDefault();
-                        toastr.error('{{ __('phone_number_must_start_with_65') }}. Current: ' + phoneForValidation);
-                        return false;
-                    }
-                    
-                    // Ensure phone number is only digits starting with 65
-                    if (!/^65\d+$/.test(phoneForValidation)) {
-                        e.preventDefault();
-                        toastr.error('{{ __('phone_number_must_start_with_65') }} and contain only digits. Current: ' + phoneForValidation);
-                        return false;
-                    }
-                } else {
-                    // Waafi: phone must start with 63 or 252
-                    if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
-                        e.preventDefault();
-                        toastr.error('{{ __('phone_number_must_start_with_63_or_252') }}');
-                        return false;
-                    }
+                // Remove 252 prefix if user entered it (we'll add it automatically)
+                if (phoneForValidation.startsWith('252')) {
+                    phoneForValidation = phoneForValidation.substring(3);
+                }
+                
+                // Validate: must be exactly 9 digits (252 will be added automatically)
+                if (!/^\d{9}$/.test(phoneForValidation)) {
+                    e.preventDefault();
+                    toastr.error('{{ __('phone_number_must_be_9_digits') }}. Current: ' + phoneNumber);
+                    return false;
                 }
                 
                 // Make sure phone_number is in the form (update or add hidden input)

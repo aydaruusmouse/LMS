@@ -2282,6 +2282,8 @@
     "phone_country_code_is_required": "Phone country code is required",
     "phone_number_must_start_with_63_or_252": "Phone number must start with 63 or 252",
     "phone_number_must_start_with_65": "Phone number must start with 65",
+    "phone_number_must_start_with_252_followed_by_9_digits": "Phone number must start with 252 followed by exactly 9 digits (total 12 digits)",
+    "phone_number_must_be_9_digits": "Phone number must be exactly 9 digits (252 prefix will be added automatically)",
     "Phone number should start with 63 or 252": "Phone number should start with 63 or 252",
     "Phone number should start with 65": "Phone number should start with 65"
 }

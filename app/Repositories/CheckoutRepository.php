@@ -196,47 +196,14 @@ class CheckoutRepository
             if (arrayCheck('phone_number', $data) && arrayCheck('phone_country_id', $data)) {
                 $phone_number = trim($data['phone_number']);
                 
-                // Validate phone number format based on payment method
+                // Basic phone number processing (no format validation - API will validate)
                 if ($is_edahab) {
-                    // eDahab: phone must start with 65 (not 25265...)
-                    // Remove country code prefix (252, +252, etc.) that tel-input might add automatically
-                    // User enters: 654455992
-                    // tel-input might send: 252654455992 (because country code is +252)
-                    // We need: 654455992 (just 65xxxxxxx for eDahab API)
+                    // eDahab: Remove country code prefix (252, +252, etc.) that tel-input might add
                     $phone_number = preg_replace('/^(\+?252)/', '', $phone_number);
                     $phone_number = trim($phone_number);
-                    
-                    // Validate phone number starts with 65 only
-                    if (!str_starts_with($phone_number, '65')) {
-                        return __('phone_number_must_start_with_65') . '. Current: ' . $phone_number;
-                    }
-                    
-                    // Ensure phone number is only digits starting with 65
-                    if (!preg_match('/^65\d+$/', $phone_number)) {
-                        return __('phone_number_must_start_with_65') . ' and contain only digits. Current: ' . $phone_number;
-                    }
-                    
-                    // Use the clean number (65xxxxxxx) for eDahab API - no need to add 252
                 } else {
-                    // Waafi: phone must start with 63 or 252
-                    $country = \App\Models\Country::find($data['phone_country_id']);
-                    $country_code = $country ? ($country->phonecode ?: '252') : '252';
-                    
-                    // Remove + from country code if present
-                    if (str_starts_with($country_code, '+')) {
-                        $country_code = str_replace('+', '', $country_code);
-                    }
-                    
-                    // Ensure phone number starts with 63 or 252
-                    if (!str_starts_with($phone_number, '63') && !str_starts_with($phone_number, '252')) {
-                        // Prepend country code if not present (default to 252)
-                        $phone_number = $country_code . $phone_number;
-                    }
-                    
-                    // Validate phone number starts with 63 or 252
-                    if (!str_starts_with($phone_number, '63') && !str_starts_with($phone_number, '252')) {
-                        return __('phone_number_must_start_with_63_or_252');
-                    }
+                    // Waafi: Clean phone number (remove non-digits, but keep as-is for API)
+                    $phone_number = preg_replace('/[^\d]/', '', $phone_number);
                 }
                 
                 // Get amount from checkout total
@@ -264,6 +231,7 @@ class CheckoutRepository
                         try {
                             // Step 1: Create Invoice
                             // Build payload - note: field name is "Edahabnumber" (capital E) not "edahabNumber"
+                            // eDahab API needs only the 9 digits (without 252 prefix)
                             $create_invoice_payload = [
                                 'apiKey' => $edahab_api_key,
                                 'Edahabnumber' => $phone_number, // Capital E - should be just 65xxxxxxx (no country code)
@@ -582,6 +550,7 @@ class CheckoutRepository
                             }
                             
                             // Payment confirmed successful - store details
+                            // Only set payment_success = true if we reach here (API confirmed success)
                             $payment_details = [
                                 'phone_number' => $phone_number,
                                 'create_invoice_response' => $create_invoice_response,
@@ -592,8 +561,9 @@ class CheckoutRepository
                                 'edahab_agent_code' => $edahab_agent_code,
                                 'payment_method' => 'eDahab',
                             ];
+                            $payment_success = true;
                             
-                            \Log::info('eDahab Payment Success', [
+                            \Log::info('eDahab Payment Success - Will create checkout', [
                                 'trx_id' => $data['trx_id'],
                                 'invoice_id' => $invoice_id,
                                 'transaction_id' => $transaction_id,
@@ -621,7 +591,7 @@ class CheckoutRepository
                         $invoice_id = 'INV-' . Str::uuid()->toString();
                         
                         // Get currency code
-                        $currency_code = 'SLSH';
+                        $currency_code = 'USD';
                         
                         // Call Waafi API
                         $api_url = 'https://api.waafipay.net/asm';
@@ -805,6 +775,7 @@ class CheckoutRepository
                             return $error_msg ?: __('payment_failed_please_try_again');
                         }
                         
+                        // Only reach here if API response indicates success
                         // Store Waafi transaction details
                         $transaction_id = null;
                         if (is_array($api_response) && isset($api_response['params']['transactionId'])) {
@@ -826,6 +797,12 @@ class CheckoutRepository
                             'payment_method' => 'Waafi',
                         ];
                         $payment_success = true;
+                        
+                        \Log::info('Waafi API Payment Success - Will create checkout', [
+                            'trx_id' => $data['trx_id'] ?? 'N/A',
+                            'phone_number' => $phone_number,
+                            'transaction_id' => $transaction_id,
+                        ]);
                     }
                 } catch (\Exception $e) {
                     // API call failed - return error to keep user on checkout
