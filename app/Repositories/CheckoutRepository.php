@@ -199,7 +199,10 @@ class CheckoutRepository
                 // Validate phone number format based on payment method
                 if ($is_edahab) {
                     // eDahab: phone must start with 65 (not 25265...)
-                    // Remove country code prefix if present (252, +252, etc.)
+                    // Remove country code prefix (252, +252, etc.) that tel-input might add automatically
+                    // User enters: 654455992
+                    // tel-input might send: 252654455992 (because country code is +252)
+                    // We need: 654455992 (just 65xxxxxxx for eDahab API)
                     $phone_number = preg_replace('/^(\+?252)/', '', $phone_number);
                     $phone_number = trim($phone_number);
                     
@@ -212,6 +215,8 @@ class CheckoutRepository
                     if (!preg_match('/^65\d+$/', $phone_number)) {
                         return __('phone_number_must_start_with_65') . ' and contain only digits. Current: ' . $phone_number;
                     }
+                    
+                    // Use the clean number (65xxxxxxx) for eDahab API - no need to add 252
                 } else {
                     // Waafi: phone must start with 63 or 252
                     $country = \App\Models\Country::find($data['phone_country_id']);
@@ -356,12 +361,26 @@ class CheckoutRepository
                                 return __('payment_failed') . ': Invalid API Credentials. Please verify your eDahab API Key and Secret Key in settings. API Response: ' . $response_string;
                             }
                             
+                            // Check if create invoice response contains payment status
+                            // Based on working controller, the issueinvoice response might contain the status
+                            $payment_success = false;
+                            $invoice_status_from_create = null;
+                            
                             if (is_array($create_invoice_response)) {
                                 // Check StatusCode: 0 = Success, 1-6 = Various errors
                                 if (isset($create_invoice_response['StatusCode'])) {
                                     if ($create_invoice_response['StatusCode'] == 0) {
                                         $create_success = true;
                                         $invoice_id = $create_invoice_response['InvoiceId'] ?? null;
+                                        
+                                        // Check if response already contains InvoiceStatus
+                                        if (isset($create_invoice_response['InvoiceStatus'])) {
+                                            $invoice_status_from_create = strtolower($create_invoice_response['InvoiceStatus']);
+                                            if ($invoice_status_from_create == 'success') {
+                                                $payment_success = true;
+                                                $transaction_id = $create_invoice_response['TransactionId'] ?? null;
+                                            }
+                                        }
                                     } else {
                                         // StatusCode 1-6 indicates errors
                                         // StatusCode 4 = Invalid_Api_Credentials (from documentation)
@@ -382,6 +401,15 @@ class CheckoutRepository
                                     if ($create_invoice_response->StatusCode == 0) {
                                         $create_success = true;
                                         $invoice_id = $create_invoice_response->InvoiceId ?? null;
+                                        
+                                        // Check if response already contains InvoiceStatus
+                                        if (isset($create_invoice_response->InvoiceStatus)) {
+                                            $invoice_status_from_create = strtolower($create_invoice_response->InvoiceStatus);
+                                            if ($invoice_status_from_create == 'success') {
+                                                $payment_success = true;
+                                                $transaction_id = $create_invoice_response->TransactionId ?? null;
+                                            }
+                                        }
                                     } else {
                                         if ($create_invoice_response->StatusCode == 4) {
                                             $create_error = 'Invalid API Credentials (StatusCode: 4). Please verify your eDahab API Key and Secret Key.';
@@ -418,111 +446,139 @@ class CheckoutRepository
                                 return __('payment_failed') . ': Invoice created but InvoiceId is missing. API Response: ' . json_encode($create_invoice_response);
                             }
                             
-                            // Step 2: Check Invoice Status
-                            // Wait a moment for payment processing (if needed)
-                            sleep(2); // Adjust based on eDahab's processing time
-                            
-                            // Use the same endpoint for checking invoice status
-                            // The API might use different parameters or the same endpoint
-                            $check_invoice_url = $edahab_api_url;
-                            // Step 2: Check Invoice Status
-                            // Build payload for checking invoice
-                            $check_invoice_payload = [
-                                'apiKey' => $edahab_api_key,
-                                'invoiceId' => $invoice_id,
-                            ];
-                            
-                            // Create hash for check invoice request
-                            $check_request_as_string = json_encode($check_invoice_payload);
-                            $check_hash = hash('sha256', $check_request_as_string . $edahab_secret_key);
-                            
-                            // Build URL with hash as query parameter
-                            $check_invoice_endpoint = 'checkinvoice'; // Adjust if different
-                            $check_invoice_url = $edahab_base_url . $check_invoice_endpoint . '?hash=' . $check_hash;
-                            
-                            // Headers
-                            $check_invoice_headers = [
-                                'Content-Type' => 'application/json',
-                                'Accept' => 'application/json',
-                            ];
-                            
-                            $check_invoice_response = curlRequest($check_invoice_url, json_encode($check_invoice_payload), 'POST', $check_invoice_headers, true);
-                            
-                            // Log full API response for debugging
-                            \Log::info('eDahab Check Invoice API Call', [
-                                'url' => $check_invoice_url,
-                                'payload' => $check_invoice_payload,
-                                'response' => $check_invoice_response,
-                                'trx_id' => $data['trx_id'],
-                                'invoice_id' => $invoice_id,
-                                'response_type' => gettype($check_invoice_response),
-                            ]);
-                            
-                            // Validate check invoice response - ONLY mark success if payment is confirmed
-                            $payment_success = false;
-                            $check_error = null;
-                            
-                            if (is_array($check_invoice_response)) {
-                                // Check StatusCode first
-                                if (isset($check_invoice_response['StatusCode'])) {
-                                    if ($check_invoice_response['StatusCode'] == 0) {
-                                        // StatusCode 0 means API call succeeded, now check InvoiceStatus
-                                        $invoice_status = isset($check_invoice_response['InvoiceStatus']) ? strtolower($check_invoice_response['InvoiceStatus']) : null;
-                                        
-                                        // ONLY mark as success if InvoiceStatus is "success" (not "pending")
-                                        if ($invoice_status == 'success') {
-                                            $payment_success = true;
-                                            $transaction_id = $check_invoice_response['TransactionId'] ?? null;
-                                        } elseif ($invoice_status == 'pending') {
-                                            $check_error = 'Payment is still pending. InvoiceStatus: Pending. Please complete the payment.';
-                                        } else {
-                                            $check_error = 'Payment not completed. InvoiceStatus: ' . ($check_invoice_response['InvoiceStatus'] ?? 'Unknown') . '. API Response: ' . json_encode($check_invoice_response);
-                                        }
-                                    } else {
-                                        // StatusCode 1-6 indicates errors
-                                        $check_error = $check_invoice_response['StatusDescription'] ?? 'Invoice check failed';
-                                        if (isset($check_invoice_response['ValidationErrors'])) {
-                                            $check_error .= ' - ' . json_encode($check_invoice_response['ValidationErrors']);
-                                        }
-                                    }
-                                } else {
-                                    $check_error = 'Invalid API response: Missing StatusCode. Response: ' . json_encode($check_invoice_response);
-                                }
-                            } elseif (is_object($check_invoice_response)) {
-                                if (isset($check_invoice_response->StatusCode)) {
-                                    if ($check_invoice_response->StatusCode == 0) {
-                                        $invoice_status = isset($check_invoice_response->InvoiceStatus) ? strtolower($check_invoice_response->InvoiceStatus) : null;
-                                        
-                                        if ($invoice_status == 'success') {
-                                            $payment_success = true;
-                                            $transaction_id = $check_invoice_response->TransactionId ?? null;
-                                        } elseif ($invoice_status == 'pending') {
-                                            $check_error = 'Payment is still pending. InvoiceStatus: Pending. Please complete the payment.';
-                                        } else {
-                                            $check_error = 'Payment not completed. InvoiceStatus: ' . ($check_invoice_response->InvoiceStatus ?? 'Unknown') . '. API Response: ' . json_encode($check_invoice_response);
-                                        }
-                                    } else {
-                                        $check_error = $check_invoice_response->StatusDescription ?? 'Invoice check failed';
-                                        if (isset($check_invoice_response->ValidationErrors)) {
-                                            $check_error .= ' - ' . json_encode($check_invoice_response->ValidationErrors);
-                                        }
-                                    }
-                                } else {
-                                    $check_error = 'Invalid API response: Missing StatusCode. Response: ' . json_encode($check_invoice_response);
-                                }
-                            } else {
-                                $check_error = 'Invalid API response format. Response: ' . json_encode($check_invoice_response);
-                            }
-                            
-                            // If payment check failed or still pending, return error with exact API response
-                            if (!$payment_success) {
-                                \Log::error('eDahab Payment Not Successful', [
+                            // If payment status is already in create response and is success, skip check
+                            if ($payment_success) {
+                                \Log::info('eDahab Payment Success from Create Invoice Response', [
                                     'trx_id' => $data['trx_id'],
                                     'invoice_id' => $invoice_id,
-                                    'api_response' => $check_invoice_response,
-                                    'error' => $check_error,
+                                    'transaction_id' => $transaction_id,
                                 ]);
-                                return __('payment_failed') . ': ' . ($check_error ?: json_encode($check_invoice_response));
+                            } else {
+                                // Step 2: Check Invoice Status (only if not already successful)
+                                // Wait a moment for payment processing (if needed)
+                                sleep(3); // Increased wait time for user to approve payment
+                                
+                                // Build payload for checking invoice
+                                $check_invoice_payload = [
+                                    'apiKey' => $edahab_api_key,
+                                    'invoiceId' => $invoice_id,
+                                ];
+                                
+                                // Create hash for check invoice request
+                                $check_request_as_string = json_encode($check_invoice_payload);
+                                $check_hash = hash('sha256', $check_request_as_string . $edahab_secret_key);
+                                
+                                // Build URL with hash as query parameter
+                                $check_invoice_endpoint = 'checkinvoice'; // Adjust if different
+                                $check_invoice_url = $edahab_base_url . $check_invoice_endpoint . '?hash=' . $check_hash;
+                                
+                                // Headers
+                                $check_invoice_headers = [
+                                    'Content-Type' => 'application/json',
+                                    'Accept' => 'application/json',
+                                ];
+                                
+                                try {
+                                    $check_invoice_response = curlRequest($check_invoice_url, json_encode($check_invoice_payload), 'POST', $check_invoice_headers, true);
+                                    
+                                    // Log full API response for debugging
+                                    \Log::info('eDahab Check Invoice API Call', [
+                                        'url' => $check_invoice_url,
+                                        'payload' => $check_invoice_payload,
+                                        'response' => $check_invoice_response,
+                                        'trx_id' => $data['trx_id'],
+                                        'invoice_id' => $invoice_id,
+                                        'response_type' => gettype($check_invoice_response),
+                                    ]);
+                                    
+                                    // Validate check invoice response - ONLY mark success if payment is confirmed
+                                    $check_error = null;
+                                    
+                                    if (is_array($check_invoice_response)) {
+                                        // Check StatusCode first
+                                        if (isset($check_invoice_response['StatusCode'])) {
+                                            if ($check_invoice_response['StatusCode'] == 0) {
+                                                // StatusCode 0 means API call succeeded, now check InvoiceStatus
+                                                $invoice_status = isset($check_invoice_response['InvoiceStatus']) ? strtolower($check_invoice_response['InvoiceStatus']) : null;
+                                                
+                                                // ONLY mark as success if InvoiceStatus is "success" (not "pending")
+                                                if ($invoice_status == 'success') {
+                                                    $payment_success = true;
+                                                    $transaction_id = $check_invoice_response['TransactionId'] ?? null;
+                                                } elseif ($invoice_status == 'pending') {
+                                                    // If pending, don't fail - payment might still be processing
+                                                    // Return a message to wait or retry
+                                                    $check_error = 'Payment is still pending. Please wait a moment and try again, or complete the payment on your phone.';
+                                                    \Log::info('eDahab Payment Pending', [
+                                                        'trx_id' => $data['trx_id'],
+                                                        'invoice_id' => $invoice_id,
+                                                        'status' => $invoice_status,
+                                                    ]);
+                                                } else {
+                                                    $check_error = 'Payment not completed. InvoiceStatus: ' . ($check_invoice_response['InvoiceStatus'] ?? 'Unknown') . '. API Response: ' . json_encode($check_invoice_response);
+                                                }
+                                            } else {
+                                                // StatusCode 1-6 indicates errors
+                                                $check_error = $check_invoice_response['StatusDescription'] ?? 'Invoice check failed';
+                                                if (isset($check_invoice_response['ValidationErrors'])) {
+                                                    $check_error .= ' - ' . json_encode($check_invoice_response['ValidationErrors']);
+                                                }
+                                            }
+                                        } else {
+                                            $check_error = 'Invalid API response: Missing StatusCode. Response: ' . json_encode($check_invoice_response);
+                                        }
+                                    } elseif (is_object($check_invoice_response)) {
+                                        if (isset($check_invoice_response->StatusCode)) {
+                                            if ($check_invoice_response->StatusCode == 0) {
+                                                $invoice_status = isset($check_invoice_response->InvoiceStatus) ? strtolower($check_invoice_response->InvoiceStatus) : null;
+                                                
+                                                if ($invoice_status == 'success') {
+                                                    $payment_success = true;
+                                                    $transaction_id = $check_invoice_response->TransactionId ?? null;
+                                                } elseif ($invoice_status == 'pending') {
+                                                    $check_error = 'Payment is still pending. Please wait a moment and try again, or complete the payment on your phone.';
+                                                    \Log::info('eDahab Payment Pending', [
+                                                        'trx_id' => $data['trx_id'],
+                                                        'invoice_id' => $invoice_id,
+                                                        'status' => $invoice_status,
+                                                    ]);
+                                                } else {
+                                                    $check_error = 'Payment not completed. InvoiceStatus: ' . ($check_invoice_response->InvoiceStatus ?? 'Unknown') . '. API Response: ' . json_encode($check_invoice_response);
+                                                }
+                                            } else {
+                                                $check_error = $check_invoice_response->StatusDescription ?? 'Invoice check failed';
+                                                if (isset($check_invoice_response->ValidationErrors)) {
+                                                    $check_error .= ' - ' . json_encode($check_invoice_response->ValidationErrors);
+                                                }
+                                            }
+                                        } else {
+                                            $check_error = 'Invalid API response: Missing StatusCode. Response: ' . json_encode($check_invoice_response);
+                                        }
+                                    } else {
+                                        $check_error = 'Invalid API response format. Response: ' . json_encode($check_invoice_response);
+                                    }
+                                    
+                                    // If payment check failed or still pending, return error with exact API response
+                                    if (!$payment_success && $check_error) {
+                                        \Log::error('eDahab Payment Not Successful', [
+                                            'trx_id' => $data['trx_id'],
+                                            'invoice_id' => $invoice_id,
+                                            'api_response' => $check_invoice_response,
+                                            'error' => $check_error,
+                                        ]);
+                                        return __('payment_failed') . ': ' . $check_error;
+                                    }
+                                } catch (\Exception $check_error) {
+                                    // If check invoice fails, log but don't fail the payment
+                                    // The payment might still be processing
+                                    \Log::warning('eDahab Check Invoice Error', [
+                                        'trx_id' => $data['trx_id'],
+                                        'invoice_id' => $invoice_id,
+                                        'error' => $check_error->getMessage(),
+                                    ]);
+                                    // Don't return error here - payment might still be processing
+                                    // Let it proceed if create was successful
+                                }
                             }
                             
                             // Payment confirmed successful - store details

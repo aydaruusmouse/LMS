@@ -756,6 +756,33 @@
 
                 handler.openIframe();
             });
+            // Function to reset offline payment form
+            function resetOfflinePaymentForm() {
+                let form = $('#offline_method_modal form');
+                form[0].reset();
+                
+                // Clear phone input - handle tel-input component
+                let phoneInput = $('#offlinePaymentPhone');
+                phoneInput.val('').trigger('change').trigger('input');
+                
+                // If tel-input has a wrapper, clear it too
+                if (phoneInput.closest('.tel-input-wrapper').length) {
+                    phoneInput.closest('.tel-input-wrapper').find('input[type="tel"]').val('');
+                    phoneInput.closest('.tel-input-wrapper').find('input[type="text"]').val('');
+                }
+                
+                // Clear any dynamically added hidden phone_number inputs
+                form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
+                
+                // Reset validation message based on current method
+                let methodName = offline_method.method_name || '';
+                if (methodName.includes('edahab') || methodName.includes('dahab')) {
+                    $('#phone_validation_message').text('{{ __('Phone number should start with 65') }}');
+                } else {
+                    $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                }
+            }
+            
             $(document).on('click','.offline_method_btn',function () {
                 $('#offline_method_id').val(offline_method.id);
                 $('#method_title').text(offline_method.lang_name);
@@ -784,13 +811,34 @@
                 $('#offline_method_modal').modal('show');
             });
             
-            // Ensure submit button is visible when modal is shown
+            // Ensure submit button is visible when modal is shown and reset form
             $('#offline_method_modal').on('shown.bs.modal', function () {
+                // Reset form when modal opens
+                let form = $('#offline_method_modal form');
+                form[0].reset();
+                
+                // Clear phone input
+                $('#offlinePaymentPhone').val('').trigger('change');
+                
+                // Clear any hidden phone_number inputs
+                form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
+                
+                // Reset validation message
+                $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                
+                // Reset button state
                 $('#offline_payment_submit_btn').removeClass('d-none').css({
                     'display': 'inline-block !important',
                     'visibility': 'visible',
                     'opacity': '1'
                 }).show();
+                
+                let submitBtn = $('#offline_payment_submit_btn');
+                let btnText = submitBtn.find('.btn-text');
+                let btnSpinner = submitBtn.find('.btn-spinner');
+                btnSpinner.addClass('d-none');
+                btnText.removeClass('d-none');
+                submitBtn.prop('disabled', false);
             });
             
             // Reset form state when modal is hidden
@@ -808,7 +856,22 @@
                     'opacity': '1',
                     'cursor': 'pointer'
                 }).show();
-                $('#offline_method_modal form')[0].reset();
+                
+                // Reset form completely
+                let form = $('#offline_method_modal form');
+                form[0].reset();
+                
+                // Clear phone input specifically (tel-input might need special handling)
+                $('#offlinePaymentPhone').val('').trigger('change');
+                
+                // Clear any hidden phone_number inputs
+                form.find('input[name="phone_number"]').not('#offlinePaymentPhone').remove();
+                
+                // Reset validation message
+                $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                
+                // Clear method ID
+                $('#offline_method_id').val('');
             });
             
             // Override default AJAX form behavior - show loading spinner
@@ -820,7 +883,7 @@
                 
                 // Ensure phone number is captured from the input field
                 let phoneInput = form.find('#offlinePaymentPhone');
-                let phoneNumber = phoneInput.val().trim();
+                let phoneNumber = phoneInput.val();
                 let countryIdInput = form.find('input[name="phone_country_id"]');
                 let countryId = countryIdInput.val();
                 
@@ -837,27 +900,24 @@
                 
                 // Validate phone number format based on method
                 if (isEdahab) {
-                    // eDahab: phone must start with 65 (remove country code if present)
-                    // Remove country code prefix (252, +252, etc.)
-                    phoneNumber = phoneNumber.replace(/^(\+?252)/, '');
-                    phoneNumber = phoneNumber.trim();
+                    // eDahab: phone must start with 65
+                    // Remove country code prefix (252, +252, etc.) for validation only
+                    let phoneForValidation = phoneNumber.replace(/^(\+?252)/, '');
+                    phoneForValidation = phoneForValidation.trim();
                     
                     // Validate phone number starts with 65 only
-                    if (!phoneNumber.startsWith('65')) {
+                    if (!phoneForValidation.startsWith('65')) {
                         e.preventDefault();
-                        toastr.error('{{ __('phone_number_must_start_with_65') }}. Current: ' + phoneNumber);
+                        toastr.error('{{ __('phone_number_must_start_with_65') }}. Current: ' + phoneForValidation);
                         return false;
                     }
                     
                     // Ensure phone number is only digits starting with 65
-                    if (!/^65\d+$/.test(phoneNumber)) {
+                    if (!/^65\d+$/.test(phoneForValidation)) {
                         e.preventDefault();
-                        toastr.error('{{ __('phone_number_must_start_with_65') }} and contain only digits. Current: ' + phoneNumber);
+                        toastr.error('{{ __('phone_number_must_start_with_65') }} and contain only digits. Current: ' + phoneForValidation);
                         return false;
                     }
-                    
-                    // Update the phone number in the input (without country code)
-                    phoneInput.val(phoneNumber);
                 } else {
                     // Waafi: phone must start with 63 or 252
                     if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
@@ -921,6 +981,10 @@
                         'cursor': 'pointer'
                     });
                     $('#offline_method_modal').find('.loading_button').addClass('d-none').hide();
+                    
+                    // Reset form immediately after payment attempt (success or error) for next use
+                    // This allows user to try again without closing the modal
+                    resetOfflinePaymentForm();
                 }
             });
             
@@ -940,76 +1004,10 @@
                         'opacity': '1',
                         'cursor': 'pointer'
                     });
+                    
+                    // Reset form immediately after error for next attempt
+                    resetOfflinePaymentForm();
                 }
-            });
-            
-            // Validate phone number before form submission for offline payment
-            $(document).on('submit', '#offline_method_modal form.ajax_form', function(e) {
-                let form = $(this);
-                let phoneInput = $('#offlinePaymentPhone');
-                let phoneNumber = phoneInput.val().trim();
-                let countryIdInput = form.find('input[name="phone_country_id"]');
-                let countryId = countryIdInput.val();
-                
-                // Validate phone number is provided
-                if (!phoneNumber) {
-                    e.preventDefault();
-                    toastr.error('{{ __("Phone number is required") }}');
-                    return false;
-                }
-                
-                // Validate country ID is provided
-                if (!countryId) {
-                    e.preventDefault();
-                    toastr.error('{{ __("Phone country code is required") }}');
-                    return false;
-                }
-                
-                // Ensure phone number and country_id are in the form data
-                // Make sure hidden inputs exist
-                if (!form.find('input[name="phone_number"]').length) {
-                    form.append('<input type="hidden" name="phone_number" value="' + phoneNumber + '">');
-                } else {
-                    form.find('input[name="phone_number"]').val(phoneNumber);
-                }
-                
-                if (!form.find('input[name="phone_country_id"]').length) {
-                    form.append('<input type="hidden" name="phone_country_id" value="' + countryId + '">');
-                } else {
-                    form.find('input[name="phone_country_id"]').val(countryId);
-                }
-                
-                // Remove any non-digit characters
-                phoneNumber = phoneNumber.replace(/[^\d]/g, '');
-                
-                // Get country code (default to 252 for Somalia)
-                let countryCode = '252';
-                if (countryId) {
-                    // Try to get country code from the selected country
-                    let countryElement = $('.country_li[data-id="' + countryId + '"]');
-                    if (countryElement.length) {
-                        let code = countryElement.attr('data-country_code');
-                        if (code) {
-                            countryCode = code.replace('+', '');
-                        }
-                    }
-                }
-                
-                // Ensure phone number starts with 63 or 252
-                if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
-                    // Prepend country code if not present (default to 252)
-                    phoneNumber = countryCode + phoneNumber;
-                }
-                
-                // Final validation - must start with 63 or 252
-                if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
-                    e.preventDefault();
-                    toastr.error('{{ __("Phone number must start with 63 or 252") }}');
-                    return false;
-                }
-                
-                // Update the phone input with formatted number
-                phoneInput.val(phoneNumber);
             });
         });
     </script>
