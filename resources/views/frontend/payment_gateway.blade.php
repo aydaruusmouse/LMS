@@ -266,6 +266,7 @@
                                     <div class="payment-methods-item">
                                         <input type="radio" name="payment_type" data-id="{{ $offline_method->id }}"
                                                data-name="{{ $offline_method->lang_name }}"
+                                               data-method-name="{{ strtolower($offline_method->name) }}"
                                                data-instructions="{{ $offline_method->lang_instructions }}"
                                                value="offline_method" id="offline_method_{{ $offline_method->id }}">
                                         <label for="offline_method_{{ $offline_method->id }}">
@@ -511,7 +512,7 @@
                                     'country_id_field' => 'phone_country_id',
                                     'country_id' => $somalia_id
                             ])
-                            <small class="text-muted">{{ __('Phone number should start with 63 or 252') }}</small>
+                            <small class="text-muted" id="phone_validation_message">{{ __('Phone number should start with 63 or 252') }}</small>
                         </div>
                         <h6 class="mb-2 mt-2 instruction_header">{{ __('instructions') }} :</h6>
                         <div class="instructions"></div>
@@ -696,6 +697,7 @@
                     offline_method = {
                         id: $(this).data('id'),
                         lang_name: $(this).data('name'),
+                        method_name: $(this).data('method-name'),
                         lang_instructions: $(this).data('instructions'),
                     };
                 }
@@ -764,6 +766,13 @@
                     $('.instruction_header').addClass('d-none');
                     $('.instructions').addClass('d-none');
                 }
+                // Update phone validation message based on method
+                let methodName = offline_method.method_name || '';
+                if (methodName.includes('edahab') || methodName.includes('dahab')) {
+                    $('#phone_validation_message').text('{{ __('Phone number should start with 65') }}');
+                } else {
+                    $('#phone_validation_message').text('{{ __('Phone number should start with 63 or 252') }}');
+                }
                 // Set the amount in the form
                 $('#offline_payment_amount').val({{ $amount }});
                 // Ensure submit button is visible when modal opens
@@ -811,9 +820,52 @@
                 
                 // Ensure phone number is captured from the input field
                 let phoneInput = form.find('#offlinePaymentPhone');
-                let phoneNumber = phoneInput.val();
+                let phoneNumber = phoneInput.val().trim();
                 let countryIdInput = form.find('input[name="phone_country_id"]');
                 let countryId = countryIdInput.val();
+                
+                // Validate phone number
+                if (!phoneNumber) {
+                    e.preventDefault();
+                    toastr.error('{{ __('phone_number_is_required_for_payment') }}');
+                    return false;
+                }
+                
+                // Check which method is being used
+                let methodName = offline_method.method_name || '';
+                let isEdahab = methodName.includes('edahab') || methodName.includes('dahab');
+                
+                // Validate phone number format based on method
+                if (isEdahab) {
+                    // eDahab: phone must start with 65 (remove country code if present)
+                    // Remove country code prefix (252, +252, etc.)
+                    phoneNumber = phoneNumber.replace(/^(\+?252)/, '');
+                    phoneNumber = phoneNumber.trim();
+                    
+                    // Validate phone number starts with 65 only
+                    if (!phoneNumber.startsWith('65')) {
+                        e.preventDefault();
+                        toastr.error('{{ __('phone_number_must_start_with_65') }}. Current: ' + phoneNumber);
+                        return false;
+                    }
+                    
+                    // Ensure phone number is only digits starting with 65
+                    if (!/^65\d+$/.test(phoneNumber)) {
+                        e.preventDefault();
+                        toastr.error('{{ __('phone_number_must_start_with_65') }} and contain only digits. Current: ' + phoneNumber);
+                        return false;
+                    }
+                    
+                    // Update the phone number in the input (without country code)
+                    phoneInput.val(phoneNumber);
+                } else {
+                    // Waafi: phone must start with 63 or 252
+                    if (!phoneNumber.startsWith('63') && !phoneNumber.startsWith('252')) {
+                        e.preventDefault();
+                        toastr.error('{{ __('phone_number_must_start_with_63_or_252') }}');
+                        return false;
+                    }
+                }
                 
                 // Make sure phone_number is in the form (update or add hidden input)
                 let phoneHiddenInput = form.find('input[name="phone_number"]');

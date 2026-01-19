@@ -2277,5 +2277,11 @@
     "enrollment_approved_successfully": "Enrollment Approved Successfully",
     "enrollment_rejected_successfully": "Enrollment Rejected Successfully",
     "payable_amount": "Payable Amount",
-    "you_cannot_access_this_course": "You Cannot Access This Course"
+    "you_cannot_access_this_course": "You Cannot Access This Course",
+    "phone_number_is_required_for_payment": "Phone number is required for payment",
+    "phone_country_code_is_required": "Phone country code is required",
+    "phone_number_must_start_with_63_or_252": "Phone number must start with 63 or 252",
+    "phone_number_must_start_with_65": "Phone number must start with 65",
+    "Phone number should start with 63 or 252": "Phone number should start with 63 or 252",
+    "Phone number should start with 65": "Phone number should start with 65"
 }
