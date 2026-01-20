@@ -204,6 +204,29 @@ class CheckoutRepository
                 } else {
                     // Waafi: Clean phone number (remove non-digits, but keep as-is for API)
                     $phone_number = preg_replace('/[^\d]/', '', $phone_number);
+                    
+                    // Log the phone number received from frontend
+                    \Log::info('Waafi Phone Number Received from Frontend', [
+                        'original_input' => $data['phone_number'] ?? 'N/A',
+                        'after_cleaning' => $phone_number,
+                        'length' => strlen($phone_number),
+                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                    ]);
+                    
+                    // Ensure phone number starts with 252 (Waafi requires full number with country code)
+                    if (!str_starts_with($phone_number, '252')) {
+                        // If it doesn't start with 252, prepend it
+                        // Take last 9 digits if number is longer
+                        if (strlen($phone_number) > 9) {
+                            $phone_number = '252' . substr($phone_number, -9);
+                        } else {
+                            $phone_number = '252' . $phone_number;
+                        }
+                        \Log::info('Waafi Phone Number - Added 252 prefix', [
+                            'final_number' => $phone_number,
+                            'trx_id' => $data['trx_id'] ?? 'N/A',
+                        ]);
+                    }
                 }
                 
                 // Get amount from checkout total
@@ -585,20 +608,38 @@ class CheckoutRepository
                         $api_user_id = setting('waafi_api_user_id') ?: '1008614';
                         $api_key = setting('waafi_api_key') ?: 'API-OnhpL7LBfZnHS8c6Eluio3vHZRAA';
                         
-                        // Generate unique IDs for the transaction
-                        $request_id = Str::uuid()->toString();
-                        $reference_id = 'RF-' . Str::uuid()->toString();
-                        $invoice_id = 'INV-' . Str::uuid()->toString();
+                        // Generate unique IDs for the transaction (using random 6-digit numbers as in working example)
+                        $request_id = rand(100000, 999999);
+                        $reference_id = rand(100000, 999999);
+                        $invoice_id = rand(100000, 999999);
+                        $timestamp = now();
                         
                         // Get currency code
                         $currency_code = 'USD';
                         
                         // Call Waafi API
                         $api_url = 'https://api.waafipay.net/asm';
+                        
+                        // Ensure phone number is sent as string (not integer) - critical for API
+                        $account_no = (string)$phone_number;
+                        
+                        // Description in Somali (as in working example)
+                        $desc = 'lacag bixin tijaabo ah';
+                        
+                        // Log the exact phone number format being sent
+                        \Log::info('Waafi API - Phone Number Processing', [
+                            'original_input' => $data['phone_number'] ?? 'N/A',
+                            'processed_phone' => $phone_number,
+                            'account_no_sent' => $account_no,
+                            'account_no_type' => gettype($account_no),
+                            'account_no_length' => strlen($account_no),
+                            'trx_id' => $data['trx_id'] ?? 'N/A',
+                        ]);
+                        
                         $api_fields = [
                             'schemaVersion' => '1.0',
-                            'requestId' => $request_id,
-                            'timestamp' => now()->format('Y-m-d H:i:s.v'),
+                            'requestId' => (string)$request_id,
+                            'timestamp' => $timestamp->format('Y-m-d H:i:s.v'),
                             'channelName' => 'WEB',
                             'serviceName' => 'API_PURCHASE',
                             'serviceParams' => [
@@ -607,17 +648,44 @@ class CheckoutRepository
                                 'apiKey' => $api_key,
                                 'paymentMethod' => 'MWALLET_ACCOUNT',
                                 'payerInfo' => [
-                                    'accountNo' => $phone_number,
+                                    'accountNo' => $account_no, // Ensure it's a string
                                 ],
                                 'transactionInfo' => [
-                                    'referenceId' => $reference_id,
-                                    'invoiceId' => $invoice_id,
+                                    'referenceId' => (string)$reference_id,
+                                    'invoiceId' => (string)$invoice_id,
                                     'amount' => (string)number_format($total_amount, 2, '.', ''),
                                     'currency' => $currency_code,
-                                    'description' => 'Course enrollment payment - Transaction ID: ' . $data['trx_id'],
+                                    'description' => $desc,
                                 ],
                             ],
                         ];
+                        
+                        // Log the exact payload being sent (for comparison with working curl)
+                        $api_payload_json = json_encode($api_fields, JSON_PRETTY_PRINT);
+                        $api_payload_string = json_encode($api_fields); // Single line for curl comparison
+                        
+                        \Log::info('Waafi API Request Payload - DETAILED', [
+                            'url' => $api_url,
+                            'payload_json_pretty' => $api_payload_json,
+                            'payload_json_single_line' => $api_payload_string,
+                            'accountNo_value' => $account_no,
+                            'accountNo_type' => gettype($account_no),
+                            'accountNo_length' => strlen($account_no),
+                            'accountNo_bytes' => bin2hex($account_no), // Show exact bytes
+                            'accountNo_in_payload' => $api_fields['serviceParams']['payerInfo']['accountNo'],
+                            'accountNo_in_payload_type' => gettype($api_fields['serviceParams']['payerInfo']['accountNo']),
+                            'currency' => $currency_code,
+                            'amount' => $api_fields['serviceParams']['transactionInfo']['amount'],
+                            'amount_type' => gettype($api_fields['serviceParams']['transactionInfo']['amount']),
+                            'trx_id' => $data['trx_id'] ?? 'N/A',
+                            'full_payload_for_curl' => $api_payload_string,
+                        ]);
+                        
+                        // Also log in a format that can be directly used as curl command
+                        \Log::info('Waafi API - CURL Equivalent Command', [
+                            'curl_command' => 'curl -X POST "' . $api_url . '" -H "Content-Type: application/json" -d \'' . $api_payload_string . '\'',
+                            'accountNo_in_request' => $account_no,
+                        ]);
                         
                         $api_response = curlRequest($api_url, json_encode($api_fields), 'POST', [
                             'Content-Type' => 'application/json',
@@ -628,7 +696,7 @@ class CheckoutRepository
                         \Log::info('Waafi API Response', [
                             'response' => $api_response,
                             'trx_id' => $data['trx_id'],
-                            'phone_number' => $phone_number,
+                            'phone_number_sent' => $account_no,
                             'response_type' => gettype($api_response),
                         ]);
                         
@@ -638,69 +706,122 @@ class CheckoutRepository
                         $error_message = null;
                         
                         if (is_array($api_response)) {
-                            // Check for explicit error indicators first
-                            if (isset($api_response['responseCode']) && 
-                                !in_array($api_response['responseCode'], ['2001', '200', '0', '2000', '1001'])) {
-                                $error_codes = ['400', '401', '403', '404', '500', '501', '502', '503'];
-                                if (in_array($api_response['responseCode'], $error_codes)) {
-                                    $has_error = true;
-                                }
-                            }
-                            
-                            // Check for error messages
-                            if (isset($api_response['responseMsg'])) {
-                                $msg = strtolower($api_response['responseMsg']);
-                                if (stripos($msg, 'error') !== false || 
-                                    stripos($msg, 'failed') !== false || 
-                                    stripos($msg, 'declined') !== false ||
-                                    stripos($msg, 'rejected') !== false) {
-                                    $has_error = true;
-                                    $error_message = $api_response['responseMsg'];
-                                }
-                            }
-                            
-                            // If no explicit error, check for success indicators
-                            if (!$has_error) {
-                                // Success codes
-                                if (isset($api_response['responseCode']) && 
-                                    in_array($api_response['responseCode'], ['2001', '200', '0', '2000', '1001'])) {
+                            // Priority 1: Check responseCode FIRST - this is the primary indicator
+                            // Success codes: 2001, 200, 0, 2000, 1001
+                            if (isset($api_response['responseCode'])) {
+                                $success_codes = ['2001', '200', '0', '2000', '1001'];
+                                if (in_array($api_response['responseCode'], $success_codes)) {
+                                    // This is a success code - mark as success immediately
                                     $is_success = true;
+                                    \Log::info('Waafi API Success - responseCode indicates success', [
+                                        'responseCode' => $api_response['responseCode'],
+                                        'responseMsg' => $api_response['responseMsg'] ?? 'N/A',
+                                        'errorCode' => $api_response['errorCode'] ?? 'N/A',
+                                        'params_state' => $api_response['params']['state'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
+                                } else {
+                                    // Not a success code - treat as error
+                                    $has_error = true;
+                                    $error_message = $api_response['responseMsg'] ?? 
+                                        (isset($api_response['params']['description']) ? $api_response['params']['description'] : 'Payment failed with code: ' . $api_response['responseCode']);
+                                    \Log::error('Waafi API Error Response Code', [
+                                        'responseCode' => $api_response['responseCode'],
+                                        'responseMsg' => $api_response['responseMsg'] ?? 'N/A',
+                                        'errorCode' => $api_response['errorCode'] ?? 'N/A',
+                                        'params_description' => $api_response['params']['description'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
                                 }
-                                
-                                // Check params.status
-                                if (!$is_success && isset($api_response['params']['status'])) {
-                                    $status = strtolower($api_response['params']['status']);
-                                    if (in_array($status, ['success', 'completed', 'approved', 'paid', 'successful', 'processed'])) {
-                                        $is_success = true;
-                                    } elseif (in_array($status, ['failed', 'error', 'declined', 'rejected', 'cancelled'])) {
-                                        $has_error = true;
-                                    }
+                            }
+                            
+                            // Priority 2: Check errorCode - "0" means success, anything else is error (only if not already marked as success)
+                            if (!$is_success && isset($api_response['errorCode'])) {
+                                if ($api_response['errorCode'] == '0' || $api_response['errorCode'] == 0) {
+                                    // errorCode "0" means success
+                                    $is_success = true;
+                                    \Log::info('Waafi API Success - errorCode is 0', [
+                                        'errorCode' => $api_response['errorCode'],
+                                        'responseCode' => $api_response['responseCode'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
+                                } else {
+                                    // Non-zero errorCode means error
+                                    $has_error = true;
+                                    $error_message = $api_response['responseMsg'] ?? 
+                                        (isset($api_response['params']['description']) ? $api_response['params']['description'] : 'Payment error: ' . $api_response['errorCode']);
+                                    \Log::error('Waafi API Error Code Detected', [
+                                        'errorCode' => $api_response['errorCode'],
+                                        'responseCode' => $api_response['responseCode'] ?? 'N/A',
+                                        'responseMsg' => $api_response['responseMsg'] ?? 'N/A',
+                                        'params_description' => $api_response['params']['description'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
                                 }
-                                
-                                // Check responseMsg for success keywords
-                                if (!$is_success && !$has_error && isset($api_response['responseMsg'])) {
+                            }
+                            
+                            // Priority 3: Check params.state - "APPROVED" means success (only if not already determined)
+                            if (!$is_success && !$has_error && isset($api_response['params']['state'])) {
+                                $state = strtoupper($api_response['params']['state']);
+                                if ($state == 'APPROVED') {
+                                    $is_success = true;
+                                    \Log::info('Waafi API Success - params.state is APPROVED', [
+                                        'state' => $api_response['params']['state'],
+                                        'responseCode' => $api_response['responseCode'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
+                                }
+                            }
+                            
+                            // Priority 4: Check responseMsg for success keywords (only if not already determined)
+                            if (!$is_success && !$has_error && isset($api_response['responseMsg'])) {
+                                $msg = strtolower($api_response['responseMsg']);
+                                if (stripos($msg, 'rcs_success') !== false || 
+                                    stripos($msg, 'success') !== false || 
+                                    stripos($msg, 'approved') !== false) {
+                                    $is_success = true;
+                                    \Log::info('Waafi API Success - responseMsg indicates success', [
+                                        'responseMsg' => $api_response['responseMsg'],
+                                        'responseCode' => $api_response['responseCode'] ?? 'N/A',
+                                        'trx_id' => $data['trx_id'] ?? 'N/A',
+                                    ]);
+                                }
+                            }
+                            
+                            // Only check for error messages if we haven't already determined success/error from responseCode
+                            // This prevents overriding success status with error messages
+                            if (!$is_success && !$has_error) {
+                                // Check for error messages in responseMsg
+                                if (isset($api_response['responseMsg'])) {
                                     $msg = strtolower($api_response['responseMsg']);
-                                    if (stripos($msg, 'success') !== false || 
-                                        stripos($msg, 'approved') !== false || 
-                                        stripos($msg, 'completed') !== false ||
-                                        stripos($msg, 'processed') !== false) {
-                                        $is_success = true;
+                                    if (stripos($msg, 'error') !== false || 
+                                        stripos($msg, 'failed') !== false || 
+                                        stripos($msg, 'declined') !== false ||
+                                        stripos($msg, 'rejected') !== false ||
+                                        stripos($msg, 'balance') !== false ||
+                                        stripos($msg, 'insufficient') !== false) {
+                                        $has_error = true;
+                                        $error_message = $api_response['responseMsg'];
                                     }
                                 }
                                 
-                                // Check top-level status
-                                if (!$is_success && !$has_error && isset($api_response['status'])) {
-                                    $status = strtolower($api_response['status']);
-                                    if (in_array($status, ['success', 'paid', 'completed', 'approved', 'successful', 'processed'])) {
-                                        $is_success = true;
-                                    }
-                                }
-                                
-                                // If no explicit error and API returned a response (not null/empty), assume success
-                                if (!$is_success && !$has_error && !empty($api_response)) {
-                                    if (isset($api_response['responseCode']) || isset($api_response['params']) || isset($api_response['responseMsg'])) {
-                                        $is_success = true;
-                                        \Log::warning('Waafi API: Assuming success due to valid response structure', ['response' => $api_response]);
+                                // Check params.description for error messages (including balance errors)
+                                if (isset($api_response['params']['description'])) {
+                                    $desc = strtolower($api_response['params']['description']);
+                                    if (stripos($desc, 'balance') !== false || 
+                                        stripos($desc, 'insufficient') !== false ||
+                                        stripos($desc, 'not enough') !== false ||
+                                        stripos($desc, 'rejected') !== false ||
+                                        stripos($desc, 'declined') !== false ||
+                                        stripos($desc, 'failed') !== false) {
+                                        $has_error = true;
+                                        $error_message = $api_response['params']['description'];
+                                        \Log::error('Waafi API Error in params.description', [
+                                            'description' => $api_response['params']['description'],
+                                            'responseCode' => $api_response['responseCode'] ?? 'N/A',
+                                            'responseMsg' => $api_response['responseMsg'] ?? 'N/A',
+                                            'trx_id' => $data['trx_id'] ?? 'N/A',
+                                        ]);
                                     }
                                 }
                             }

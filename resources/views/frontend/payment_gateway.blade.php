@@ -884,28 +884,38 @@
                     return false;
                 }
                 
-                // Validate phone number format: user enters 9 digits, 252 is added automatically
-                // Remove all non-digit characters for validation
+                // Get the full phone number (with country code if tel-input added it)
+                // Remove all non-digit characters
                 let phoneForValidation = phoneNumber.replace(/[^\d]/g, '');
                 
-                // Remove 252 prefix if user entered it (we'll add it automatically)
-                if (phoneForValidation.startsWith('252')) {
-                    phoneForValidation = phoneForValidation.substring(3);
+                // For Waafi: Ensure the number starts with 252 (add if missing)
+                // The tel-input might send just the local number or the full number
+                if (!phoneForValidation.startsWith('252')) {
+                    // If it doesn't start with 252, check if it's a valid local number
+                    // and prepend 252
+                    if (phoneForValidation.length >= 9) {
+                        // Take the last 9 digits and prepend 252
+                        phoneForValidation = '252' + phoneForValidation.slice(-9);
+                    } else {
+                        // If too short, prepend 252 to the whole thing
+                        phoneForValidation = '252' + phoneForValidation;
+                    }
                 }
                 
-                // Validate: must be exactly 9 digits (252 will be added automatically)
-                if (!/^\d{9}$/.test(phoneForValidation)) {
-                    e.preventDefault();
-                    toastr.error('{{ __('phone_number_must_be_9_digits') }}. Current: ' + phoneNumber);
-                    return false;
-                }
+                // Log what we're sending for debugging
+                console.log('Phone Number Processing:', {
+                    'original': phoneNumber,
+                    'cleaned': phoneForValidation,
+                    'length': phoneForValidation.length
+                });
                 
                 // Make sure phone_number is in the form (update or add hidden input)
+                // Send the full number with 252 to match the working curl format
                 let phoneHiddenInput = form.find('input[name="phone_number"]');
                 if (phoneHiddenInput.length) {
-                    phoneHiddenInput.val(phoneNumber);
+                    phoneHiddenInput.val(phoneForValidation);
                 } else {
-                    form.append('<input type="hidden" name="phone_number" value="' + phoneNumber + '">');
+                    form.append('<input type="hidden" name="phone_number" value="' + phoneForValidation + '">');
                 }
                 
                 // Make sure phone_country_id is in the form
